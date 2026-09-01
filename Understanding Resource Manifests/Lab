@@ -1,0 +1,181 @@
+Understanding Resource Manifests
+Objectives
+By the end of this lab, you will be able to:
+
+• Understand the structure and components of Kubernetes YAML manifests • Create a comprehensive Deployment manifest using YAML syntax • Apply resource manifests to an OpenShift/Kubernetes cluster using command-line tools • Inspect and monitor deployment status using kubectl commands • Analyze application logs to troubleshoot and verify deployment success • Understand the relationship between manifests and running resources
+
+Prerequisites
+Before starting this lab, you should have:
+
+• Basic understanding of containerization concepts • Familiarity with YAML syntax and structure • Basic knowledge of Linux command-line operations • Understanding of Kubernetes/OpenShift fundamental concepts (pods, deployments, services) • Access to a terminal or command-line interface
+
+Lab Environment Setup
+Ready-to-Use Cloud Machines: Al Nafi provides pre-configured Linux-based cloud machines with all necessary tools installed. Simply click Start Lab to access your environment - no need to build your own VM or install additional software.
+
+Your lab environment includes: • OpenShift CLI (oc) pre-installed • kubectl command-line tool • Text editor (nano/vim) • Access to an OpenShift cluster
+
+Task 1: Create a YAML Manifest for a Deployment
+Subtask 1.1: Understanding Deployment Manifest Structure
+A Deployment manifest is a YAML file that describes the desired state of your application deployment. It includes specifications for replicas, container images, resource limits, and other configuration details.
+
+Key components of a Deployment manifest: • apiVersion: Specifies the API version • kind: Defines the resource type (Deployment) • metadata: Contains name, labels, and annotations • spec: Describes the desired state of the deployment
+
+Subtask 1.2: Create the Deployment Manifest File
+Open your terminal in the lab environment
+
+Create a new directory for your lab files:
+
+mkdir ~/lab2-manifests
+cd ~/lab2-manifests
+Create a new YAML file for your deployment:
+nano nginx-deployment.yaml
+Copy and paste the following complete deployment manifest:
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+    environment: lab
+    version: v1.0
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+        environment: lab
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.21
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        env:
+        - name: NGINX_PORT
+          value: "80"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
+Save the file by pressing Ctrl + X, then Y, then Enter
+Subtask 1.3: Validate the Manifest Syntax
+Verify the YAML syntax is correct:
+oc apply --dry-run=client -f nginx-deployment.yaml
+If successful, you should see output similar to:
+deployment.apps/nginx-deployment created (dry run)
+Task 2: Apply the Manifest Using kubectl or oc
+Subtask 2.1: Apply the Deployment Manifest
+Apply the manifest to create the deployment:
+oc apply -f nginx-deployment.yaml
+Verify the deployment was created successfully:
+oc get deployments
+Expected output:
+
+NAME               READY   UP-TO-DATE   AVAILABLE   AGE
+nginx-deployment   3/3     3            3           30s
+Subtask 2.2: Verify Pod Creation
+Check that pods were created by the deployment:
+oc get pods -l app=nginx
+You should see three nginx pods running:
+NAME                                READY   STATUS    RESTARTS   AGE
+nginx-deployment-7d8c4c8d4f-abc12   1/1     Running   0          45s
+nginx-deployment-7d8c4c8d4f-def34   1/1     Running   0          45s
+nginx-deployment-7d8c4c8d4f-ghi56   1/1     Running   0          45s
+Subtask 2.3: View Detailed Deployment Information
+Get detailed information about the deployment:
+oc describe deployment nginx-deployment
+Review the output to understand: • Deployment strategy • Replica set information • Pod template details • Events and status
+Task 3: Inspect the Deployment's Status and Logs
+Subtask 3.1: Monitor Deployment Status
+Check the current status of your deployment:
+oc get deployment nginx-deployment -o wide
+Monitor the rollout status:
+oc rollout status deployment/nginx-deployment
+View the replica set created by the deployment:
+oc get replicasets -l app=nginx
+Subtask 3.2: Examine Pod Logs
+Get the name of one of your nginx pods:
+POD_NAME=$(oc get pods -l app=nginx -o jsonpath='{.items[0].metadata.name}')
+echo $POD_NAME
+View the logs from the nginx container:
+oc logs $POD_NAME
+Follow the logs in real-time (optional):
+oc logs -f $POD_NAME
+Press Ctrl + C to stop following logs.
+
+Subtask 3.3: Test Application Functionality
+Create a temporary pod to test connectivity:
+oc run test-pod --image=curlimages/curl --rm -it --restart=Never -- sh
+From inside the test pod, test one of your nginx pods:
+# Get the IP of one nginx pod first
+exit
+Get a pod IP and test connectivity:
+POD_IP=$(oc get pod $POD_NAME -o jsonpath='{.status.podIP}')
+echo "Testing connectivity to pod IP: $POD_IP"
+
+oc run test-pod --image=curlimages/curl --rm -it --restart=Never -- curl -s http://$POD_IP
+You should see the default nginx welcome page HTML.
+
+Subtask 3.4: Advanced Status Inspection
+View deployment events:
+oc get events --field-selector involvedObject.name=nginx-deployment
+Check resource usage:
+oc top pods -l app=nginx
+View the deployment in JSON format for detailed analysis:
+oc get deployment nginx-deployment -o json | jq '.status'
+Troubleshooting Common Issues
+Issue 1: Pods Not Starting
+If pods are not starting, check:
+
+oc describe pod $POD_NAME
+Look for events at the bottom of the output.
+
+Issue 2: Image Pull Errors
+Verify the image name and tag:
+
+oc get pods -l app=nginx
+oc describe pod $POD_NAME
+Issue 3: Resource Constraints
+Check if resource limits are too restrictive:
+
+oc describe nodes
+oc get pods -l app=nginx -o wide
+Cleanup
+To clean up the resources created in this lab:
+
+Delete the deployment:
+oc delete deployment nginx-deployment
+Verify cleanup:
+oc get deployments
+oc get pods -l app=nginx
+Remove the lab directory:
+cd ~
+rm -rf lab2-manifests
+Conclusion
+In this lab, you have successfully:
+
+• Created a comprehensive YAML manifest for a Deployment with proper resource specifications, health checks, and environment configuration • Applied the manifest to an OpenShift cluster using the oc command-line tool • Inspected deployment status using various kubectl/oc commands to understand the deployment lifecycle • Analyzed application logs to verify successful deployment and troubleshoot potential issues • Tested application functionality to ensure the deployed services are working correctly
+
+Why This Matters: Understanding resource manifests is fundamental to managing applications in Kubernetes and OpenShift environments. Manifests provide a declarative way to define your application's desired state, making deployments reproducible, version-controlled, and easily manageable. This knowledge is essential for the Red Hat OpenShift Administration II certification and real-world container orchestration scenarios.
+
+The skills you've learned here form the foundation for more advanced topics like rolling updates, scaling strategies, and complex multi-service applications. Mastering manifest creation and management is crucial for maintaining production-ready containerized applications.
