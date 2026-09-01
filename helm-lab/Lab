@@ -1,0 +1,321 @@
+Introduction to Helm Charts
+Objectives
+By the end of this lab, you will be able to:
+
+• Understand what Helm is and its role in Kubernetes package management • Install and configure Helm on a Kubernetes cluster • Create a custom Helm chart with parameterized deployments • Use Helm templates and values files to manage application configurations • Deploy applications using Helm charts to a Kubernetes cluster • Manage Helm releases and perform basic operations like upgrade and rollback
+
+Prerequisites
+Before starting this lab, you should have:
+
+• Basic understanding of Kubernetes concepts (pods, deployments, services) • Familiarity with YAML syntax and structure • Experience with command-line interface operations • Knowledge of container concepts and Docker basics • Access to a Kubernetes cluster with kubectl configured
+
+Lab Environment
+Ready-to-Use Cloud Machines: Al Nafi provides pre-configured Linux-based cloud machines with Kubernetes clusters already set up. Simply click Start Lab to access your environment - no need to build your own VM or configure Kubernetes from scratch.
+
+Your lab environment includes: • A running Kubernetes cluster with multiple nodes • kubectl pre-installed and configured • Internet access for downloading Helm and other resources • Administrative privileges on the control node
+
+Task 1: Install Helm on the Control Node
+Subtask 1.1: Download and Install Helm
+First, we'll install Helm, which is the package manager for Kubernetes that helps us manage complex applications.
+
+Connect to your control node and verify your Kubernetes cluster is running:
+kubectl get nodes
+Download the latest Helm installation script:
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+Make the script executable and run it:
+chmod 700 get_helm.sh
+./get_helm.sh
+Verify Helm installation:
+helm version
+You should see output showing the Helm version information.
+
+Subtask 1.2: Initialize Helm Repository
+Add the official Helm stable repository:
+helm repo add stable https://charts.helm.sh/stable
+Add the Bitnami repository (popular for production-ready charts):
+helm repo add bitnami https://charts.bitnami.com/bitnami
+Update your local repository cache:
+helm repo update
+List available repositories:
+helm repo list
+Subtask 1.3: Explore Helm Commands
+Search for available charts:
+helm search repo nginx
+Get help on Helm commands:
+helm help
+Task 2: Create a Simple Helm Chart with Parameterized Deployment
+Subtask 2.1: Generate a New Helm Chart
+Create a new directory for your Helm work:
+mkdir ~/helm-lab
+cd ~/helm-lab
+Generate a new Helm chart called 'webapp':
+helm create webapp
+Explore the generated chart structure:
+ls -la webapp/
+tree webapp/
+The structure includes: • Chart.yaml: Metadata about the chart • values.yaml: Default configuration values • templates/: Directory containing Kubernetes manifest templates • charts/: Directory for chart dependencies
+
+Subtask 2.2: Examine the Default Chart Files
+View the Chart.yaml file:
+cat webapp/Chart.yaml
+Examine the default values.yaml:
+cat webapp/values.yaml
+Look at the deployment template:
+cat webapp/templates/deployment.yaml
+Notice how the template uses {{ .Values. }}* syntax to reference values from the values.yaml file.
+
+Subtask 2.3: Customize the Chart for Our Web Application
+Edit the values.yaml file to customize our application:
+nano webapp/values.yaml
+Replace the content with:
+
+# Default values for webapp
+replicaCount: 2
+
+image:
+  repository: nginx
+  pullPolicy: IfNotPresent
+  tag: "1.21"
+
+nameOverride: ""
+fullnameOverride: ""
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+# Custom values for our webapp
+app:
+  name: "My Web Application"
+  environment: "development"
+  debug: true
+Create a custom ConfigMap template for application configuration:
+nano webapp/templates/configmap.yaml
+Add the following content:
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "webapp.fullname" . }}-config
+  labels:
+    {{- include "webapp.labels" . | nindent 4 }}
+data:
+  app-name: {{ .Values.app.name | quote }}
+  environment: {{ .Values.app.environment | quote }}
+  debug: {{ .Values.app.debug | quote }}
+  nginx.conf: |
+    server {
+        listen 80;
+        server_name localhost;
+        location / {
+            root /usr/share/nginx/html;
+            index index.html index.htm;
+        }
+        location /health {
+            access_log off;
+            return 200 "healthy\n";
+            add_header Content-Type text/plain;
+        }
+    }
+Modify the deployment template to use our ConfigMap:
+nano webapp/templates/deployment.yaml
+Find the containers section and add environment variables and volume mounts:
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "webapp.fullname" . }}
+  labels:
+    {{- include "webapp.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "webapp.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "webapp.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          env:
+            - name: APP_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "webapp.fullname" . }}-config
+                  key: app-name
+            - name: ENVIRONMENT
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "webapp.fullname" . }}-config
+                  key: environment
+            - name: DEBUG
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "webapp.fullname" . }}-config
+                  key: debug
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx/conf.d
+              readOnly: true
+      volumes:
+        - name: nginx-config
+          configMap:
+            name: {{ include "webapp.fullname" . }}-config
+            items:
+              - key: nginx.conf
+                path: default.conf
+Subtask 2.4: Validate the Chart
+Lint the chart to check for issues:
+helm lint webapp/
+Render the templates to see the final Kubernetes manifests:
+helm template webapp webapp/
+Dry-run the installation to validate without deploying:
+helm install webapp-test webapp/ --dry-run --debug
+Task 3: Deploy the Chart to the Cluster
+Subtask 3.1: Deploy the Chart with Default Values
+Install the chart to your Kubernetes cluster:
+helm install my-webapp webapp/
+Check the installation status:
+helm status my-webapp
+List all Helm releases:
+helm list
+Verify the deployed resources:
+kubectl get all -l app.kubernetes.io/instance=my-webapp
+Check the ConfigMap:
+kubectl get configmap
+kubectl describe configmap my-webapp-config
+Subtask 3.2: Test the Application
+Get the service information:
+kubectl get svc -l app.kubernetes.io/instance=my-webapp
+Port-forward to access the application:
+kubectl port-forward svc/my-webapp 8080:80 &
+Test the application (in a new terminal or background the port-forward):
+curl http://localhost:8080
+curl http://localhost:8080/health
+Stop the port-forward:
+pkill -f "kubectl port-forward"
+Subtask 3.3: Upgrade the Chart with New Values
+Create a custom values file for production:
+nano production-values.yaml
+Add the following content:
+
+replicaCount: 3
+
+image:
+  tag: "1.22"
+
+app:
+  name: "Production Web Application"
+  environment: "production"
+  debug: false
+
+resources:
+  limits:
+    cpu: 200m
+    memory: 256Mi
+  requests:
+    cpu: 150m
+    memory: 192Mi
+Upgrade the release with new values:
+helm upgrade my-webapp webapp/ -f production-values.yaml
+Check the upgrade status:
+helm status my-webapp
+Verify the changes:
+kubectl get pods -l app.kubernetes.io/instance=my-webapp
+kubectl describe configmap my-webapp-config
+Subtask 3.4: Manage Helm Releases
+View release history:
+helm history my-webapp
+Rollback to previous version (if needed):
+helm rollback my-webapp 1
+Get values from the current release:
+helm get values my-webapp
+Get all information about the release:
+helm get all my-webapp
+Subtask 3.5: Package and Share the Chart
+Package the chart into a .tgz file:
+helm package webapp/
+List the packaged chart:
+ls -la *.tgz
+Install from the packaged chart:
+helm install test-webapp webapp-0.1.0.tgz --set replicaCount=1
+Clean up the test installation:
+helm uninstall test-webapp
+Troubleshooting Tips
+Common Issues and Solutions
+Issue: Helm command not found after installation Solution: Restart your terminal session or run source ~/.bashrc
+
+Issue: Chart validation fails during lint Solution: Check YAML indentation and ensure all template variables are properly defined in values.yaml
+
+Issue: Pods fail to start after deployment Solution: Check pod logs with kubectl logs <pod-name> and verify resource limits and image availability
+
+Issue: ConfigMap not mounting correctly Solution: Verify the ConfigMap exists and the volume mount paths are correct in the deployment template
+
+Issue: Port-forward connection refused Solution: Ensure the service is running and the port numbers match between the service and port-forward command
+
+Verification Commands
+Use these commands to verify your deployment:
+
+# Check all resources created by Helm
+kubectl get all -l app.kubernetes.io/managed-by=Helm
+
+# Verify Helm release status
+helm status my-webapp
+
+# Check resource usage
+kubectl top pods -l app.kubernetes.io/instance=my-webapp
+Conclusion
+Congratulations! You have successfully completed the Introduction to Helm Charts lab. Here's what you accomplished:
+
+Key Achievements: • Installed Helm: You set up Helm 3 on your Kubernetes cluster and configured repositories • Created a Custom Chart: You built a parameterized Helm chart with templates, values, and ConfigMaps • Deployed Applications: You successfully deployed and managed applications using Helm charts • Managed Releases: You learned to upgrade, rollback, and manage Helm releases effectively • Parameterized Configurations: You created flexible charts that can be customized for different environments
+
+Why This Matters: Helm is essential for managing complex Kubernetes applications in production environments. It provides: • Package Management: Simplifies application deployment and dependency management • Configuration Management: Enables environment-specific configurations without changing code • Release Management: Provides versioning, rollback capabilities, and deployment history • Reusability: Charts can be shared and reused across teams and projects • Standardization: Promotes consistent deployment practices across organizations
+
+Next Steps: • Explore advanced Helm features like chart dependencies and hooks • Learn about Helm repositories and chart distribution • Practice creating charts for more complex applications with databases and services • Investigate Helm security best practices and chart signing • Study integration with CI/CD pipelines for automated deployments
+
+This lab has provided you with the foundational skills needed for the Red Hat OpenShift Administration II certification and real-world Kubernetes application management using open-source tools.
