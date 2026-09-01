@@ -1,0 +1,525 @@
+Using Kustomize for Overlay Management
+Objectives
+By the end of this lab, you will be able to:
+
+• Understand the fundamentals of Kustomize and its role in Kubernetes configuration management • Create a Kustomize base configuration with deployment manifests • Develop environment-specific overlays for development and production environments • Apply Kustomize configurations using kubectl commands • Implement configuration inheritance and customization patterns • Manage environment-specific variables and resource modifications • Troubleshoot common Kustomize configuration issues
+
+Prerequisites
+Before starting this lab, you should have:
+
+• Basic understanding of Kubernetes concepts (pods, deployments, services) • Familiarity with YAML syntax and structure • Knowledge of kubectl command-line tool • Understanding of container concepts and Docker images • Basic Linux command-line experience
+
+Lab Environment Setup
+Ready-to-Use Cloud Machines: Al Nafi provides Linux-based cloud machines with all necessary tools pre-installed. Simply click Start Lab to access your environment - no need to build your own VM or install additional software.
+
+Your lab environment includes: • Kubernetes cluster (minikube or kind) • kubectl command-line tool • Text editor (nano, vim, or code) • All necessary permissions and access
+
+Task 1: Create a Kustomize Base with Deployment Manifest
+Subtask 1.1: Set Up the Project Structure
+First, let's create the directory structure for our Kustomize project.
+
+# Create the main project directory
+mkdir kustomize-lab
+cd kustomize-lab
+
+# Create base directory
+mkdir base
+
+# Create overlay directories for different environments
+mkdir -p overlays/dev
+mkdir -p overlays/prod
+
+# Verify the directory structure
+tree .
+Expected output:
+
+.
+├── base
+└── overlays
+    ├── dev
+    └── prod
+Subtask 1.2: Create the Base Deployment Manifest
+Navigate to the base directory and create the deployment configuration.
+
+cd base
+Create the deployment manifest file:
+
+cat > deployment.yaml << 'EOF'
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp
+  labels:
+    app: webapp
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: webapp
+  template:
+    metadata:
+      labels:
+        app: webapp
+    spec:
+      containers:
+      - name: webapp
+        image: nginx:1.20
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        env:
+        - name: ENVIRONMENT
+          value: "base"
+EOF
+Subtask 1.3: Create the Base Service Manifest
+Create a service to expose the deployment:
+
+cat > service.yaml << 'EOF'
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp-service
+  labels:
+    app: webapp
+spec:
+  selector:
+    app: webapp
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: ClusterIP
+EOF
+Subtask 1.4: Create the Base Kustomization File
+Create the main kustomization.yaml file that defines the base configuration:
+
+cat > kustomization.yaml << 'EOF'
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+metadata:
+  name: webapp-base
+
+resources:
+- deployment.yaml
+- service.yaml
+
+commonLabels:
+  version: v1.0.0
+  managed-by: kustomize
+
+commonAnnotations:
+  description: "Base webapp configuration"
+EOF
+Verify the base directory contents:
+
+ls -la
+Expected output:
+
+deployment.yaml
+kustomization.yaml
+service.yaml
+Task 2: Create Overlays for Dev and Prod Environments
+Subtask 2.1: Create Development Environment Overlay
+Navigate to the dev overlay directory:
+
+cd ../overlays/dev
+Create a patch file for development-specific configurations:
+
+cat > deployment-patch.yaml << 'EOF'
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - name: webapp
+        image: nginx:1.21-alpine
+        env:
+        - name: ENVIRONMENT
+          value: "development"
+        - name: DEBUG
+          value: "true"
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "100m"
+          limits:
+            memory: "64Mi"
+            cpu: "200m"
+EOF
+Create a ConfigMap for development environment:
+
+cat > configmap.yaml << 'EOF'
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: webapp-config
+data:
+  app.properties: |
+    environment=development
+    debug.enabled=true
+    log.level=DEBUG
+    database.host=dev-db.example.com
+EOF
+Create the development kustomization file:
+
+cat > kustomization.yaml << 'EOF'
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+metadata:
+  name: webapp-dev
+
+namespace: webapp-dev
+
+resources:
+- ../../base
+- configmap.yaml
+
+patchesStrategicMerge:
+- deployment-patch.yaml
+
+namePrefix: dev-
+
+commonLabels:
+  environment: development
+  tier: dev
+
+commonAnnotations:
+  environment: "development"
+  maintainer: "dev-team@company.com"
+EOF
+Subtask 2.2: Create Production Environment Overlay
+Navigate to the prod overlay directory:
+
+cd ../prod
+Create a patch file for production-specific configurations:
+
+cat > deployment-patch.yaml << 'EOF'
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp
+spec:
+  replicas: 5
+  template:
+    spec:
+      containers:
+      - name: webapp
+        image: nginx:1.20
+        env:
+        - name: ENVIRONMENT
+          value: "production"
+        - name: DEBUG
+          value: "false"
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "500m"
+          limits:
+            memory: "256Mi"
+            cpu: "1000m"
+EOF
+Create a production-specific service patch:
+
+cat > service-patch.yaml << 'EOF'
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp-service
+spec:
+  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+EOF
+Create a ConfigMap for production environment:
+
+cat > configmap.yaml << 'EOF'
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: webapp-config
+data:
+  app.properties: |
+    environment=production
+    debug.enabled=false
+    log.level=INFO
+    database.host=prod-db.example.com
+    cache.enabled=true
+EOF
+Create the production kustomization file:
+
+cat > kustomization.yaml << 'EOF'
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+metadata:
+  name: webapp-prod
+
+namespace: webapp-prod
+
+resources:
+- ../../base
+- configmap.yaml
+
+patchesStrategicMerge:
+- deployment-patch.yaml
+- service-patch.yaml
+
+namePrefix: prod-
+
+commonLabels:
+  environment: production
+  tier: prod
+
+commonAnnotations:
+  environment: "production"
+  maintainer: "ops-team@company.com"
+
+replicas:
+- name: webapp
+  count: 5
+EOF
+Subtask 2.3: Verify the Complete Project Structure
+Navigate back to the root directory and verify the complete structure:
+
+cd ../../
+tree .
+Expected output:
+
+.
+├── base
+│   ├── deployment.yaml
+│   ├── kustomization.yaml
+│   └── service.yaml
+└── overlays
+    ├── dev
+    │   ├── configmap.yaml
+    │   ├── deployment-patch.yaml
+    │   └── kustomization.yaml
+    └── prod
+        ├── configmap.yaml
+        ├── deployment-patch.yaml
+        ├── kustomization.yaml
+        └── service-patch.yaml
+Task 3: Apply the Kustomize Configuration Using kubectl
+Subtask 3.1: Preview the Generated Configurations
+Before applying the configurations, let's preview what Kustomize will generate for each environment.
+
+Preview the development configuration:
+
+kubectl kustomize overlays/dev
+This command shows the complete YAML that would be applied to the cluster. Review the output to see how the base configuration has been modified with development-specific settings.
+
+Preview the production configuration:
+
+kubectl kustomize overlays/prod
+Compare the differences between dev and prod configurations, noting: • Different replica counts • Different resource limits • Different environment variables • Different service types
+
+Subtask 3.2: Create Namespaces
+Create the required namespaces for our environments:
+
+kubectl create namespace webapp-dev
+kubectl create namespace webapp-prod
+Verify the namespaces were created:
+
+kubectl get namespaces | grep webapp
+Subtask 3.3: Apply the Development Configuration
+Apply the development overlay to the cluster:
+
+kubectl apply -k overlays/dev
+Expected output:
+
+configmap/dev-webapp-config created
+service/dev-webapp-service created
+deployment.apps/dev-webapp created
+Verify the development deployment:
+
+kubectl get all -n webapp-dev
+Check the deployment details:
+
+kubectl describe deployment dev-webapp -n webapp-dev
+Subtask 3.4: Apply the Production Configuration
+Apply the production overlay to the cluster:
+
+kubectl apply -k overlays/prod
+Expected output:
+
+configmap/prod-webapp-config created
+service/prod-webapp-service created
+deployment.apps/prod-webapp created
+Verify the production deployment:
+
+kubectl get all -n webapp-prod
+Check the production deployment details:
+
+kubectl describe deployment prod-webapp -n webapp-prod
+Subtask 3.5: Compare Environment Configurations
+Compare the running configurations between environments:
+
+# Check replica counts
+echo "Development replicas:"
+kubectl get deployment dev-webapp -n webapp-dev -o jsonpath='{.spec.replicas}'
+echo ""
+
+echo "Production replicas:"
+kubectl get deployment prod-webapp -n webapp-prod -o jsonpath='{.spec.replicas}'
+echo ""
+
+# Check environment variables
+echo "Development environment variables:"
+kubectl get deployment dev-webapp -n webapp-dev -o jsonpath='{.spec.template.spec.containers[0].env}'
+echo ""
+
+echo "Production environment variables:"
+kubectl get deployment prod-webapp -n webapp-prod -o jsonpath='{.spec.template.spec.containers[0].env}'
+echo ""
+Subtask 3.6: Test Configuration Updates
+Let's test updating configurations through Kustomize. Modify the development replica count:
+
+cd overlays/dev
+Edit the deployment patch to change replica count:
+
+cat > deployment-patch.yaml << 'EOF'
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp
+spec:
+  replicas: 3
+  template:
+    spec:
+      containers:
+      - name: webapp
+        image: nginx:1.21-alpine
+        env:
+        - name: ENVIRONMENT
+          value: "development"
+        - name: DEBUG
+          value: "true"
+        - name: VERSION
+          value: "v1.1.0"
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "100m"
+          limits:
+            memory: "64Mi"
+            cpu: "200m"
+EOF
+Apply the updated configuration:
+
+cd ../../
+kubectl apply -k overlays/dev
+Verify the changes:
+
+kubectl get deployment dev-webapp -n webapp-dev
+Troubleshooting Common Issues
+Issue 1: Kustomization File Not Found
+Problem: Error message "unable to find one of 'kustomization.yaml', 'kustomization.yml' or 'Kustomization'"
+
+Solution:
+
+# Ensure you're in the correct directory
+pwd
+ls -la
+
+# Check for the kustomization file
+ls kustomization.yaml
+Issue 2: Resource Not Found in Base
+Problem: Error about resources not being found in the base directory
+
+Solution:
+
+# Verify the base directory structure
+ls -la base/
+
+# Check the base kustomization file
+cat base/kustomization.yaml
+Issue 3: Namespace Issues
+Problem: Resources being created in the wrong namespace
+
+Solution:
+
+# Check the namespace specification in overlay kustomization
+grep -n namespace overlays/dev/kustomization.yaml
+
+# Ensure namespace exists
+kubectl get namespace webapp-dev
+Issue 4: Patch Not Applied
+Problem: Strategic merge patches not being applied correctly
+
+Solution:
+
+# Preview the configuration to see if patches are applied
+kubectl kustomize overlays/dev
+
+# Check patch file syntax
+cat overlays/dev/deployment-patch.yaml
+Verification and Testing
+Verify Resource Labels and Annotations
+Check that common labels and annotations are applied:
+
+# Check development resources
+kubectl get deployment dev-webapp -n webapp-dev --show-labels
+
+# Check production resources
+kubectl get deployment prod-webapp -n webapp-prod --show-labels
+Test Application Functionality
+Port-forward to test the applications:
+
+# Test development application
+kubectl port-forward deployment/dev-webapp 8080:80 -n webapp-dev &
+
+# Test in another terminal
+curl http://localhost:8080
+
+# Stop port-forward
+pkill -f "kubectl port-forward"
+
+# Test production application
+kubectl port-forward deployment/prod-webapp 8081:80 -n webapp-prod &
+
+# Test in another terminal
+curl http://localhost:8081
+
+# Stop port-forward
+pkill -f "kubectl port-forward"
+Cleanup
+To clean up the resources created in this lab:
+
+# Delete development resources
+kubectl delete -k overlays/dev
+
+# Delete production resources
+kubectl delete -k overlays/prod
+
+# Delete namespaces
+kubectl delete namespace webapp-dev
+kubectl delete namespace webapp-prod
+
+# Clean up local files
+cd ..
+rm -rf kustomize-lab
+Conclusion
+In this lab, you have successfully:
+
+• Created a Kustomize base configuration with deployment and service manifests that serve as the foundation for multiple environments • Developed environment-specific overlays for development and production environments, demonstrating how to customize configurations without duplicating code • Applied Kustomize configurations using kubectl, showing the practical implementation of configuration management • Implemented configuration inheritance patterns that allow for efficient management of multiple environments • Used strategic merge patches to modify specific aspects of base configurations for different environments • Managed environment-specific variables and resource requirements through overlays
+
+Why This Matters: Kustomize provides a powerful, declarative way to manage Kubernetes configurations across multiple environments without the complexity of templating engines. This approach:
+
+• Reduces Configuration Drift: Ensures consistency across environments while allowing necessary customizations • Improves Maintainability: Changes to base configurations automatically propagate to all environments • Enhances Security: Environment-specific secrets and configurations can be managed separately • Supports GitOps Workflows: Kustomize integrations work seamlessly with CI/CD pipelines and GitOps tools like ArgoCD • Simplifies Compliance: Standardized base configurations help maintain compliance requirements across environments
+
+This knowledge is essential for Red Hat OpenShift Administration and modern Kubernetes operations, where managing multiple environments efficiently and safely is crucial for production success.
