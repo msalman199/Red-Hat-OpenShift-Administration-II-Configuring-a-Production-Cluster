@@ -145,23 +145,6 @@ Environment-specific configurations can help organizations implement:
 
 ---
 
-# 📁 Example Environment Structure
-
-```text
-helm-chart/
-│
-├── Chart.yaml
-├── values.yaml
-│
-├── values-dev.yaml
-├── values-staging.yaml
-├── values-prod.yaml
-│
-└── templates/
-    ├── deployment.yaml
-    ├── service.yaml
-    └── configmap.yaml
-```
 
 ---
 
