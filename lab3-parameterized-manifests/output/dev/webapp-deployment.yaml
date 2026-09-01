@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp-dev
+  labels:
+    app: webapp
+    environment: dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webapp
+      environment: dev
+  template:
+    metadata:
+      labels:
+        app: webapp
+        environment: dev
+    spec:
+      containers:
+      - name: webapp
+        image: nginx:1.21-alpine
+        ports:
+        - containerPort: 8080
+        env:
+        - name: ENVIRONMENT
+          value: dev
+        - name: LOG_LEVEL
+          value: debug
+        resources:
+          requests:
+            memory: 128Mi
+            cpu: 100m
+          limits:
+            memory: 256Mi
+            cpu: 200m

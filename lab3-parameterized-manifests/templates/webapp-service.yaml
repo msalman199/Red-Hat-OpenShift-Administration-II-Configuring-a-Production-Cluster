@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp-service-${ENVIRONMENT}
+  labels:
+    app: webapp
+    environment: ${ENVIRONMENT}
+spec:
+  selector:
+    app: webapp
+    environment: ${ENVIRONMENT}
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+  type: ${SERVICE_TYPE}

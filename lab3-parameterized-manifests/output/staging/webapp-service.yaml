@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp-service-staging
+  labels:
+    app: webapp
+    environment: staging
+spec:
+  selector:
+    app: webapp
+    environment: staging
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+  type: NodePort
