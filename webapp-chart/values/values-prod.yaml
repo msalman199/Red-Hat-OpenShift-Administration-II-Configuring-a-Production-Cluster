@@ -1,0 +1,43 @@
+# Production Environment Overrides
+replicaCount: 3
+
+image:
+  tag: "1.21-alpine"
+  pullPolicy: Always
+
+env:
+  - name: ENVIRONMENT
+    value: "production"
+  - name: LOG_LEVEL
+    value: "warn"
+  - name: APP_PORT
+    value: "80"
+  - name: CACHE_ENABLED
+    value: "true"
+
+resources:
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+  requests:
+    cpu: 500m
+    memory: 512Mi
+
+service:
+  type: LoadBalancer
+
+ingress:
+  enabled: true
+  hosts:
+    - host: webapp-prod.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+
+securityContext:
+  runAsNonRoot: true
+  runAsUser: 1001
+  fsGroup: 3000
+
+nodeSelector:
+  environment: production

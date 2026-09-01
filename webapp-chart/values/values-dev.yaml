@@ -1,0 +1,34 @@
+# Development Environment Overrides
+replicaCount: 1
+
+image:
+  tag: "1.21-alpine"
+
+env:
+  - name: ENVIRONMENT
+    value: "development"
+  - name: LOG_LEVEL
+    value: "debug"
+  - name: APP_PORT
+    value: "80"
+  - name: DEBUG_MODE
+    value: "true"
+
+resources:
+  limits:
+    cpu: 200m
+    memory: 256Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+service:
+  type: NodePort
+
+ingress:
+  enabled: true
+  hosts:
+    - host: webapp-dev.local
+      paths:
+        - path: /
+          pathType: Prefix

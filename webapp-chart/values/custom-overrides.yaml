@@ -1,0 +1,10 @@
+app:
+  name: webapp-custom
+
+replicaCount: 5
+
+env:
+  - name: ENVIRONMENT
+    value: "custom"
+  - name: CUSTOM_SETTING
+    value: "enabled"
