@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-tcp-app
+  labels:
+    app: redis-tcp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis-tcp
+  template:
+    metadata:
+      labels:
+        app: redis-tcp
+    spec:
+      containers:
+      - name: redis
+        image: redis:7-alpine
+        ports:
+        - containerPort: 6379
+          protocol: TCP
+        command: ["redis-server"]
+        args: ["--bind", "0.0.0.0", "--protected-mode", "no"]
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+          limits:
+            memory: "128Mi"
+            cpu: "100m"

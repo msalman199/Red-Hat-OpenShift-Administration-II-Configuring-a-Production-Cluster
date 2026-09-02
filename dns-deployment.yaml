@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dns-udp-app
+  labels:
+    app: dns-udp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dns-udp
+  template:
+    metadata:
+      labels:
+        app: dns-udp
+    spec:
+      containers:
+      - name: dnsmasq
+        image: andyshinn/dnsmasq:2.85
+        ports:
+        - containerPort: 53
+          protocol: UDP
+        - containerPort: 53
+          protocol: TCP
+        args:
+          - --keep-in-foreground
+          - --log-queries
+          - --no-resolv
+          - --address=/test.local/1.2.3.4
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "25m"
+          limits:
+            memory: "64Mi"
+            cpu: "50m"

@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: echo-loadbalancer-svc
+  labels:
+    app: echo-mixed
+spec:
+  type: LoadBalancer
+  selector:
+    app: echo-mixed
+  ports:
+  - port: 2701
+    targetPort: 2701
+    protocol: TCP
+    name: echo-tcp
+  - port: 2702
+    targetPort: 2701
+    protocol: UDP
+    name: echo-udp
