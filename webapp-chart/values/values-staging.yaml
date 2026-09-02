@@ -1,0 +1,34 @@
+# Staging Environment Overrides
+replicaCount: 2
+
+image:
+  tag: "1.21-alpine"
+
+env:
+  - name: ENVIRONMENT
+    value: "staging"
+  - name: LOG_LEVEL
+    value: "info"
+  - name: APP_PORT
+    value: "80"
+  - name: MONITORING_ENABLED
+    value: "true"
+
+resources:
+  limits:
+    cpu: 750m
+    memory: 768Mi
+  requests:
+    cpu: 375m
+    memory: 384Mi
+
+service:
+  type: ClusterIP
+
+ingress:
+  enabled: true
+  hosts:
+    - host: webapp-staging.local
+      paths:
+        - path: /
+          pathType: Prefix

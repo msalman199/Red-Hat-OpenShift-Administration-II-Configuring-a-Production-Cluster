@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp-staging
+  labels:
+    app: webapp
+    environment: staging
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: webapp
+      environment: staging
+  template:
+    metadata:
+      labels:
+        app: webapp
+        environment: staging
+    spec:
+      containers:
+      - name: webapp
+        image: nginx:1.21-alpine
+        ports:
+        - containerPort: 8080
+        env:
+        - name: ENVIRONMENT
+          value: staging
+        - name: LOG_LEVEL
+          value: warn
+        resources:
+          requests:
+            memory: 192Mi
+            cpu: 150m
+          limits:
+            memory: 384Mi
+            cpu: 300m

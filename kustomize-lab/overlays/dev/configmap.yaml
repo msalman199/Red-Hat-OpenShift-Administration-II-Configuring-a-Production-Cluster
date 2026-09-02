@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: webapp-config
+data:
+  app.properties: |
+    environment=development
+    debug.enabled=true
+    log.level=DEBUG
+    database.host=dev-db.example.com

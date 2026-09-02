@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp-service-dev
+  labels:
+    app: webapp
+    environment: dev
+spec:
+  selector:
+    app: webapp
+    environment: dev
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+  type: ClusterIP

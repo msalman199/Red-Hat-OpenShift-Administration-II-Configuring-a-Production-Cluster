@@ -1,0 +1,17 @@
+replicaCount: 3
+
+image:
+  tag: "1.22"
+
+app:
+  name: "Production Web Application"
+  environment: "production"
+  debug: false
+
+resources:
+  limits:
+    cpu: 200m
+    memory: 256Mi
+  requests:
+    cpu: 150m
+    memory: 192Mi

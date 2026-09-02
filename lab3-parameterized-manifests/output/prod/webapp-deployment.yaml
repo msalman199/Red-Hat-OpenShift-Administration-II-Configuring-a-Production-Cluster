@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp-prod
+  labels:
+    app: webapp
+    environment: prod
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: webapp
+      environment: prod
+  template:
+    metadata:
+      labels:
+        app: webapp
+        environment: prod
+    spec:
+      containers:
+      - name: webapp
+        image: nginx:1.21-alpine
+        ports:
+        - containerPort: 8080
+        env:
+        - name: ENVIRONMENT
+          value: prod
+        - name: LOG_LEVEL
+          value: info
+        resources:
+          requests:
+            memory: 256Mi
+            cpu: 200m
+          limits:
+            memory: 512Mi
+            cpu: 500m

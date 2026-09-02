@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: webapp-config
+data:
+  app.properties: |
+    environment=production
+    debug.enabled=false
+    log.level=INFO
+    database.host=prod-db.example.com
+    cache.enabled=true

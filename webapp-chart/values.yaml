@@ -1,0 +1,92 @@
+# Application Configuration
+app:
+  name: webapp
+  version: "1.0"
+  
+# Image Configuration
+image:
+  repository: nginx
+  tag: "1.21-alpine"
+  pullPolicy: IfNotPresent
+
+# Replica Configuration
+replicaCount: 2
+
+# Service Configuration
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 80
+  name: webapp-service
+
+# Ingress Configuration
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: webapp.local
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+# Resource Configuration
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 250m
+    memory: 256Mi
+
+# Environment Variables
+env:
+  - name: ENVIRONMENT
+    value: "development"
+  - name: LOG_LEVEL
+    value: "info"
+  - name: APP_PORT
+    value: "80"
+
+# Node Selection
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+# Security Context
+securityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  fsGroup: 2000
+
+# Probes Configuration
+probes:
+  liveness:
+    enabled: true
+    path: /
+    initialDelaySeconds: 30
+    periodSeconds: 10
+  readiness:
+    enabled: true
+    path: /
+    initialDelaySeconds: 5
+    periodSeconds: 5
+
+# ConfigMap Data
+configMap:
+  enabled: true
+  data:
+    app.properties: |
+      server.port=80
+      logging.level=info
+      app.name=webapp
+    nginx.conf: |
+      server {
+          listen 80;
+          server_name localhost;
+          location / {
+              root /usr/share/nginx/html;
+              index index.html;
+          }
+      }

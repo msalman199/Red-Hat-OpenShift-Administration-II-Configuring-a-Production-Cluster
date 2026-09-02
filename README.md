@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div align="center">
 
 # 🔌 Exposing Non-HTTP Applications with NodePort & LoadBalancer
@@ -63,3 +64,6 @@ Understanding how to expose non-HTTP applications is crucial for real-world Kube
 **🎓 Al Nafi — Cybersecurity & Cloud Training**
 
 </div>
+=======
+# Red-Hat-OpenShift-Administration-II-Configuring-a-Production-Cluster
+>>>>>>> 8414fafd18565a1730550c6e822ec391801fb223

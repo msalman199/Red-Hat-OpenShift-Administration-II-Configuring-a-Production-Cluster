@@ -1,0 +1,597 @@
+Parameterizing Resource Manifests
+Objectives
+By the end of this lab, students will be able to:
+
+• Create parameterized Kubernetes manifests using environment variables • Apply different configuration parameters for development and production environments • Dynamically modify replica counts and container image tags based on environment • Understand the benefits of parameterized deployments for multi-environment management • Implement best practices for environment-specific configurations in OpenShift/Kubernetes
+
+Prerequisites
+Before starting this lab, students should have:
+
+• Basic understanding of Kubernetes/OpenShift concepts (pods, deployments, services) • Familiarity with YAML syntax and structure • Knowledge of Linux command line operations • Understanding of container images and tags • Previous experience with kubectl or oc commands • Completion of basic Kubernetes deployment labs
+
+Lab Environment Setup
+Ready-to-Use Cloud Machines: Al Nafi provides Linux-based cloud machines with all necessary tools pre-installed. Simply click Start Lab to access your environment - no need to build your own VM or install additional software.
+
+Your lab environment includes: • OpenShift CLI (oc) tools • kubectl command-line tool • Text editors (vim, nano) • Access to a running OpenShift/Kubernetes cluster
+
+Task 1: Create a Parameterized Manifest Using Environment Variables
+Subtask 1.1: Create the Base Application Manifest
+First, let's create a directory structure for our parameterized manifests and create a base deployment template.
+
+Create the lab directory structure:
+mkdir -p ~/lab3-parameterized-manifests
+cd ~/lab3-parameterized-manifests
+mkdir templates environments
+Create a parameterized deployment manifest:
+Create a file called templates/webapp-deployment.yaml:
+
+cat > templates/webapp-deployment.yaml << 'EOF'
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp-${ENVIRONMENT}
+  labels:
+    app: webapp
+    environment: ${ENVIRONMENT}
+spec:
+  replicas: ${REPLICA_COUNT}
+  selector:
+    matchLabels:
+      app: webapp
+      environment: ${ENVIRONMENT}
+  template:
+    metadata:
+      labels:
+        app: webapp
+        environment: ${ENVIRONMENT}
+    spec:
+      containers:
+      - name: webapp
+        image: ${IMAGE_NAME}:${IMAGE_TAG}
+        ports:
+        - containerPort: 8080
+        env:
+        - name: ENVIRONMENT
+          value: ${ENVIRONMENT}
+        - name: LOG_LEVEL
+          value: ${LOG_LEVEL}
+        resources:
+          requests:
+            memory: ${MEMORY_REQUEST}
+            cpu: ${CPU_REQUEST}
+          limits:
+            memory: ${MEMORY_LIMIT}
+            cpu: ${CPU_LIMIT}
+EOF
+Create a parameterized service manifest:
+Create a file called templates/webapp-service.yaml:
+
+cat > templates/webapp-service.yaml << 'EOF'
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp-service-${ENVIRONMENT}
+  labels:
+    app: webapp
+    environment: ${ENVIRONMENT}
+spec:
+  selector:
+    app: webapp
+    environment: ${ENVIRONMENT}
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+  type: ${SERVICE_TYPE}
+EOF
+Subtask 1.2: Create Environment Variable Files
+Now we'll create environment-specific variable files that will be used to substitute the parameters in our templates.
+
+Create development environment variables:
+cat > environments/dev.env << 'EOF'
+ENVIRONMENT=dev
+REPLICA_COUNT=1
+IMAGE_NAME=nginx
+IMAGE_TAG=1.21-alpine
+LOG_LEVEL=debug
+MEMORY_REQUEST=128Mi
+CPU_REQUEST=100m
+MEMORY_LIMIT=256Mi
+CPU_LIMIT=200m
+SERVICE_TYPE=ClusterIP
+EOF
+Create production environment variables:
+cat > environments/prod.env << 'EOF'
+ENVIRONMENT=prod
+REPLICA_COUNT=3
+IMAGE_NAME=nginx
+IMAGE_TAG=1.21-alpine
+LOG_LEVEL=info
+MEMORY_REQUEST=256Mi
+CPU_REQUEST=200m
+MEMORY_LIMIT=512Mi
+CPU_LIMIT=500m
+SERVICE_TYPE=LoadBalancer
+EOF
+Create a staging environment variables file:
+cat > environments/staging.env << 'EOF'
+ENVIRONMENT=staging
+REPLICA_COUNT=2
+IMAGE_NAME=nginx
+IMAGE_TAG=1.21-alpine
+LOG_LEVEL=warn
+MEMORY_REQUEST=192Mi
+CPU_REQUEST=150m
+MEMORY_LIMIT=384Mi
+CPU_LIMIT=300m
+SERVICE_TYPE=NodePort
+EOF
+Subtask 1.3: Create a Deployment Script
+Create a script that will substitute environment variables and deploy the manifests.
+
+Create the deployment script:
+cat > deploy.sh << 'EOF'
+#!/bin/bash
+
+# Function to display usage
+usage() {
+    echo "Usage: $0 <environment>"
+    echo "Available environments: dev, staging, prod"
+    exit 1
+}
+
+# Check if environment parameter is provided
+if [ $# -eq 0 ]; then
+    usage
+fi
+
+ENVIRONMENT=$1
+ENV_FILE="environments/${ENVIRONMENT}.env"
+
+# Check if environment file exists
+if [ ! -f "$ENV_FILE" ]; then
+    echo "Error: Environment file $ENV_FILE not found!"
+    echo "Available environments:"
+    ls environments/*.env 2>/dev/null | sed 's/environments\///g' | sed 's/\.env//g'
+    exit 1
+fi
+
+echo "Deploying to $ENVIRONMENT environment..."
+
+# Source the environment variables
+set -a
+source "$ENV_FILE"
+set +a
+
+# Create output directory
+mkdir -p "output/${ENVIRONMENT}"
+
+# Process deployment template
+envsubst < templates/webapp-deployment.yaml > "output/${ENVIRONMENT}/webapp-deployment.yaml"
+
+# Process service template
+envsubst < templates/webapp-service.yaml > "output/${ENVIRONMENT}/webapp-service.yaml"
+
+echo "Generated manifests for $ENVIRONMENT environment:"
+echo "- output/${ENVIRONMENT}/webapp-deployment.yaml"
+echo "- output/${ENVIRONMENT}/webapp-service.yaml"
+
+# Apply the manifests
+echo "Applying manifests to cluster..."
+kubectl apply -f "output/${ENVIRONMENT}/"
+
+echo "Deployment completed for $ENVIRONMENT environment!"
+EOF
+Make the script executable:
+chmod +x deploy.sh
+Task 2: Apply Different Parameters for Dev and Prod Environments
+Subtask 2.1: Deploy to Development Environment
+Deploy the application to the development environment:
+./deploy.sh dev
+Verify the development deployment:
+# Check the generated manifest
+cat output/dev/webapp-deployment.yaml
+Verify the deployment is running:
+kubectl get deployments -l environment=dev
+kubectl get pods -l environment=dev
+kubectl get services -l environment=dev
+Check the deployment details:
+kubectl describe deployment webapp-dev
+Subtask 2.2: Deploy to Production Environment
+Deploy the application to the production environment:
+./deploy.sh prod
+Verify the production deployment:
+# Check the generated manifest
+cat output/prod/webapp-deployment.yaml
+Compare the differences between dev and prod:
+echo "=== Development Configuration ==="
+kubectl get deployment webapp-dev -o yaml | grep -A 5 -B 5 "replicas\|image:"
+
+echo "=== Production Configuration ==="
+kubectl get deployment webapp-prod -o yaml | grep -A 5 -B 5 "replicas\|image:"
+Verify all deployments:
+kubectl get deployments -l app=webapp
+kubectl get pods -l app=webapp
+kubectl get services -l app=webapp
+Subtask 2.3: Deploy to Staging Environment
+Deploy to staging environment:
+./deploy.sh staging
+View all environments side by side:
+echo "=== All Webapp Deployments ==="
+kubectl get deployments -l app=webapp -o wide
+
+echo "=== All Webapp Services ==="
+kubectl get services -l app=webapp -o wide
+Task 3: Modify Replicas and Image Tags Dynamically
+Subtask 3.1: Create a Dynamic Update Script
+Create a script that allows dynamic updates to running deployments.
+
+Create the update script:
+cat > update-deployment.sh << 'EOF'
+#!/bin/bash
+
+usage() {
+    echo "Usage: $0 <environment> [--replicas <count>] [--image-tag <tag>]"
+    echo "Example: $0 dev --replicas 2 --image-tag 1.22-alpine"
+    exit 1
+}
+
+if [ $# -lt 2 ]; then
+    usage
+fi
+
+ENVIRONMENT=$1
+shift
+
+# Parse command line arguments
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --replicas)
+            NEW_REPLICAS="$2"
+            shift 2
+            ;;
+        --image-tag)
+            NEW_IMAGE_TAG="$2"
+            shift 2
+            ;;
+        *)
+            echo "Unknown option $1"
+            usage
+            ;;
+    esac
+done
+
+DEPLOYMENT_NAME="webapp-${ENVIRONMENT}"
+
+# Check if deployment exists
+if ! kubectl get deployment "$DEPLOYMENT_NAME" > /dev/null 2>&1; then
+    echo "Error: Deployment $DEPLOYMENT_NAME not found!"
+    exit 1
+fi
+
+echo "Updating deployment: $DEPLOYMENT_NAME"
+
+# Update replicas if specified
+if [ ! -z "$NEW_REPLICAS" ]; then
+    echo "Scaling to $NEW_REPLICAS replicas..."
+    kubectl scale deployment "$DEPLOYMENT_NAME" --replicas="$NEW_REPLICAS"
+    
+    # Update the environment file
+    ENV_FILE="environments/${ENVIRONMENT}.env"
+    if [ -f "$ENV_FILE" ]; then
+        sed -i "s/REPLICA_COUNT=.*/REPLICA_COUNT=$NEW_REPLICAS/" "$ENV_FILE"
+        echo "Updated $ENV_FILE with new replica count"
+    fi
+fi
+
+# Update image tag if specified
+if [ ! -z "$NEW_IMAGE_TAG" ]; then
+    # Get current image name
+    CURRENT_IMAGE=$(kubectl get deployment "$DEPLOYMENT_NAME" -o jsonpath='{.spec.template.spec.containers[0].image}')
+    IMAGE_NAME=$(echo "$CURRENT_IMAGE" | cut -d':' -f1)
+    NEW_IMAGE="${IMAGE_NAME}:${NEW_IMAGE_TAG}"
+    
+    echo "Updating image to $NEW_IMAGE..."
+    kubectl set image deployment/"$DEPLOYMENT_NAME" webapp="$NEW_IMAGE"
+    
+    # Update the environment file
+    ENV_FILE="environments/${ENVIRONMENT}.env"
+    if [ -f "$ENV_FILE" ]; then
+        sed -i "s/IMAGE_TAG=.*/IMAGE_TAG=$NEW_IMAGE_TAG/" "$ENV_FILE"
+        echo "Updated $ENV_FILE with new image tag"
+    fi
+fi
+
+echo "Update completed!"
+echo "Current deployment status:"
+kubectl get deployment "$DEPLOYMENT_NAME" -o wide
+EOF
+Make the update script executable:
+chmod +x update-deployment.sh
+Subtask 3.2: Test Dynamic Replica Scaling
+Scale the development environment to 3 replicas:
+./update-deployment.sh dev --replicas 3
+Verify the scaling operation:
+kubectl get deployment webapp-dev
+kubectl get pods -l environment=dev
+Watch the scaling in real-time:
+kubectl get pods -l environment=dev -w
+Press Ctrl+C to stop watching after you see the pods scaling.
+
+Scale production environment to 5 replicas:
+./update-deployment.sh prod --replicas 5
+Subtask 3.3: Test Dynamic Image Tag Updates
+Update the development environment to use a different image tag:
+./update-deployment.sh dev --image-tag 1.22-alpine
+Monitor the rolling update:
+kubectl rollout status deployment/webapp-dev
+Verify the image update:
+kubectl get deployment webapp-dev -o jsonpath='{.spec.template.spec.containers[0].image}'
+echo
+Update both replicas and image tag simultaneously:
+./update-deployment.sh staging --replicas 4 --image-tag 1.23-alpine
+Subtask 3.4: Create a Status Monitoring Script
+Create a script to monitor all deployments across environments.
+
+Create the monitoring script:
+cat > monitor-deployments.sh << 'EOF'
+#!/bin/bash
+
+echo "=== Webapp Deployment Status ==="
+echo "Date: $(date)"
+echo
+
+# Function to display deployment info
+show_deployment_info() {
+    local env=$1
+    local deployment="webapp-${env}"
+    
+    if kubectl get deployment "$deployment" > /dev/null 2>&1; then
+        echo "Environment: $env"
+        echo "Deployment: $deployment"
+        
+        # Get deployment details
+        REPLICAS=$(kubectl get deployment "$deployment" -o jsonpath='{.spec.replicas}')
+        READY_REPLICAS=$(kubectl get deployment "$deployment" -o jsonpath='{.status.readyReplicas}')
+        IMAGE=$(kubectl get deployment "$deployment" -o jsonpath='{.spec.template.spec.containers[0].image}')
+        
+        echo "  Replicas: ${READY_REPLICAS:-0}/${REPLICAS}"
+        echo "  Image: $IMAGE"
+        echo "  Status: $(kubectl get deployment "$deployment" -o jsonpath='{.status.conditions[?(@.type=="Available")].status}')"
+        echo
+    else
+        echo "Environment: $env - NOT DEPLOYED"
+        echo
+    fi
+}
+
+# Check all environments
+for env in dev staging prod; do
+    show_deployment_info "$env"
+done
+
+echo "=== Pod Status ==="
+kubectl get pods -l app=webapp -o wide
+
+echo
+echo "=== Service Status ==="
+kubectl get services -l app=webapp -o wide
+EOF
+Make the monitoring script executable:
+chmod +x monitor-deployments.sh
+Run the monitoring script:
+./monitor-deployments.sh
+Task 4: Advanced Parameterization Techniques
+Subtask 4.1: Create ConfigMap Templates
+Create a parameterized ConfigMap template:
+cat > templates/webapp-configmap.yaml << 'EOF'
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: webapp-config-${ENVIRONMENT}
+  labels:
+    app: webapp
+    environment: ${ENVIRONMENT}
+data:
+  app.properties: |
+    environment=${ENVIRONMENT}
+    log.level=${LOG_LEVEL}
+    database.host=${DB_HOST}
+    database.port=${DB_PORT}
+    cache.enabled=${CACHE_ENABLED}
+    debug.enabled=${DEBUG_ENABLED}
+  nginx.conf: |
+    server {
+        listen 8080;
+        server_name localhost;
+        
+        location / {
+            root /usr/share/nginx/html;
+            index index.html index.htm;
+        }
+        
+        location /health {
+            access_log off;
+            return 200 "healthy\n";
+            add_header Content-Type text/plain;
+        }
+    }
+EOF
+Update environment files with additional parameters:
+# Update dev environment
+cat >> environments/dev.env << 'EOF'
+DB_HOST=dev-database.example.com
+DB_PORT=5432
+CACHE_ENABLED=false
+DEBUG_ENABLED=true
+EOF
+
+# Update staging environment
+cat >> environments/staging.env << 'EOF'
+DB_HOST=staging-database.example.com
+DB_PORT=5432
+CACHE_ENABLED=true
+DEBUG_ENABLED=false
+EOF
+
+# Update prod environment
+cat >> environments/prod.env << 'EOF'
+DB_HOST=prod-database.example.com
+DB_PORT=5432
+CACHE_ENABLED=true
+DEBUG_ENABLED=false
+EOF
+Update the deployment script to include ConfigMap:
+cat > deploy-advanced.sh << 'EOF'
+#!/bin/bash
+
+usage() {
+    echo "Usage: $0 <environment>"
+    echo "Available environments: dev, staging, prod"
+    exit 1
+}
+
+if [ $# -eq 0 ]; then
+    usage
+fi
+
+ENVIRONMENT=$1
+ENV_FILE="environments/${ENVIRONMENT}.env"
+
+if [ ! -f "$ENV_FILE" ]; then
+    echo "Error: Environment file $ENV_FILE not found!"
+    exit 1
+fi
+
+echo "Deploying to $ENVIRONMENT environment with advanced configuration..."
+
+# Source the environment variables
+set -a
+source "$ENV_FILE"
+set +a
+
+# Create output directory
+mkdir -p "output/${ENVIRONMENT}"
+
+# Process all templates
+for template in templates/*.yaml; do
+    filename=$(basename "$template")
+    envsubst < "$template" > "output/${ENVIRONMENT}/$filename"
+    echo "Generated: output/${ENVIRONMENT}/$filename"
+done
+
+# Apply the manifests
+echo "Applying manifests to cluster..."
+kubectl apply -f "output/${ENVIRONMENT}/"
+
+echo "Advanced deployment completed for $ENVIRONMENT environment!"
+
+# Show deployment status
+echo
+echo "Deployment Status:"
+kubectl get all -l environment="$ENVIRONMENT"
+EOF
+Make the advanced script executable and test it:
+chmod +x deploy-advanced.sh
+./deploy-advanced.sh dev
+Subtask 4.2: Verify Advanced Configuration
+Check the ConfigMap contents:
+kubectl get configmap webapp-config-dev -o yaml
+Verify environment-specific configurations:
+echo "=== Dev ConfigMap ==="
+kubectl get configmap webapp-config-dev -o jsonpath='{.data.app\.properties}'
+echo
+
+echo "=== Staging ConfigMap ==="
+kubectl get configmap webapp-config-staging -o jsonpath='{.data.app\.properties}' 2>/dev/null || echo "Not deployed"
+echo
+Troubleshooting Common Issues
+Issue 1: Environment Variable Substitution Not Working
+Problem: Variables in templates are not being replaced.
+
+Solution:
+
+# Check if envsubst is installed
+which envsubst
+
+# If not installed, install gettext package
+sudo yum install -y gettext  # For RHEL/CentOS
+# or
+sudo apt-get install -y gettext-base  # For Ubuntu/Debian
+
+# Verify environment variables are loaded
+set | grep -E "(ENVIRONMENT|REPLICA_COUNT|IMAGE_TAG)"
+Issue 2: Deployment Not Found
+Problem: Cannot find deployment when trying to update.
+
+Solution:
+
+# List all deployments
+kubectl get deployments
+
+# Check if deployment exists in specific namespace
+kubectl get deployments -n <namespace>
+
+# Verify the deployment name format
+kubectl get deployments -l app=webapp
+Issue 3: Permission Denied
+Problem: Cannot execute scripts.
+
+Solution:
+
+# Make scripts executable
+chmod +x *.sh
+
+# Check current permissions
+ls -la *.sh
+Lab Validation
+Validation Checklist
+Verify your lab completion by checking the following:
+
+Environment Files Created:
+ls -la environments/
+Templates Created:
+ls -la templates/
+Deployments Running:
+kubectl get deployments -l app=webapp
+Different Configurations Applied:
+# Check replica counts
+kubectl get deployments -l app=webapp -o custom-columns=NAME:.metadata.name,REPLICAS:.spec.replicas
+
+# Check image tags
+kubectl get deployments -l app=webapp -o custom-columns=NAME:.metadata.name,IMAGE:.spec.template.spec.containers[0].image
+Services Created:
+kubectl get services -l app=webapp
+Cleanup
+To clean up the resources created in this lab:
+
+# Delete all webapp resources
+kubectl delete all -l app=webapp
+
+# Delete ConfigMaps
+kubectl delete configmaps -l app=webapp
+
+# Remove local files (optional)
+cd ~
+rm -rf lab3-parameterized-manifests
+Conclusion
+In this lab, you have successfully accomplished the following:
+
+• Created parameterized Kubernetes manifests using environment variables and template substitution, enabling flexible and reusable deployment configurations
+
+• Applied different parameters for multiple environments (dev, staging, prod), demonstrating how the same application can be deployed with environment-specific configurations
+
+• Dynamically modified replicas and image tags using custom scripts, showing how to update running deployments without manual manifest editing
+
+• Implemented advanced parameterization techniques including ConfigMaps and comprehensive environment-specific settings
+
+• Developed automation scripts for deployment, updates, and monitoring, reducing manual effort and potential errors
+
+Why This Matters: Parameterizing resource manifests is a critical skill for managing applications across multiple environments in production Kubernetes/OpenShift clusters. This approach:
+
+Reduces Configuration Drift: Ensures consistency across environments while allowing necessary differences
+Improves Maintainability: Single source of truth for application configuration with environment-specific overrides
+Enables CI/CD Integration: Scripts and templates can be easily integrated into automated deployment pipelines
+Supports Scalability: Easy to add new environments or modify existing ones without duplicating entire manifest files
+Enhances Security: Sensitive configuration can be managed separately from application code
+These skills are essential for the Red Hat OpenShift Administration II certification and are fundamental practices in modern DevOps and container orchestration workflows. The techniques learned here form the foundation for more advanced topics like Helm charts, Kustomize, and GitOps deployment strategies.
