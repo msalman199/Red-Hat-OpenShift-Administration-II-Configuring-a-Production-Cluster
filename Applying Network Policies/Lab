@@ -1,0 +1,592 @@
+Applying Network Policies
+Objectives
+By the end of this lab, students will be able to:
+
+• Understand the concept and importance of Kubernetes NetworkPolicies • Create and implement NetworkPolicies to control pod-to-pod communication • Test network segmentation between pods in different namespaces • Modify NetworkPolicies to allow specific traffic patterns • Troubleshoot common NetworkPolicy configuration issues • Apply security best practices for network isolation in Kubernetes clusters
+
+Prerequisites
+Before starting this lab, students should have:
+
+• Basic understanding of Kubernetes concepts (pods, services, namespaces) • Familiarity with kubectl command-line tool • Knowledge of YAML syntax and structure • Understanding of basic networking concepts (IP addresses, ports, protocols) • Experience with Linux command line operations • Completion of previous Kubernetes labs or equivalent knowledge
+
+Lab Environment Setup
+Ready-to-Use Cloud Machines: Al Nafi provides Linux-based cloud machines with Kubernetes pre-installed. Simply click Start Lab to access your environment - no need to build your own VM or install additional software.
+
+Your lab environment includes: • Kubernetes cluster with network policy support enabled • kubectl configured and ready to use • All necessary tools pre-installed • Internet connectivity for testing
+
+Task 1: Create a NetworkPolicy to Restrict Pod-to-Pod Communication
+Subtask 1.1: Prepare the Lab Environment
+First, let's create the necessary namespaces and verify our cluster supports NetworkPolicies.
+
+Create test namespaces:
+kubectl create namespace frontend
+kubectl create namespace backend
+kubectl create namespace database
+Verify namespaces were created:
+kubectl get namespaces
+Check if your cluster supports NetworkPolicies:
+kubectl api-resources | grep networkpolicies
+You should see output similar to:
+
+networkpolicies    netpol    networking.k8s.io/v1    true    NetworkPolicy
+Subtask 1.2: Deploy Test Applications
+Now we'll deploy simple test applications in each namespace to demonstrate network policies.
+
+Create a frontend application:
+cat << EOF | kubectl apply -f -
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-app
+  namespace: frontend
+  labels:
+    app: frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+        tier: frontend
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.21
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+  namespace: frontend
+spec:
+  selector:
+    app: frontend
+  ports:
+  - port: 80
+    targetPort: 80
+  type: ClusterIP
+EOF
+Create a backend application:
+cat << EOF | kubectl apply -f -
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-app
+  namespace: backend
+  labels:
+    app: backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+        tier: backend
+    spec:
+      containers:
+      - name: httpd
+        image: httpd:2.4
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+  namespace: backend
+spec:
+  selector:
+    app: backend
+  ports:
+  - port: 80
+    targetPort: 80
+  type: ClusterIP
+EOF
+Create a database application:
+cat << EOF | kubectl apply -f -
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: database-app
+  namespace: database
+  labels:
+    app: database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: database
+  template:
+    metadata:
+      labels:
+        app: database
+        tier: database
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:8.0
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "password123"
+        ports:
+        - containerPort: 3306
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: database-service
+  namespace: database
+spec:
+  selector:
+    app: database
+  ports:
+  - port: 3306
+    targetPort: 3306
+  type: ClusterIP
+EOF
+Verify all pods are running:
+kubectl get pods -n frontend
+kubectl get pods -n backend
+kubectl get pods -n database
+Wait until all pods show Running status before proceeding.
+
+Subtask 1.3: Create a Restrictive NetworkPolicy
+Now we'll create a NetworkPolicy that denies all ingress traffic to the database namespace.
+
+Create a deny-all NetworkPolicy for the database namespace:
+cat << EOF | kubectl apply -f -
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: deny-all-ingress
+  namespace: database
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+EOF
+Verify the NetworkPolicy was created:
+kubectl get networkpolicy -n database
+kubectl describe networkpolicy deny-all-ingress -n database
+Subtask 1.4: Create Additional NetworkPolicies
+Let's create more specific NetworkPolicies to demonstrate different scenarios.
+
+Create a NetworkPolicy that allows only backend to access database:
+cat << EOF | kubectl apply -f -
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-backend-to-database
+  namespace: database
+spec:
+  podSelector:
+    matchLabels:
+      app: database
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: backend
+    ports:
+    - protocol: TCP
+      port: 3306
+EOF
+Label the backend namespace so the NetworkPolicy can identify it:
+kubectl label namespace backend name=backend
+Create a NetworkPolicy for the backend namespace:
+cat << EOF | kubectl apply -f -
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: backend-network-policy
+  namespace: backend
+spec:
+  podSelector:
+    matchLabels:
+      app: backend
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: frontend
+    ports:
+    - protocol: TCP
+      port: 80
+  egress:
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          name: database
+    ports:
+    - protocol: TCP
+      port: 3306
+  - to: {}
+    ports:
+    - protocol: UDP
+      port: 53
+EOF
+Label the frontend namespace:
+kubectl label namespace frontend name=frontend
+Task 2: Test Network Segmentation Between Pods
+Subtask 2.1: Test Connectivity Before NetworkPolicies
+First, let's create a test pod to verify connectivity patterns.
+
+Create a test pod in the frontend namespace:
+cat << EOF | kubectl apply -f -
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-pod
+  namespace: frontend
+  labels:
+    app: test
+spec:
+  containers:
+  - name: test-container
+    image: busybox:1.35
+    command: ['sleep', '3600']
+EOF
+Wait for the test pod to be ready:
+kubectl wait --for=condition=Ready pod/test-pod -n frontend --timeout=60s
+Subtask 2.2: Test Network Connectivity
+Now let's test connectivity between different namespaces.
+
+Get service IP addresses for testing:
+echo "Frontend Service IP:"
+kubectl get svc frontend-service -n frontend -o jsonpath='{.spec.clusterIP}'
+echo ""
+
+echo "Backend Service IP:"
+kubectl get svc backend-service -n backend -o jsonpath='{.spec.clusterIP}'
+echo ""
+
+echo "Database Service IP:"
+kubectl get svc database-service -n database -o jsonpath='{.spec.clusterIP}'
+echo ""
+Test connectivity from frontend to backend (should work):
+BACKEND_IP=$(kubectl get svc backend-service -n backend -o jsonpath='{.spec.clusterIP}')
+kubectl exec -it test-pod -n frontend -- wget -qO- --timeout=5 http://$BACKEND_IP
+Test connectivity from frontend to database (should be blocked):
+DATABASE_IP=$(kubectl get svc database-service -n database -o jsonpath='{.spec.clusterIP}')
+kubectl exec -it test-pod -n frontend -- nc -zv $DATABASE_IP 3306
+This should timeout or show connection refused, indicating the NetworkPolicy is working.
+
+Subtask 2.3: Test from Backend Namespace
+Create a test pod in the backend namespace:
+cat << EOF | kubectl apply -f -
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-pod-backend
+  namespace: backend
+  labels:
+    app: test
+spec:
+  containers:
+  - name: test-container
+    image: busybox:1.35
+    command: ['sleep', '3600']
+EOF
+Test connectivity from backend to database (should work):
+kubectl exec -it test-pod-backend -n backend -- nc -zv $DATABASE_IP 3306
+This should succeed because our NetworkPolicy allows backend namespace to access the database.
+
+Subtask 2.4: Verify NetworkPolicy Enforcement
+Check NetworkPolicy status:
+kubectl get networkpolicies --all-namespaces
+Describe the database NetworkPolicy:
+kubectl describe networkpolicy allow-backend-to-database -n database
+Test direct pod-to-pod communication:
+# Get a database pod IP
+DATABASE_POD_IP=$(kubectl get pod -n database -o jsonpath='{.items[0].status.podIP}')
+
+# Try to connect from frontend (should fail)
+kubectl exec -it test-pod -n frontend -- nc -zv $DATABASE_POD_IP 3306
+
+# Try to connect from backend (should succeed)
+kubectl exec -it test-pod-backend -n backend -- nc -zv $DATABASE_POD_IP 3306
+Task 3: Modify NetworkPolicy to Allow Specific Traffic
+Subtask 3.1: Create a More Granular NetworkPolicy
+Let's modify our NetworkPolicies to allow more specific traffic patterns.
+
+Create a NetworkPolicy that allows frontend to access backend on specific ports:
+cat << EOF | kubectl apply -f -
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-frontend-to-backend
+  namespace: backend
+spec:
+  podSelector:
+    matchLabels:
+      app: backend
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: frontend
+    - podSelector:
+        matchLabels:
+          tier: frontend
+    ports:
+    - protocol: TCP
+      port: 80
+EOF
+Update the database NetworkPolicy to allow specific pod labels:
+cat << EOF | kubectl apply -f -
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-specific-backend-to-database
+  namespace: database
+spec:
+  podSelector:
+    matchLabels:
+      app: database
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: backend
+      podSelector:
+        matchLabels:
+          tier: backend
+    ports:
+    - protocol: TCP
+      port: 3306
+EOF
+Subtask 3.2: Test the Modified NetworkPolicies
+Test the updated connectivity:
+# Test frontend to backend (should work)
+BACKEND_IP=$(kubectl get svc backend-service -n backend -o jsonpath='{.spec.clusterIP}')
+kubectl exec -it test-pod -n frontend -- wget -qO- --timeout=5 http://$BACKEND_IP
+
+# Test backend to database (should work)
+DATABASE_IP=$(kubectl get svc database-service -n database -o jsonpath='{.spec.clusterIP}')
+kubectl exec -it test-pod-backend -n backend -- nc -zv $DATABASE_IP 3306
+Subtask 3.3: Create an Egress NetworkPolicy
+Now let's create an egress policy to control outbound traffic.
+
+Create an egress NetworkPolicy for the frontend namespace:
+cat << EOF | kubectl apply -f -
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: frontend-egress-policy
+  namespace: frontend
+spec:
+  podSelector:
+    matchLabels:
+      app: frontend
+  policyTypes:
+  - Egress
+  egress:
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          name: backend
+    ports:
+    - protocol: TCP
+      port: 80
+  - to: {}
+    ports:
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 53
+EOF
+Test egress restrictions:
+# This should work (allowed by policy)
+kubectl exec -it test-pod -n frontend -- wget -qO- --timeout=5 http://$BACKEND_IP
+
+# This should be blocked (not allowed by egress policy)
+kubectl exec -it test-pod -n frontend -- nc -zv $DATABASE_IP 3306
+Subtask 3.4: Create a NetworkPolicy with Multiple Rules
+Let's create a more complex NetworkPolicy with multiple ingress and egress rules.
+
+Create a comprehensive NetworkPolicy:
+cat << EOF | kubectl apply -f -
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: comprehensive-policy
+  namespace: backend
+spec:
+  podSelector:
+    matchLabels:
+      app: backend
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: frontend
+    ports:
+    - protocol: TCP
+      port: 80
+  - from:
+    - podSelector:
+        matchLabels:
+          app: monitoring
+    ports:
+    - protocol: TCP
+      port: 8080
+  egress:
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          name: database
+    ports:
+    - protocol: TCP
+      port: 3306
+  - to: {}
+    ports:
+    - protocol: UDP
+      port: 53
+  - to:
+    - namespaceSelector: {}
+    ports:
+    - protocol: TCP
+      port: 443
+EOF
+Troubleshooting Common Issues
+Issue 1: NetworkPolicy Not Taking Effect
+Problem: NetworkPolicy is created but traffic is still allowed/blocked unexpectedly.
+
+Solution:
+
+Verify your cluster supports NetworkPolicies:
+kubectl api-resources | grep networkpolicies
+Check if a CNI plugin with NetworkPolicy support is installed:
+kubectl get pods -n kube-system | grep -E "(calico|cilium|weave)"
+Verify pod labels match the policy selectors:
+kubectl get pods --show-labels -n <namespace>
+Issue 2: DNS Resolution Issues
+Problem: Pods cannot resolve service names after applying NetworkPolicies.
+
+Solution: Always include DNS egress rules in your NetworkPolicies:
+
+egress:
+- to: {}
+  ports:
+  - protocol: UDP
+    port: 53
+  - protocol: TCP
+    port: 53
+Issue 3: Connectivity Tests Failing
+Problem: Test connections are timing out or failing.
+
+Solution:
+
+Check if pods are in the correct namespace:
+kubectl get pods -n <namespace>
+Verify service endpoints:
+kubectl get endpoints -n <namespace>
+Test with pod IPs directly:
+kubectl get pods -o wide -n <namespace>
+Verification and Testing
+Final Connectivity Test
+Let's perform a comprehensive test to verify our NetworkPolicies are working correctly.
+
+Create a test script:
+cat << 'EOF' > test-connectivity.sh
+#!/bin/bash
+
+echo "=== NetworkPolicy Connectivity Test ==="
+
+# Get service IPs
+FRONTEND_IP=$(kubectl get svc frontend-service -n frontend -o jsonpath='{.spec.clusterIP}')
+BACKEND_IP=$(kubectl get svc backend-service -n backend -o jsonpath='{.spec.clusterIP}')
+DATABASE_IP=$(kubectl get svc database-service -n database -o jsonpath='{.spec.clusterIP}')
+
+echo "Service IPs:"
+echo "Frontend: $FRONTEND_IP"
+echo "Backend: $BACKEND_IP"
+echo "Database: $DATABASE_IP"
+echo ""
+
+# Test 1: Frontend to Backend (should work)
+echo "Test 1: Frontend to Backend (should SUCCEED)"
+kubectl exec -it test-pod -n frontend -- timeout 5 wget -qO- http://$BACKEND_IP > /dev/null 2>&1
+if [ $? -eq 0 ]; then
+    echo "✓ PASS: Frontend can access Backend"
+else
+    echo "✗ FAIL: Frontend cannot access Backend"
+fi
+
+# Test 2: Frontend to Database (should fail)
+echo "Test 2: Frontend to Database (should FAIL)"
+kubectl exec -it test-pod -n frontend -- timeout 3 nc -zv $DATABASE_IP 3306 > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+    echo "✓ PASS: Frontend correctly blocked from Database"
+else
+    echo "✗ FAIL: Frontend can access Database (policy not working)"
+fi
+
+# Test 3: Backend to Database (should work)
+echo "Test 3: Backend to Database (should SUCCEED)"
+kubectl exec -it test-pod-backend -n backend -- timeout 5 nc -zv $DATABASE_IP 3306 > /dev/null 2>&1
+if [ $? -eq 0 ]; then
+    echo "✓ PASS: Backend can access Database"
+else
+    echo "✗ FAIL: Backend cannot access Database"
+fi
+
+echo ""
+echo "=== Test Complete ==="
+EOF
+
+chmod +x test-connectivity.sh
+./test-connectivity.sh
+Cleanup
+When you're finished with the lab, clean up the resources:
+
+# Delete test pods
+kubectl delete pod test-pod -n frontend
+kubectl delete pod test-pod-backend -n backend
+
+# Delete NetworkPolicies
+kubectl delete networkpolicy --all -n frontend
+kubectl delete networkpolicy --all -n backend
+kubectl delete networkpolicy --all -n database
+
+# Delete applications and services
+kubectl delete all --all -n frontend
+kubectl delete all --all -n backend
+kubectl delete all --all -n database
+
+# Delete namespaces
+kubectl delete namespace frontend backend database
+Conclusion
+In this lab, you have successfully:
+
+• Created and implemented NetworkPolicies to control pod-to-pod communication in a Kubernetes cluster • Tested network segmentation between different application tiers using ingress and egress policies • Modified NetworkPolicies to allow specific traffic patterns while maintaining security • Applied security best practices for network isolation in containerized environments • Troubleshot common NetworkPolicy issues and learned verification techniques
+
+Why This Matters: NetworkPolicies are crucial for implementing zero-trust networking in Kubernetes environments. They provide:
+
+Microsegmentation: Isolate workloads at the network level
+Defense in Depth: Add an additional security layer beyond RBAC
+Compliance: Meet regulatory requirements for network isolation
+Incident Containment: Limit the blast radius of security breaches
+These skills are essential for Red Hat OpenShift Administration and production Kubernetes deployments where security and network isolation are critical requirements. NetworkPolicies help ensure that only authorized traffic flows between your applications, significantly reducing the attack surface of your cluster.
+
+The hands-on experience gained in this lab prepares you for real-world scenarios where you'll need to implement sophisticated network security policies in production environments, making your Kubernetes clusters more secure and compliant with enterprise security standards.
