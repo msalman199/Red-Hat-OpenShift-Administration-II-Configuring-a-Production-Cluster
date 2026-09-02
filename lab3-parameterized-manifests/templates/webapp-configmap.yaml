@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: webapp-config-${ENVIRONMENT}
+  labels:
+    app: webapp
+    environment: ${ENVIRONMENT}
+data:
+  app.properties: |
+    environment=${ENVIRONMENT}
+    log.level=${LOG_LEVEL}
+    database.host=${DB_HOST}
+    database.port=${DB_PORT}
+    cache.enabled=${CACHE_ENABLED}
+    debug.enabled=${DEBUG_ENABLED}
+  nginx.conf: |
+    server {
+        listen 8080;
+        server_name localhost;
+        
+        location / {
+            root /usr/share/nginx/html;
+            index index.html index.htm;
+        }
+        
+        location /health {
+            access_log off;
+            return 200 "healthy\n";
+            add_header Content-Type text/plain;
+        }
+    }

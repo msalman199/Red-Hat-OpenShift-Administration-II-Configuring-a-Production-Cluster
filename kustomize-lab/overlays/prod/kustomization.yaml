@@ -1,0 +1,29 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+metadata:
+  name: webapp-prod
+
+namespace: webapp-prod
+
+resources:
+- ../../base
+- configmap.yaml
+
+patchesStrategicMerge:
+- deployment-patch.yaml
+- service-patch.yaml
+
+namePrefix: prod-
+
+commonLabels:
+  environment: production
+  tier: prod
+
+commonAnnotations:
+  environment: "production"
+  maintainer: "ops-team@company.com"
+
+replicas:
+- name: webapp
+  count: 5

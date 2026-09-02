@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp
+spec:
+  replicas: 3
+  template:
+    spec:
+      containers:
+      - name: webapp
+        image: nginx:1.21-alpine
+        env:
+        - name: ENVIRONMENT
+          value: "development"
+        - name: DEBUG
+          value: "true"
+        - name: VERSION
+          value: "v1.1.0"
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "100m"
+          limits:
+            memory: "64Mi"
+            cpu: "200m"

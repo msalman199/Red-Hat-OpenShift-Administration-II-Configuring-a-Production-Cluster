@@ -1,0 +1,14 @@
+{{- if .Values.configMap.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.app.name }}-config
+  labels:
+    app: {{ .Values.app.name }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+data:
+  {{- range $key, $value := .Values.configMap.data }}
+  {{ $key }}: |
+{{ $value | indent 4 }}
+  {{- end }}
+{{- end }}

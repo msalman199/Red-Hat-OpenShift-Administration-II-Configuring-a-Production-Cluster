@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp-${ENVIRONMENT}
+  labels:
+    app: webapp
+    environment: ${ENVIRONMENT}
+spec:
+  replicas: ${REPLICA_COUNT}
+  selector:
+    matchLabels:
+      app: webapp
+      environment: ${ENVIRONMENT}
+  template:
+    metadata:
+      labels:
+        app: webapp
+        environment: ${ENVIRONMENT}
+    spec:
+      containers:
+      - name: webapp
+        image: ${IMAGE_NAME}:${IMAGE_TAG}
+        ports:
+        - containerPort: 8080
+        env:
+        - name: ENVIRONMENT
+          value: ${ENVIRONMENT}
+        - name: LOG_LEVEL
+          value: ${LOG_LEVEL}
+        resources:
+          requests:
+            memory: ${MEMORY_REQUEST}
+            cpu: ${CPU_REQUEST}
+          limits:
+            memory: ${MEMORY_LIMIT}
+            cpu: ${CPU_LIMIT}
