@@ -1,0 +1,396 @@
+Managing Secrets in Kubernetes/OpenShift
+Objectives
+By the end of this lab, you will be able to:
+
+• Create and manage Kubernetes Secrets for storing sensitive data such as database passwords • Mount Secrets as environment variables in pods to securely access sensitive information • Update existing Secrets and verify that changes are reflected in running pods • Understand the security benefits of using Secrets versus hardcoding sensitive data • Apply best practices for secret management in containerized environments
+
+Prerequisites
+Before starting this lab, you should have:
+
+• Basic understanding of Kubernetes concepts (pods, deployments, services) • Familiarity with YAML syntax and file structure • Basic command-line interface (CLI) experience • Understanding of environment variables in Linux systems • Knowledge of container fundamentals
+
+Required Tools: • kubectl command-line tool • Access to a Kubernetes cluster (provided by Al Nafi cloud machines) • Text editor (nano, vim, or any preferred editor)
+
+Lab Environment Setup
+Al Nafi Cloud Machines: This lab uses Al Nafi's pre-configured Linux-based cloud machines with Kubernetes already installed and configured. Simply click Start Lab to access your ready-to-use environment. No need to build your own VM or install additional software.
+
+Your lab environment includes: • Kubernetes cluster with kubectl configured • All necessary permissions to create and manage secrets • Text editors and development tools pre-installed
+
+Task 1: Create a Secret for Storing Sensitive Data
+Subtask 1.1: Understanding Kubernetes Secrets
+Kubernetes Secrets are objects that store sensitive data such as passwords, OAuth tokens, SSH keys, and TLS certificates. Unlike ConfigMaps, Secrets are specifically designed for confidential data and provide additional security features.
+
+Key Benefits of Secrets: • Data is base64 encoded (not encrypted by default, but obfuscated) • Can be mounted as files or environment variables • Separate sensitive data from application code • Enable secure distribution of credentials across the cluster
+
+Subtask 1.2: Create a Secret Using kubectl Command
+First, let's create a Secret that contains database connection information:
+
+# Create a Secret with database credentials
+kubectl create secret generic database-secret \
+  --from-literal=DB_USERNAME=admin \
+  --from-literal=DB_PASSWORD=supersecretpassword123 \
+  --from-literal=DB_HOST=mysql-server.example.com \
+  --from-literal=DB_PORT=3306
+Command Breakdown: • kubectl create secret generic - Creates a generic Secret • database-secret - Name of the Secret • --from-literal - Creates key-value pairs directly from command line
+
+Subtask 1.3: Verify Secret Creation
+Check that your Secret was created successfully:
+
+# List all secrets in the current namespace
+kubectl get secrets
+
+# Get detailed information about our specific secret
+kubectl describe secret database-secret
+Expected Output:
+
+NAME              TYPE     DATA   AGE
+database-secret   Opaque   4      30s
+Subtask 1.4: View Secret Data (Base64 Encoded)
+To see the actual data stored in the Secret:
+
+# View the Secret in YAML format
+kubectl get secret database-secret -o yaml
+Notice that the data values are base64 encoded. You can decode them using:
+
+# Decode a specific value (example)
+echo "YWRtaW4=" | base64 --decode
+Subtask 1.5: Create a Secret from YAML File
+Create a more complex Secret using a YAML file. First, create the file:
+
+# Create a new YAML file for our Secret
+nano app-secret.yaml
+Add the following content to the file:
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: app-secret
+  namespace: default
+type: Opaque
+data:
+  # Base64 encoded values
+  api-key: YWJjZGVmZ2hpams=  # abcdefghijk
+  jwt-secret: bXlzdXBlcnNlY3JldGp3dA==  # mysupersecretjwt
+  encryption-key: ZW5jcnlwdGlvbmtleTEyMw==  # encryptionkey123
+Apply the Secret:
+
+# Create the Secret from YAML file
+kubectl apply -f app-secret.yaml
+
+# Verify creation
+kubectl get secret app-secret
+Task 2: Mount the Secret as Environment Variables in a Pod
+Subtask 2.1: Create a Pod That Uses Secret as Environment Variables
+Create a pod configuration that mounts our Secret as environment variables:
+
+# Create pod configuration file
+nano secret-pod.yaml
+Add the following content:
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: secret-consumer-pod
+  labels:
+    app: secret-demo
+spec:
+  containers:
+  - name: app-container
+    image: nginx:latest
+    env:
+    # Mount individual secret values as environment variables
+    - name: DATABASE_USERNAME
+      valueFrom:
+        secretKeyRef:
+          name: database-secret
+          key: DB_USERNAME
+    - name: DATABASE_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: database-secret
+          key: DB_PASSWORD
+    - name: DATABASE_HOST
+      valueFrom:
+        secretKeyRef:
+          name: database-secret
+          key: DB_HOST
+    - name: API_KEY
+      valueFrom:
+        secretKeyRef:
+          name: app-secret
+          key: api-key
+    command: ["/bin/sh"]
+    args: ["-c", "while true; do echo 'Pod is running...'; sleep 30; done"]
+Subtask 2.2: Deploy the Pod
+# Create the pod
+kubectl apply -f secret-pod.yaml
+
+# Check pod status
+kubectl get pods
+
+# Wait for pod to be running
+kubectl wait --for=condition=Ready pod/secret-consumer-pod --timeout=60s
+Subtask 2.3: Verify Environment Variables in the Pod
+Access the pod and check that environment variables are properly set:
+
+# Execute commands inside the pod
+kubectl exec -it secret-consumer-pod -- /bin/bash
+
+# Inside the pod, check environment variables
+env | grep DATABASE
+env | grep API_KEY
+
+# Or check specific variables
+echo $DATABASE_USERNAME
+echo $DATABASE_PASSWORD
+echo $DATABASE_HOST
+echo $API_KEY
+
+# Exit the pod
+exit
+Subtask 2.4: Create a Deployment Using Secrets
+For production scenarios, create a Deployment that uses Secrets:
+
+# Create deployment configuration
+nano secret-deployment.yaml
+Add the following content:
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: secret-app-deployment
+  labels:
+    app: secret-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: secret-app
+  template:
+    metadata:
+      labels:
+        app: secret-app
+    spec:
+      containers:
+      - name: app-container
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        env:
+        - name: DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: database-secret
+              key: DB_USERNAME
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: database-secret
+              key: DB_PASSWORD
+        # Mount all keys from a secret as environment variables
+        envFrom:
+        - secretRef:
+            name: app-secret
+        command: ["/bin/sh"]
+        args: ["-c", "nginx -g 'daemon off;'"]
+Deploy the application:
+
+# Create the deployment
+kubectl apply -f secret-deployment.yaml
+
+# Check deployment status
+kubectl get deployments
+kubectl get pods -l app=secret-app
+Task 3: Update the Secret and Verify Changes in the Pod
+Subtask 3.1: Update Secret Using kubectl
+Update the existing Secret with new values:
+
+# Update the database password
+kubectl create secret generic database-secret \
+  --from-literal=DB_USERNAME=admin \
+  --from-literal=DB_PASSWORD=newsupersecretpassword456 \
+  --from-literal=DB_HOST=mysql-server.example.com \
+  --from-literal=DB_PORT=3306 \
+  --dry-run=client -o yaml | kubectl apply -f -
+Alternative method using patch:
+
+# Encode new password
+echo -n "newsupersecretpassword456" | base64
+
+# Patch the secret with new value
+kubectl patch secret database-secret -p='{"data":{"DB_PASSWORD":"bmV3c3VwZXJzZWNyZXRwYXNzd29yZDQ1Ng=="}}'
+Subtask 3.2: Verify Secret Update
+Check that the Secret has been updated:
+
+# View updated secret
+kubectl get secret database-secret -o yaml
+
+# Decode the new password to verify
+kubectl get secret database-secret -o jsonpath='{.data.DB_PASSWORD}' | base64 --decode
+echo  # Add newline for readability
+Subtask 3.3: Check Environment Variables in Running Pods
+Important Note: Environment variables from Secrets are set when the pod starts. To see updated values, pods need to be restarted.
+
+# Check current environment variable in existing pod
+kubectl exec secret-consumer-pod -- env | grep DATABASE_PASSWORD
+
+# Restart the pod to pick up new secret values
+kubectl delete pod secret-consumer-pod
+kubectl apply -f secret-pod.yaml
+
+# Wait for pod to be ready
+kubectl wait --for=condition=Ready pod/secret-consumer-pod --timeout=60s
+
+# Verify updated environment variable
+kubectl exec secret-consumer-pod -- env | grep DATABASE_PASSWORD
+Subtask 3.4: Rolling Update for Deployments
+For deployments, trigger a rolling update to pick up Secret changes:
+
+# Restart deployment to pick up new secret values
+kubectl rollout restart deployment secret-app-deployment
+
+# Check rollout status
+kubectl rollout status deployment secret-app-deployment
+
+# Verify new pods have updated environment variables
+POD_NAME=$(kubectl get pods -l app=secret-app -o jsonpath='{.items[0].metadata.name}')
+kubectl exec $POD_NAME -- env | grep DB_PASSWORD
+Subtask 3.5: Update Secret from YAML File
+Update the app-secret using a modified YAML file:
+
+# Create updated secret file
+nano app-secret-updated.yaml
+Add the following content:
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: app-secret
+  namespace: default
+type: Opaque
+data:
+  # Updated base64 encoded values
+  api-key: bmV3YXBpa2V5MTIz  # newapikey123
+  jwt-secret: bmV3and0c2VjcmV0  # newjwtsecret
+  encryption-key: bmV3ZW5jcnlwdGlvbmtleQ==  # newencryptionkey
+  # Add new key
+  oauth-token: b2F1dGh0b2tlbjQ1Ng==  # oauthtoken456
+Apply the updated Secret:
+
+# Apply updated secret
+kubectl apply -f app-secret-updated.yaml
+
+# Restart deployment to pick up changes
+kubectl rollout restart deployment secret-app-deployment
+
+# Verify new environment variables
+POD_NAME=$(kubectl get pods -l app=secret-app -o jsonpath='{.items[0].metadata.name}')
+kubectl exec $POD_NAME -- env | grep -E "(api-key|jwt-secret|oauth-token)"
+Advanced Secret Management Techniques
+Mounting Secrets as Files
+Create a pod that mounts Secrets as files instead of environment variables:
+
+# Create pod with secret mounted as volume
+nano secret-volume-pod.yaml
+Add the following content:
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: secret-volume-pod
+spec:
+  containers:
+  - name: app-container
+    image: nginx:latest
+    volumeMounts:
+    - name: secret-volume
+      mountPath: /etc/secrets
+      readOnly: true
+    command: ["/bin/sh"]
+    args: ["-c", "while true; do echo 'Checking secrets...'; ls -la /etc/secrets/; sleep 30; done"]
+  volumes:
+  - name: secret-volume
+    secret:
+      secretName: database-secret
+Deploy and test:
+
+# Create the pod
+kubectl apply -f secret-volume-pod.yaml
+
+# Check mounted files
+kubectl exec secret-volume-pod -- ls -la /etc/secrets/
+kubectl exec secret-volume-pod -- cat /etc/secrets/DB_USERNAME
+kubectl exec secret-volume-pod -- cat /etc/secrets/DB_PASSWORD
+Troubleshooting Common Issues
+Issue 1: Secret Not Found Error
+Problem: Pod fails to start with "Secret not found" error.
+
+Solution:
+
+# Check if secret exists in correct namespace
+kubectl get secrets -n default
+
+# Verify secret name matches exactly in pod specification
+kubectl describe pod <pod-name>
+Issue 2: Environment Variables Not Updated
+Problem: Environment variables don't reflect Secret updates.
+
+Solution:
+
+# Environment variables are set at pod startup
+# Restart pods to pick up changes
+kubectl delete pod <pod-name>
+# Or for deployments
+kubectl rollout restart deployment <deployment-name>
+Issue 3: Base64 Encoding Issues
+Problem: Secret values appear corrupted or incorrect.
+
+Solution:
+
+# Ensure proper base64 encoding without newlines
+echo -n "your-secret-value" | base64
+
+# Decode to verify
+echo "encoded-value" | base64 --decode
+Security Best Practices
+1. Use Least Privilege Access
+# Create service account with limited permissions
+kubectl create serviceaccount secret-reader
+kubectl create rolebinding secret-reader-binding \
+  --clusterrole=view \
+  --serviceaccount=default:secret-reader
+2. Enable Encryption at Rest
+For production clusters, ensure Secrets are encrypted at rest in etcd.
+
+3. Rotate Secrets Regularly
+# Example script for secret rotation
+#!/bin/bash
+NEW_PASSWORD=$(openssl rand -base64 32)
+kubectl patch secret database-secret \
+  -p="{\"data\":{\"DB_PASSWORD\":\"$(echo -n $NEW_PASSWORD | base64)\"}}"
+kubectl rollout restart deployment secret-app-deployment
+Cleanup
+Remove all resources created in this lab:
+
+# Delete pods
+kubectl delete pod secret-consumer-pod secret-volume-pod
+
+# Delete deployment
+kubectl delete deployment secret-app-deployment
+
+# Delete secrets
+kubectl delete secret database-secret app-secret
+
+# Delete YAML files
+rm -f secret-pod.yaml secret-deployment.yaml secret-volume-pod.yaml
+rm -f app-secret.yaml app-secret-updated.yaml
+Conclusion
+In this lab, you have successfully learned how to manage Secrets in Kubernetes/OpenShift environments. You accomplished the following key tasks:
+
+What You Learned: • Created Kubernetes Secrets using both command-line and YAML file methods • Mounted Secrets as environment variables in pods and deployments • Updated existing Secrets and verified changes in running applications • Implemented both environment variable and file-based Secret mounting • Applied security best practices for secret management
+
+Why This Matters: Secret management is crucial for maintaining security in containerized applications. By using Kubernetes Secrets instead of hardcoding sensitive information, you ensure that: • Credentials are separated from application code • Sensitive data is handled securely within the cluster • Applications can be deployed across different environments without code changes • Security policies can be applied consistently across all applications
+
+Real-World Applications: • Database connection strings and passwords • API keys and authentication tokens • TLS certificates and private keys • OAuth tokens and service account credentials • Encryption keys and signing certificates
+
+This knowledge prepares you for the Red Hat OpenShift Administration II certification and real-world container orchestration scenarios where secure credential management is essential for production deployments.
