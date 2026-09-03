@@ -1,0 +1,374 @@
+Lab 14: Automating Application Deployment with Operators
+Objectives
+By the end of this lab, you will be able to:
+
+• Understand the concept of Kubernetes Operators and their role in application lifecycle management • Install and configure the PostgreSQL Operator using open-source tools • Deploy a PostgreSQL database instance using the Operator pattern • Perform database lifecycle operations including scaling, backup, and failover scenarios • Troubleshoot common issues with Operator-managed applications • Evaluate the benefits of using Operators for production database management
+
+Prerequisites
+Before starting this lab, you should have:
+
+• Basic understanding of Kubernetes concepts (pods, services, deployments) • Familiarity with command-line interface operations • Basic knowledge of PostgreSQL database concepts • Understanding of YAML configuration files • Access to kubectl command-line tool
+
+Note: Al Nafi provides pre-configured Linux-based cloud machines with all necessary tools installed. Simply click Start Lab to begin - no need to build your own virtual machine or install additional software.
+
+Lab Environment Setup
+Your cloud machine comes pre-configured with: • Kubernetes cluster (minikube or kind) • kubectl command-line tool • Helm package manager • Git for repository management • Text editors (nano, vim)
+
+Task 1: Install and Configure PostgreSQL Operator
+Subtask 1.1: Verify Kubernetes Cluster Status
+First, let's ensure your Kubernetes cluster is running properly.
+
+# Check cluster status
+kubectl cluster-info
+
+# Verify nodes are ready
+kubectl get nodes
+
+# Check system pods
+kubectl get pods -n kube-system
+Expected output should show your cluster is running and nodes are in Ready state.
+
+Subtask 1.2: Create Namespace for PostgreSQL Operator
+Create a dedicated namespace to organize our PostgreSQL Operator resources.
+
+# Create namespace for PostgreSQL operations
+kubectl create namespace postgres-operator
+
+# Verify namespace creation
+kubectl get namespaces
+Subtask 1.3: Install PostgreSQL Operator using Helm
+We'll use the Crunchy PostgreSQL Operator, which is a popular open-source solution.
+
+# Add the Crunchy Data Helm repository
+helm repo add crunchydata https://helm.crunchydata.com
+
+# Update Helm repositories
+helm repo update
+
+# Install PostgreSQL Operator
+helm install postgres-operator crunchydata/postgres-operator \
+  --namespace postgres-operator \
+  --create-namespace
+
+# Verify installation
+kubectl get pods -n postgres-operator
+Wait for all operator pods to be in Running status before proceeding.
+
+Subtask 1.4: Verify Operator Installation
+Check that the operator is properly installed and running.
+
+# Check operator deployment
+kubectl get deployment -n postgres-operator
+
+# View operator logs
+kubectl logs -n postgres-operator deployment/postgres-operator
+
+# Check Custom Resource Definitions (CRDs)
+kubectl get crd | grep postgres
+You should see several PostgreSQL-related CRDs installed, including postgresclusters.postgres-operator.crunchydata.com.
+
+Task 2: Deploy PostgreSQL Instance Using the Operator
+Subtask 2.1: Create PostgreSQL Cluster Configuration
+Create a YAML file to define your PostgreSQL cluster specification.
+
+# Create configuration file
+cat > postgres-cluster.yaml << 'EOF'
+apiVersion: postgres-operator.crunchydata.com/v1beta1
+kind: PostgresCluster
+metadata:
+  name: my-postgres-cluster
+  namespace: postgres-operator
+spec:
+  image: registry.developers.crunchydata.com/crunchydata/crunchy-postgres:ubi8-15.4-1
+  postgresVersion: 15
+  
+  instances:
+    - name: instance1
+      replicas: 2
+      dataVolumeClaimSpec:
+        accessModes:
+        - "ReadWriteOnce"
+        resources:
+          requests:
+            storage: 1Gi
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+            podAffinityTerm:
+              topologyKey: kubernetes.io/hostname
+              labelSelector:
+                matchLabels:
+                  postgres-operator.crunchydata.com/cluster: my-postgres-cluster
+                  postgres-operator.crunchydata.com/instance-set: instance1
+
+  backups:
+    pgbackrest:
+      image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbackrest:ubi8-2.47-1
+      repos:
+      - name: repo1
+        volume:
+          volumeClaimSpec:
+            accessModes:
+            - "ReadWriteOnce"
+            resources:
+              requests:
+                storage: 1Gi
+
+  users:
+    - name: testuser
+      databases:
+        - testdb
+      options: "CREATEDB"
+EOF
+Subtask 2.2: Deploy PostgreSQL Cluster
+Apply the configuration to create your PostgreSQL cluster.
+
+# Deploy the PostgreSQL cluster
+kubectl apply -f postgres-cluster.yaml
+
+# Monitor cluster creation
+kubectl get postgrescluster -n postgres-operator
+
+# Watch pods being created
+kubectl get pods -n postgres-operator -w
+Note: Press Ctrl+C to stop watching when all pods are running.
+
+Subtask 2.3: Verify PostgreSQL Deployment
+Check that your PostgreSQL cluster is properly deployed and running.
+
+# Check cluster status
+kubectl get postgrescluster my-postgres-cluster -n postgres-operator -o yaml
+
+# List all pods
+kubectl get pods -n postgres-operator -l postgres-operator.crunchydata.com/cluster=my-postgres-cluster
+
+# Check services created
+kubectl get services -n postgres-operator
+Subtask 2.4: Connect to PostgreSQL Database
+Retrieve connection credentials and test database connectivity.
+
+# Get the user password
+kubectl get secret my-postgres-cluster-pguser-testuser -n postgres-operator -o jsonpath='{.data.password}' | base64 -d
+echo
+
+# Get connection details
+kubectl get secret my-postgres-cluster-pguser-testuser -n postgres-operator -o yaml
+
+# Port forward to access database locally
+kubectl port-forward -n postgres-operator svc/my-postgres-cluster-primary 5432:5432 &
+
+# Test connection (in a new terminal or background the port-forward)
+PGPASSWORD=$(kubectl get secret my-postgres-cluster-pguser-testuser -n postgres-operator -o jsonpath='{.data.password}' | base64 -d) \
+psql -h localhost -p 5432 -U testuser -d testdb -c "SELECT version();"
+Task 3: Manage Application Lifecycle
+Subtask 3.1: Scaling PostgreSQL Instances
+Learn how to scale your PostgreSQL cluster by modifying replica count.
+
+# Create scaling configuration
+cat > postgres-scale.yaml << 'EOF'
+apiVersion: postgres-operator.crunchydata.com/v1beta1
+kind: PostgresCluster
+metadata:
+  name: my-postgres-cluster
+  namespace: postgres-operator
+spec:
+  image: registry.developers.crunchydata.com/crunchydata/crunchy-postgres:ubi8-15.4-1
+  postgresVersion: 15
+  
+  instances:
+    - name: instance1
+      replicas: 3  # Scaled from 2 to 3
+      dataVolumeClaimSpec:
+        accessModes:
+        - "ReadWriteOnce"
+        resources:
+          requests:
+            storage: 1Gi
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+            podAffinityTerm:
+              topologyKey: kubernetes.io/hostname
+              labelSelector:
+                matchLabels:
+                  postgres-operator.crunchydata.com/cluster: my-postgres-cluster
+                  postgres-operator.crunchydata.com/instance-set: instance1
+
+  backups:
+    pgbackrest:
+      image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbackrest:ubi8-2.47-1
+      repos:
+      - name: repo1
+        volume:
+          volumeClaimSpec:
+            accessModes:
+            - "ReadWriteOnce"
+            resources:
+              requests:
+                storage: 1Gi
+
+  users:
+    - name: testuser
+      databases:
+        - testdb
+      options: "CREATEDB"
+EOF
+
+# Apply scaling changes
+kubectl apply -f postgres-scale.yaml
+
+# Monitor scaling process
+kubectl get pods -n postgres-operator -l postgres-operator.crunchydata.com/cluster=my-postgres-cluster -w
+Subtask 3.2: Perform Database Backup
+Create and verify database backups using the operator's built-in backup functionality.
+
+# Create a manual backup job
+cat > postgres-backup.yaml << 'EOF'
+apiVersion: postgres-operator.crunchydata.com/v1beta1
+kind: PostgresCluster
+metadata:
+  name: my-postgres-cluster
+  namespace: postgres-operator
+spec:
+  image: registry.developers.crunchydata.com/crunchydata/crunchy-postgres:ubi8-15.4-1
+  postgresVersion: 15
+  
+  instances:
+    - name: instance1
+      replicas: 3
+      dataVolumeClaimSpec:
+        accessModes:
+        - "ReadWriteOnce"
+        resources:
+          requests:
+            storage: 1Gi
+
+  backups:
+    pgbackrest:
+      image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbackrest:ubi8-2.47-1
+      manual:
+        repoName: repo1
+        options:
+         - --type=full
+      repos:
+      - name: repo1
+        volume:
+          volumeClaimSpec:
+            accessModes:
+            - "ReadWriteOnce"
+            resources:
+              requests:
+                storage: 1Gi
+
+  users:
+    - name: testuser
+      databases:
+        - testdb
+      options: "CREATEDB"
+EOF
+
+# Apply backup configuration
+kubectl apply -f postgres-backup.yaml
+
+# Check backup jobs
+kubectl get jobs -n postgres-operator
+
+# View backup logs
+kubectl logs -n postgres-operator job/my-postgres-cluster-backup-manual-$(date +%Y%m%d-%H%M%S) || \
+kubectl logs -n postgres-operator -l postgres-operator.crunchydata.com/cluster=my-postgres-cluster,postgres-operator.crunchydata.com/pgbackrest=backup
+Subtask 3.3: Test Failover Scenario
+Simulate a failover scenario to test high availability features.
+
+# First, identify the primary instance
+kubectl get pods -n postgres-operator -l postgres-operator.crunchydata.com/cluster=my-postgres-cluster,postgres-operator.crunchydata.com/role=master
+
+# Create some test data before failover
+PGPASSWORD=$(kubectl get secret my-postgres-cluster-pguser-testuser -n postgres-operator -o jsonpath='{.data.password}' | base64 -d) \
+psql -h localhost -p 5432 -U testuser -d testdb -c "CREATE TABLE test_failover (id SERIAL PRIMARY KEY, data TEXT, created_at TIMESTAMP DEFAULT NOW());"
+
+PGPASSWORD=$(kubectl get secret my-postgres-cluster-pguser-testuser -n postgres-operator -o jsonpath='{.data.password}' | base64 -d) \
+psql -h localhost -p 5432 -U testuser -d testdb -c "INSERT INTO test_failover (data) VALUES ('Before failover test');"
+
+# Simulate primary failure by deleting the primary pod
+PRIMARY_POD=$(kubectl get pods -n postgres-operator -l postgres-operator.crunchydata.com/cluster=my-postgres-cluster,postgres-operator.crunchydata.com/role=master -o jsonpath='{.items[0].metadata.name}')
+kubectl delete pod $PRIMARY_POD -n postgres-operator
+
+# Monitor failover process
+kubectl get pods -n postgres-operator -l postgres-operator.crunchydata.com/cluster=my-postgres-cluster -w
+Wait for the operator to promote a replica to primary and verify data integrity.
+
+# Verify data after failover
+sleep 30  # Wait for failover to complete
+PGPASSWORD=$(kubectl get secret my-postgres-cluster-pguser-testuser -n postgres-operator -o jsonpath='{.data.password}' | base64 -d) \
+psql -h localhost -p 5432 -U testuser -d testdb -c "SELECT * FROM test_failover;"
+
+# Add post-failover data
+PGPASSWORD=$(kubectl get secret my-postgres-cluster-pguser-testuser -n postgres-operator -o jsonpath='{.data.password}' | base64 -d) \
+psql -h localhost -p 5432 -U testuser -d testdb -c "INSERT INTO test_failover (data) VALUES ('After failover test');"
+Subtask 3.4: Monitor Cluster Health
+Use operator-provided monitoring capabilities to check cluster health.
+
+# Check cluster status
+kubectl describe postgrescluster my-postgres-cluster -n postgres-operator
+
+# View cluster events
+kubectl get events -n postgres-operator --sort-by='.lastTimestamp'
+
+# Check resource utilization
+kubectl top pods -n postgres-operator
+
+# View operator metrics (if available)
+kubectl get --raw /metrics | grep postgres || echo "Metrics endpoint not available"
+Troubleshooting Common Issues
+Issue 1: Operator Pods Not Starting
+# Check operator logs
+kubectl logs -n postgres-operator deployment/postgres-operator
+
+# Verify RBAC permissions
+kubectl get clusterrole | grep postgres
+kubectl get clusterrolebinding | grep postgres
+
+# Check resource constraints
+kubectl describe nodes
+Issue 2: PostgreSQL Cluster Stuck in Pending
+# Check persistent volume claims
+kubectl get pvc -n postgres-operator
+
+# Verify storage class availability
+kubectl get storageclass
+
+# Check pod events
+kubectl describe pod -n postgres-operator -l postgres-operator.crunchydata.com/cluster=my-postgres-cluster
+Issue 3: Connection Issues
+# Verify service endpoints
+kubectl get endpoints -n postgres-operator
+
+# Check network policies
+kubectl get networkpolicy -n postgres-operator
+
+# Test internal connectivity
+kubectl run test-pod --image=postgres:15 --rm -it -- bash
+# Inside the pod: psql -h my-postgres-cluster-primary.postgres-operator.svc.cluster.local -U testuser -d testdb
+Cleanup
+When you're finished with the lab, clean up resources:
+
+# Stop port forwarding
+pkill -f "kubectl port-forward"
+
+# Delete PostgreSQL cluster
+kubectl delete postgrescluster my-postgres-cluster -n postgres-operator
+
+# Uninstall operator
+helm uninstall postgres-operator -n postgres-operator
+
+# Delete namespace
+kubectl delete namespace postgres-operator
+
+# Verify cleanup
+kubectl get all -n postgres-operator
+Conclusion
+In this lab, you have successfully:
+
+• Installed and configured the PostgreSQL Operator using Helm, demonstrating how operators simplify complex application management • Deployed a production-ready PostgreSQL cluster with high availability features including multiple replicas and automated backup configuration • Performed critical lifecycle operations including scaling from 2 to 3 replicas, creating manual backups, and testing failover scenarios • Validated data integrity during failover events, proving the operator's ability to maintain service continuity • Learned troubleshooting techniques for common operator-related issues
