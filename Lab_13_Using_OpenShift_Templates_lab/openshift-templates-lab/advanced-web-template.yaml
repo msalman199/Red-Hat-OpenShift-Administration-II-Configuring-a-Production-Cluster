@@ -1,0 +1,109 @@
+apiVersion: template.openshift.io/v1
+kind: Template
+metadata:
+  name: advanced-web-template
+  annotations:
+    description: "Advanced web application template with ConfigMap"
+    tags: "web,configmap,advanced"
+objects:
+- apiVersion: v1
+  kind: ConfigMap
+  metadata:
+    name: ${APP_NAME}-config
+    labels:
+      app: ${APP_NAME}
+  data:
+    app.properties: |
+      environment=${ENVIRONMENT}
+      version=${APP_VERSION}
+      database.url=${DATABASE_URL}
+      log.level=${LOG_LEVEL}
+      feature.enabled=${FEATURE_ENABLED}
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: ${APP_NAME}
+    labels:
+      app: ${APP_NAME}
+  spec:
+    replicas: ${{REPLICA_COUNT}}
+    selector:
+      matchLabels:
+        app: ${APP_NAME}
+    template:
+      metadata:
+        labels:
+          app: ${APP_NAME}
+      spec:
+        containers:
+        - name: ${APP_NAME}
+          image: ${IMAGE_NAME}:${IMAGE_TAG}
+          ports:
+          - containerPort: ${{CONTAINER_PORT}}
+          volumeMounts:
+          - name: config-volume
+            mountPath: /etc/config
+          env:
+          - name: CONFIG_PATH
+            value: "/etc/config/app.properties"
+        volumes:
+        - name: config-volume
+          configMap:
+            name: ${APP_NAME}-config
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: ${APP_NAME}-service
+    labels:
+      app: ${APP_NAME}
+  spec:
+    selector:
+      app: ${APP_NAME}
+    ports:
+    - port: ${{SERVICE_PORT}}
+      targetPort: ${{CONTAINER_PORT}}
+parameters:
+- name: APP_NAME
+  description: "Application name"
+  value: "advanced-app"
+  required: true
+- name: ENVIRONMENT
+  description: "Environment name"
+  value: "development"
+  required: true
+- name: IMAGE_NAME
+  description: "Container image"
+  value: "nginx"
+  required: true
+- name: IMAGE_TAG
+  description: "Image tag"
+  value: "alpine"
+  required: true
+- name: REPLICA_COUNT
+  description: "Number of replicas"
+  value: "1"
+  required: true
+- name: CONTAINER_PORT
+  description: "Container port"
+  value: "80"
+  required: true
+- name: SERVICE_PORT
+  description: "Service port"
+  value: "8080"
+  required: true
+- name: APP_VERSION
+  description: "Application version"
+  value: "1.0.0"
+  required: true
+- name: DATABASE_URL
+  description: "Database URL"
+  value: "postgresql://localhost:5432/app"
+  required: true
+- name: LOG_LEVEL
+  description: "Logging level"
+  value: "INFO"
+  required: true
+- name: FEATURE_ENABLED
+  description: "Feature flag"
+  value: "true"
+  required: true

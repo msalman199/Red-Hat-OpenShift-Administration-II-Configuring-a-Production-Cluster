@@ -1,0 +1,153 @@
+apiVersion: template.openshift.io/v1
+kind: Template
+labels:
+  template: web-application-template
+metadata:
+  annotations:
+    description: A template for deploying a web application with configurable parameters
+    iconClass: icon-nodejs
+    tags: web,application,template
+  creationTimestamp: 2026-09-03T04:11:23Z
+  managedFields:
+  - apiVersion: template.openshift.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:labels:
+        .: {}
+        f:template: {}
+      f:metadata:
+        f:annotations:
+          .: {}
+          f:description: {}
+          f:iconClass: {}
+          f:tags: {}
+      f:objects: {}
+      f:parameters: {}
+    manager: oc
+    operation: Update
+    time: 2026-09-03T04:11:23Z
+  name: web-application-template
+  namespace: salman-redhat-dev
+  resourceVersion: "6044531268"
+  uid: df054eeb-f035-40fa-8fd7-5075300d516d
+objects:
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    labels:
+      app: ${APP_NAME}
+      environment: ${ENVIRONMENT}
+    name: ${APP_NAME}
+  spec:
+    replicas: ${{REPLICA_COUNT}}
+    selector:
+      matchLabels:
+        app: ${APP_NAME}
+    template:
+      metadata:
+        labels:
+          app: ${APP_NAME}
+          environment: ${ENVIRONMENT}
+      spec:
+        containers:
+        - env:
+          - name: ENVIRONMENT
+            value: ${ENVIRONMENT}
+          - name: DATABASE_URL
+            value: ${DATABASE_URL}
+          - name: APP_VERSION
+            value: ${APP_VERSION}
+          image: ${IMAGE_NAME}:${IMAGE_TAG}
+          name: ${APP_NAME}
+          ports:
+          - containerPort: ${{CONTAINER_PORT}}
+          resources:
+            limits:
+              cpu: ${CPU_LIMIT}
+              memory: ${MEMORY_LIMIT}
+            requests:
+              cpu: ${CPU_REQUEST}
+              memory: ${MEMORY_REQUEST}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    labels:
+      app: ${APP_NAME}
+      environment: ${ENVIRONMENT}
+    name: ${APP_NAME}-service
+  spec:
+    ports:
+    - port: ${{SERVICE_PORT}}
+      protocol: TCP
+      targetPort: ${{CONTAINER_PORT}}
+    selector:
+      app: ${APP_NAME}
+    type: ClusterIP
+- apiVersion: route.openshift.io/v1
+  kind: Route
+  metadata:
+    labels:
+      app: ${APP_NAME}
+      environment: ${ENVIRONMENT}
+    name: ${APP_NAME}-route
+  spec:
+    port:
+      targetPort: ${{CONTAINER_PORT}}
+    tls:
+      insecureEdgeTerminationPolicy: Redirect
+      termination: edge
+    to:
+      kind: Service
+      name: ${APP_NAME}-service
+parameters:
+- description: Name of the application
+  name: APP_NAME
+  required: true
+  value: my-web-app
+- description: Environment where the app is deployed
+  name: ENVIRONMENT
+  required: true
+  value: development
+- description: Container image name
+  name: IMAGE_NAME
+  required: true
+  value: nginx
+- description: Container image tag
+  name: IMAGE_TAG
+  required: true
+  value: latest
+- description: Number of replicas
+  name: REPLICA_COUNT
+  required: true
+  value: "1"
+- description: Port exposed by the container
+  name: CONTAINER_PORT
+  required: true
+  value: "8080"
+- description: Port exposed by the service
+  name: SERVICE_PORT
+  required: true
+  value: "80"
+- description: Database connection URL
+  name: DATABASE_URL
+  value: postgresql://localhost:5432/myapp
+- description: Application version
+  name: APP_VERSION
+  required: true
+  value: 1.0.0
+- description: Memory request for container
+  name: MEMORY_REQUEST
+  required: true
+  value: 128Mi
+- description: Memory limit for container
+  name: MEMORY_LIMIT
+  required: true
+  value: 256Mi
+- description: CPU request for container
+  name: CPU_REQUEST
+  required: true
+  value: 100m
+- description: CPU limit for container
+  name: CPU_LIMIT
+  required: true
+  value: 200m
