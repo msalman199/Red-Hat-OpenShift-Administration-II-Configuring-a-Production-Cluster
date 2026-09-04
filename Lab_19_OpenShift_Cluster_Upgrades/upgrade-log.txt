@@ -1,0 +1,36 @@
+=== OpenShift Upgrade Monitor ===
+Starting monitoring at Fri Sep  4 05:16:40 UTC 2026
+--- Fri Sep  4 05:16:40 UTC 2026 ---
+Cluster Version:
+version   4.21.30   True      False     8d        Cluster version is 4.21.30
+Degraded Operators:
+Node Status:
+No resources found.
+Error from server (Forbidden): nodes is forbidden: User "salman-redhat" cannot list resource "nodes" in API group "" at the cluster scope
+Test App Status:
+No resources found.
+Error from server (Forbidden): pods is forbidden: User "salman-redhat" cannot list resource "pods" in API group "" in the namespace "upgrade-test"
+------------------------
+--- Fri Sep  4 05:17:11 UTC 2026 ---
+Cluster Version:
+version   4.21.30   True      False     8d        Cluster version is 4.21.30
+Degraded Operators:
+Node Status:
+No resources found.
+Error from server (Forbidden): nodes is forbidden: User "salman-redhat" cannot list resource "nodes" in API group "" at the cluster scope
+Test App Status:
+No resources found.
+Error from server (Forbidden): pods is forbidden: User "salman-redhat" cannot list resource "pods" in API group "" in the namespace "upgrade-test"
+------------------------
+--- Fri Sep  4 05:17:43 UTC 2026 ---
+Cluster Version:
+version   4.21.30   True      False     8d        Cluster version is 4.21.30
+Degraded Operators:
+console                                    4.21.30   True        True          False      10d       SyncLoopRefreshProgressing: working toward version 4.21.30, 1 replicas available
+Node Status:
+No resources found.
+Error from server (Forbidden): nodes is forbidden: User "salman-redhat" cannot list resource "nodes" in API group "" at the cluster scope
+Test App Status:
+No resources found.
+Error from server (Forbidden): pods is forbidden: User "salman-redhat" cannot list resource "pods" in API group "" in the namespace "upgrade-test"
+------------------------

@@ -1,0 +1,5147 @@
+apiVersion: v1
+items:
+- apiVersion: config.openshift.io/v1
+  kind: ClusterOperator
+  metadata:
+    annotations:
+      exclude.release.openshift.io/internal-openshift-hosted: "true"
+      include.release.openshift.io/self-managed-high-availability: "true"
+      include.release.openshift.io/single-node-developer: "true"
+    creationTimestamp: 2024-12-03T19:22:21Z
+    generation: 1
+    managedFields:
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:exclude.release.openshift.io/internal-openshift-hosted: {}
+            f:include.release.openshift.io/self-managed-high-availability: {}
+            f:include.release.openshift.io/single-node-developer: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"49a06f94-3e4d-47a9-b3fc-d8470f540c8a"}: {}
+        f:spec: {}
+      manager: cluster-version-operator
+      operation: Update
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          .: {}
+          f:extension: {}
+      manager: cluster-version-operator
+      operation: Update
+      subresource: status
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:conditions:
+            .: {}
+            k:{"type":"Available"}:
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+            k:{"type":"Degraded"}:
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+            k:{"type":"Progressing"}:
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+          f:relatedObjects: {}
+          f:versions: {}
+      manager: authentication-operator
+      operation: Update
+      subresource: status
+      time: 2026-09-03T14:22:13Z
+    name: authentication
+    namespace: ""
+    ownerReferences:
+    - apiVersion: config.openshift.io/v1
+      controller: true
+      kind: ClusterVersion
+      name: version
+      uid: 49a06f94-3e4d-47a9-b3fc-d8470f540c8a
+    resourceVersion: "6046541656"
+    uid: a88bbbc1-9c01-48ee-a1c3-efd0f75d0ec8
+  spec: {}
+  status:
+    conditions:
+    - lastTransitionTime: 2026-09-03T14:22:13Z
+      message: All is well
+      reason: AsExpected
+      status: "False"
+      type: Degraded
+    - lastTransitionTime: 2026-08-26T10:06:55Z
+      message: 'AuthenticatorCertKeyProgressing: All is well'
+      reason: AsExpected
+      status: "False"
+      type: Progressing
+    - lastTransitionTime: 2026-05-21T10:11:11Z
+      message: All is well
+      reason: AsExpected
+      status: "True"
+      type: Available
+    - lastTransitionTime: 2024-12-03T19:25:26Z
+      message: All is well
+      reason: AsExpected
+      status: "True"
+      type: Upgradeable
+    - lastTransitionTime: 2024-12-03T19:25:26Z
+      reason: NoData
+      status: Unknown
+      type: EvaluationConditionsDetected
+    extension: null
+    relatedObjects:
+    - group: route.openshift.io
+      name: oauth-openshift
+      namespace: openshift-authentication
+      resource: routes
+    - group: ""
+      name: oauth-openshift
+      namespace: openshift-authentication
+      resource: services
+    - group: operator.openshift.io
+      name: cluster
+      resource: authentications
+    - group: config.openshift.io
+      name: cluster
+      resource: authentications
+    - group: config.openshift.io
+      name: cluster
+      resource: infrastructures
+    - group: config.openshift.io
+      name: cluster
+      resource: oauths
+    - group: ""
+      name: openshift-config
+      resource: namespaces
+    - group: ""
+      name: openshift-config-managed
+      resource: namespaces
+    - group: ""
+      name: openshift-authentication
+      resource: namespaces
+    - group: ""
+      name: openshift-authentication-operator
+      resource: namespaces
+    - group: ""
+      name: openshift-ingress
+      resource: namespaces
+    - group: ""
+      name: openshift-oauth-apiserver
+      resource: namespaces
+    versions:
+    - name: operator
+      version: 4.21.30
+    - name: oauth-apiserver
+      version: 4.21.30
+    - name: oauth-openshift
+      version: 4.21.30_openshift
+- apiVersion: config.openshift.io/v1
+  kind: ClusterOperator
+  metadata:
+    annotations:
+      capability.openshift.io/name: baremetal
+      exclude.release.openshift.io/internal-openshift-hosted: "true"
+      include.release.openshift.io/ibm-cloud-managed: "true"
+      include.release.openshift.io/self-managed-high-availability: "true"
+      include.release.openshift.io/single-node-developer: "true"
+    creationTimestamp: 2024-12-03T19:22:21Z
+    generation: 1
+    managedFields:
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          .: {}
+          f:extension: {}
+      manager: cluster-version-operator
+      operation: Update
+      subresource: status
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:capability.openshift.io/name: {}
+            f:exclude.release.openshift.io/internal-openshift-hosted: {}
+            f:include.release.openshift.io/ibm-cloud-managed: {}
+            f:include.release.openshift.io/self-managed-high-availability: {}
+            f:include.release.openshift.io/single-node-developer: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"49a06f94-3e4d-47a9-b3fc-d8470f540c8a"}: {}
+        f:spec: {}
+      manager: cluster-version-operator
+      operation: Update
+      time: 2026-03-13T11:26:04Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:conditions: {}
+          f:relatedObjects: {}
+          f:versions: {}
+      manager: cluster-baremetal-operator
+      operation: Update
+      subresource: status
+      time: 2026-08-26T10:03:18Z
+    name: baremetal
+    namespace: ""
+    ownerReferences:
+    - apiVersion: config.openshift.io/v1
+      controller: true
+      kind: ClusterVersion
+      name: version
+      uid: 49a06f94-3e4d-47a9-b3fc-d8470f540c8a
+    resourceVersion: "6008758010"
+    uid: d36c6404-a4ad-4c87-8851-a72423a73a76
+  spec: {}
+  status:
+    conditions:
+    - lastTransitionTime: 2024-12-03T19:26:28Z
+      reason: WaitingForProvisioningCR
+      status: "False"
+      type: Progressing
+    - lastTransitionTime: 2024-12-03T19:26:28Z
+      status: "False"
+      type: Degraded
+    - lastTransitionTime: 2024-12-03T19:26:28Z
+      message: Waiting for Provisioning CR on BareMetal Platform
+      reason: WaitingForProvisioningCR
+      status: "True"
+      type: Available
+    - lastTransitionTime: 2024-12-03T19:26:28Z
+      status: "True"
+      type: Upgradeable
+    - lastTransitionTime: 2024-12-03T19:26:28Z
+      status: "False"
+      type: Disabled
+    extension: null
+    relatedObjects:
+    - group: ""
+      name: openshift-machine-api
+      resource: namespaces
+    - group: metal3.io
+      name: ""
+      namespace: openshift-machine-api
+      resource: baremetalhosts
+    - group: metal3.io
+      name: ""
+      resource: provisioning
+    - group: metal3.io
+      name: ""
+      namespace: openshift-machine-api
+      resource: hostfirmwaresettings
+    - group: metal3.io
+      name: ""
+      namespace: openshift-machine-api
+      resource: firmwareschemas
+    - group: metal3.io
+      name: ""
+      namespace: openshift-machine-api
+      resource: preprovisioningimages
+    - group: metal3.io
+      name: ""
+      namespace: openshift-machine-api
+      resource: bmceventsubscriptions
+    - group: metal3.io
+      name: ""
+      namespace: openshift-machine-api
+      resource: hostfirmwarecomponents
+    - group: metal3.io
+      name: ""
+      namespace: openshift-machine-api
+      resource: dataimages
+    - group: metal3.io
+      name: ""
+      namespace: openshift-machine-api
+      resource: hostupdatepolicies
+    versions:
+    - name: operator
+      version: 4.21.30
+- apiVersion: config.openshift.io/v1
+  kind: ClusterOperator
+  metadata:
+    annotations:
+      capability.openshift.io/name: CloudControllerManager
+      exclude.release.openshift.io/internal-openshift-hosted: "true"
+      include.release.openshift.io/self-managed-high-availability: "true"
+      include.release.openshift.io/single-node-developer: "true"
+    creationTimestamp: 2024-12-03T19:22:21Z
+    generation: 1
+    managedFields:
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:capability.openshift.io/name: {}
+            f:exclude.release.openshift.io/internal-openshift-hosted: {}
+            f:include.release.openshift.io/self-managed-high-availability: {}
+            f:include.release.openshift.io/single-node-developer: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"49a06f94-3e4d-47a9-b3fc-d8470f540c8a"}: {}
+        f:spec: {}
+      manager: cluster-version-operator
+      operation: Update
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          .: {}
+          f:extension: {}
+      manager: cluster-version-operator
+      operation: Update
+      subresource: status
+      time: 2024-12-03T19:22:22Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:conditions:
+            k:{"type":"TrustedCABundleControllerControllerAvailable"}:
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+            k:{"type":"TrustedCABundleControllerControllerDegraded"}:
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+          f:relatedObjects: {}
+          f:versions: {}
+      manager: config-sync-controllers
+      operation: Update
+      subresource: status
+      time: 2026-08-26T09:58:55Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:conditions:
+            .: {}
+            k:{"type":"Available"}:
+              f:message: {}
+            k:{"type":"Degraded"}:
+              f:lastTransitionTime: {}
+              f:reason: {}
+              f:status: {}
+            k:{"type":"Progressing"}:
+              f:lastTransitionTime: {}
+              f:status: {}
+            k:{"type":"Upgradeable"}:
+              f:lastTransitionTime: {}
+              f:status: {}
+      manager: cluster-controller-manager-operator
+      operation: Update
+      subresource: status
+      time: 2026-08-26T09:59:03Z
+    name: cloud-controller-manager
+    namespace: ""
+    ownerReferences:
+    - apiVersion: config.openshift.io/v1
+      controller: true
+      kind: ClusterVersion
+      name: version
+      uid: 49a06f94-3e4d-47a9-b3fc-d8470f540c8a
+    resourceVersion: "6008742418"
+    uid: 5b62e10d-4766-4ad7-bf1e-d7c9d5edb389
+  spec: {}
+  status:
+    conditions:
+    - lastTransitionTime: 2026-04-22T03:50:50Z
+      message: Trusted CA Bundle Controller works as expected
+      reason: AsExpected
+      status: "True"
+      type: TrustedCABundleControllerControllerAvailable
+    - lastTransitionTime: 2026-04-22T03:50:50Z
+      message: Trusted CA Bundle Controller works as expected
+      reason: AsExpected
+      status: "False"
+      type: TrustedCABundleControllerControllerDegraded
+    - lastTransitionTime: 2024-12-03T19:23:53Z
+      message: Cloud Config Controller works as expected
+      reason: AsExpected
+      status: "True"
+      type: CloudConfigControllerAvailable
+    - lastTransitionTime: 2024-12-03T19:23:53Z
+      message: Cloud Config Controller works as expected
+      reason: AsExpected
+      status: "False"
+      type: CloudConfigControllerDegraded
+    - lastTransitionTime: 2025-10-08T12:01:11Z
+      reason: AsExpected
+      status: "False"
+      type: Progressing
+    - lastTransitionTime: 2026-04-22T03:50:57Z
+      reason: AsExpected
+      status: "True"
+      type: Upgradeable
+    - lastTransitionTime: 2024-12-03T19:23:54Z
+      message: Cluster Cloud Controller Manager Operator is available at 4.21.30
+      reason: AsExpected
+      status: "True"
+      type: Available
+    - lastTransitionTime: 2026-04-22T03:50:57Z
+      reason: AsExpected
+      status: "False"
+      type: Degraded
+    extension: null
+    relatedObjects:
+    - group: ""
+      name: openshift-cloud-controller-manager-operator
+      resource: namespaces
+    - group: config.openshift.io
+      name: cloud-controller-manager
+      resource: clusteroperators
+    - group: ""
+      name: openshift-cloud-controller-manager
+      resource: namespaces
+    versions:
+    - name: operator
+      version: 4.21.30
+- apiVersion: config.openshift.io/v1
+  kind: ClusterOperator
+  metadata:
+    annotations:
+      capability.openshift.io/name: CloudCredential
+      exclude.release.openshift.io/internal-openshift-hosted: "true"
+      include.release.openshift.io/self-managed-high-availability: "true"
+    creationTimestamp: 2024-12-03T19:22:21Z
+    generation: 1
+    managedFields:
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:capability.openshift.io/name: {}
+            f:exclude.release.openshift.io/internal-openshift-hosted: {}
+            f:include.release.openshift.io/self-managed-high-availability: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"49a06f94-3e4d-47a9-b3fc-d8470f540c8a"}: {}
+        f:spec: {}
+      manager: cluster-version-operator
+      operation: Update
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          .: {}
+          f:extension: {}
+      manager: cluster-version-operator
+      operation: Update
+      subresource: status
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:conditions:
+            .: {}
+            k:{"type":"Degraded"}:
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+            k:{"type":"Progressing"}:
+              f:lastTransitionTime: {}
+            k:{"type":"Upgradeable"}:
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+          f:relatedObjects: {}
+          f:versions: {}
+      manager: cloud-credential-operator
+      operation: Update
+      subresource: status
+      time: 2026-08-26T10:04:28Z
+    name: cloud-credential
+    namespace: ""
+    ownerReferences:
+    - apiVersion: config.openshift.io/v1
+      controller: true
+      kind: ClusterVersion
+      name: version
+      uid: 49a06f94-3e4d-47a9-b3fc-d8470f540c8a
+    resourceVersion: "6008767565"
+    uid: f4b7cad2-8f72-47f2-86cb-983bca3abdf2
+  spec: {}
+  status:
+    conditions:
+    - lastTransitionTime: 2024-12-03T19:25:55Z
+      message: Credential minting is disabled by cluster admin
+      reason: OperatorDisabledByAdmin
+      status: "True"
+      type: Available
+    - lastTransitionTime: 2026-04-22T13:10:58Z
+      message: All is well
+      reason: AsExpected
+      status: "False"
+      type: Degraded
+    - lastTransitionTime: 2026-08-26T10:04:28Z
+      message: All is well
+      reason: AsExpected
+      status: "False"
+      type: Progressing
+    - lastTransitionTime: 2026-04-23T14:50:22Z
+      message: All is well
+      reason: AsExpected
+      status: "True"
+      type: Upgradeable
+    extension: null
+    relatedObjects:
+    - group: cloudcredential.openshift.io
+      name: aws-ebs-csi-driver-operator
+      namespace: openshift-cloud-credential-operator
+      resource: credentialsrequests
+    - group: cloudcredential.openshift.io
+      name: azure-disk-csi-driver-operator
+      namespace: openshift-cloud-credential-operator
+      resource: credentialsrequests
+    - group: cloudcredential.openshift.io
+      name: azure-file-csi-driver-operator
+      namespace: openshift-cloud-credential-operator
+      resource: credentialsrequests
+    - group: cloudcredential.openshift.io
+      name: cloud-credential-operator-gcp-ro-creds
+      namespace: openshift-cloud-credential-operator
+      resource: credentialsrequests
+    - group: cloudcredential.openshift.io
+      name: cloud-credential-operator-iam-ro
+      namespace: openshift-cloud-credential-operator
+      resource: credentialsrequests
+    - group: operator.openshift.io
+      name: cluster
+      resource: cloudcredentials
+    - group: cloudcredential.openshift.io
+      name: ibm-powervs-block-csi-driver-operator
+      namespace: openshift-cloud-credential-operator
+      resource: credentialsrequests
+    - group: cloudcredential.openshift.io
+      name: ibm-vpc-block-csi-driver-operator
+      namespace: openshift-cloud-credential-operator
+      resource: credentialsrequests
+    - group: cloudcredential.openshift.io
+      name: manila-csi-driver-operator
+      namespace: openshift-cloud-credential-operator
+      resource: credentialsrequests
+    - group: cloudcredential.openshift.io
+      name: manila-csi-drivers
+      namespace: openshift-cloud-credential-operator
+      resource: credentialsrequests
+    - group: cloudcredential.openshift.io
+      name: openshift-azure-cloud-controller-manager
+      namespace: openshift-cloud-credential-operator
+      resource: credentialsrequests
+    - group: ""
+      name: openshift-cloud-credential-operator
+      resource: namespaces
+    - group: cloudcredential.openshift.io
+      name: openshift-cloud-network-config-controller-aws
+      namespace: openshift-cloud-credential-operator
+      resource: credentialsrequests
+    - group: cloudcredential.openshift.io
+      name: openshift-cloud-network-config-controller-azure
+      namespace: openshift-cloud-credential-operator
+      resource: credentialsrequests
+    - group: cloudcredential.openshift.io
+      name: openshift-cloud-network-config-controller-gcp
+      namespace: openshift-cloud-credential-operator
+      resource: credentialsrequests
+    - group: cloudcredential.openshift.io
+      name: openshift-cloud-network-config-controller-openstack
+      namespace: openshift-cloud-credential-operator
+      resource: credentialsrequests
+    - group: cloudcredential.openshift.io
+      name: openshift-cluster-csi-drivers
+      namespace: openshift-cloud-credential-operator
+      resource: credentialsrequests
+    - group: cloudcredential.openshift.io
+      name: openshift-gcp-ccm
+      namespace: openshift-cloud-credential-operator
+      resource: credentialsrequests
+    - group: cloudcredential.openshift.io
+      name: openshift-gcp-pd-csi-driver-operator
+      namespace: openshift-cloud-credential-operator
+      resource: credentialsrequests
+    - group: cloudcredential.openshift.io
+      name: openshift-ibm-cloud-controller-manager
+      namespace: openshift-cloud-credential-operator
+      resource: credentialsrequests
+    - group: cloudcredential.openshift.io
+      name: openshift-image-registry
+      namespace: openshift-cloud-credential-operator
+      resource: credentialsrequests
+    - group: cloudcredential.openshift.io
+      name: openshift-image-registry-azure
+      namespace: openshift-cloud-credential-operator
+      resource: credentialsrequests
+    - group: cloudcredential.openshift.io
+      name: openshift-image-registry-gcs
+      namespace: openshift-cloud-credential-operator
+      resource: credentialsrequests
+    - group: cloudcredential.openshift.io
+      name: openshift-image-registry-ibmcos
+      namespace: openshift-cloud-credential-operator
+      resource: credentialsrequests
+    - group: cloudcredential.openshift.io
+      name: openshift-image-registry-ibmcos-powervs
+      namespace: openshift-cloud-credential-operator
+      resource: credentialsrequests
+    - group: cloudcredential.openshift.io
+      name: openshift-image-registry-openstack
+      namespace: openshift-cloud-credential-operator
+      resource: credentialsrequests
+    - group: cloudcredential.openshift.io
+      name: openshift-ingress
+      namespace: openshift-cloud-credential-operator
+      resource: credentialsrequests
+    - group: cloudcredential.openshift.io
+      name: openshift-ingress-azure
+      namespace: openshift-cloud-credential-operator
+      resource: credentialsrequests
+    - group: cloudcredential.openshift.io
+      name: openshift-ingress-gcp
+      namespace: openshift-cloud-credential-operator
+      resource: credentialsrequests
+    - group: cloudcredential.openshift.io
+      name: openshift-machine-api-aws
+      namespace: openshift-cloud-credential-operator
+      resource: credentialsrequests
+    - group: cloudcredential.openshift.io
+      name: openshift-machine-api-azure
+      namespace: openshift-cloud-credential-operator
+      resource: credentialsrequests
+    - group: cloudcredential.openshift.io
+      name: openshift-machine-api-gcp
+      namespace: openshift-cloud-credential-operator
+      resource: credentialsrequests
+    - group: cloudcredential.openshift.io
+      name: openshift-machine-api-ibmcloud
+      namespace: openshift-cloud-credential-operator
+      resource: credentialsrequests
+    - group: cloudcredential.openshift.io
+      name: openshift-machine-api-nutanix
+      namespace: openshift-cloud-credential-operator
+      resource: credentialsrequests
+    - group: cloudcredential.openshift.io
+      name: openshift-machine-api-openstack
+      namespace: openshift-cloud-credential-operator
+      resource: credentialsrequests
+    - group: cloudcredential.openshift.io
+      name: openshift-machine-api-ovirt
+      namespace: openshift-cloud-credential-operator
+      resource: credentialsrequests
+    - group: cloudcredential.openshift.io
+      name: openshift-machine-api-powervs
+      namespace: openshift-cloud-credential-operator
+      resource: credentialsrequests
+    - group: cloudcredential.openshift.io
+      name: openshift-machine-api-vsphere
+      namespace: openshift-cloud-credential-operator
+      resource: credentialsrequests
+    - group: cloudcredential.openshift.io
+      name: openshift-network
+      namespace: openshift-cloud-credential-operator
+      resource: credentialsrequests
+    - group: cloudcredential.openshift.io
+      name: openshift-nutanix-cloud-controller-manager
+      namespace: openshift-cloud-credential-operator
+      resource: credentialsrequests
+    - group: cloudcredential.openshift.io
+      name: openshift-openstack-cloud-controller-manager
+      namespace: openshift-cloud-credential-operator
+      resource: credentialsrequests
+    - group: cloudcredential.openshift.io
+      name: openshift-powervs-cloud-controller-manager
+      namespace: openshift-cloud-credential-operator
+      resource: credentialsrequests
+    - group: cloudcredential.openshift.io
+      name: openshift-vmware-vsphere-csi-driver-operator
+      namespace: openshift-cloud-credential-operator
+      resource: credentialsrequests
+    - group: cloudcredential.openshift.io
+      name: openshift-vsphere-cloud-controller-manager
+      namespace: openshift-cloud-credential-operator
+      resource: credentialsrequests
+    - group: cloudcredential.openshift.io
+      name: openshift-vsphere-problem-detector
+      namespace: openshift-cloud-credential-operator
+      resource: credentialsrequests
+    - group: cloudcredential.openshift.io
+      name: openstack-cinder-csi-driver-operator
+      namespace: openshift-cloud-credential-operator
+      resource: credentialsrequests
+    - group: cloudcredential.openshift.io
+      name: ovirt-csi-driver-operator
+      namespace: openshift-cloud-credential-operator
+      resource: credentialsrequests
+    - group: ""
+      name: pod-identity-webhook
+      namespace: openshift-cloud-credential-operator
+      resource: serviceaccounts
+    - group: rbac.authorization.k8s.io
+      name: pod-identity-webhook
+      resource: clusterroles
+    - group: rbac.authorization.k8s.io
+      name: pod-identity-webhook
+      resource: clusterrolebindings
+    - group: rbac.authorization.k8s.io
+      name: pod-identity-webhook
+      namespace: openshift-cloud-credential-operator
+      resource: roles
+    - group: rbac.authorization.k8s.io
+      name: pod-identity-webhook
+      namespace: openshift-cloud-credential-operator
+      resource: rolebindings
+    - group: ""
+      name: pod-identity-webhook
+      namespace: openshift-cloud-credential-operator
+      resource: services
+    - group: apps
+      name: pod-identity-webhook
+      namespace: openshift-cloud-credential-operator
+      resource: deployments
+    - group: admissionregistration.k8s.io
+      name: pod-identity-webhook
+      resource: mutatingwebhookconfigurations
+    versions:
+    - name: operator
+      version: 4.21.30
+- apiVersion: config.openshift.io/v1
+  kind: ClusterOperator
+  metadata:
+    annotations:
+      capability.openshift.io/name: MachineAPI
+      exclude.release.openshift.io/internal-openshift-hosted: "true"
+      include.release.openshift.io/self-managed-high-availability: "true"
+      include.release.openshift.io/single-node-developer: "true"
+    creationTimestamp: 2024-12-03T19:22:21Z
+    generation: 1
+    managedFields:
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:capability.openshift.io/name: {}
+            f:exclude.release.openshift.io/internal-openshift-hosted: {}
+            f:include.release.openshift.io/self-managed-high-availability: {}
+            f:include.release.openshift.io/single-node-developer: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"49a06f94-3e4d-47a9-b3fc-d8470f540c8a"}: {}
+        f:spec: {}
+      manager: cluster-version-operator
+      operation: Update
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          .: {}
+          f:extension: {}
+      manager: cluster-version-operator
+      operation: Update
+      subresource: status
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:conditions:
+            .: {}
+            k:{"type":"Available"}:
+              f:message: {}
+              f:reason: {}
+            k:{"type":"Degraded"}:
+              f:lastTransitionTime: {}
+              f:status: {}
+            k:{"type":"Progressing"}:
+              f:lastTransitionTime: {}
+              f:status: {}
+          f:relatedObjects: {}
+          f:versions: {}
+      manager: cluster-autoscaler-operator
+      operation: Update
+      subresource: status
+      time: 2026-08-26T10:42:33Z
+    name: cluster-autoscaler
+    namespace: ""
+    ownerReferences:
+    - apiVersion: config.openshift.io/v1
+      controller: true
+      kind: ClusterVersion
+      name: version
+      uid: 49a06f94-3e4d-47a9-b3fc-d8470f540c8a
+    resourceVersion: "6008917422"
+    uid: dd3f1d02-94a1-4416-a3ee-ca3d0052e14b
+  spec: {}
+  status:
+    conditions:
+    - lastTransitionTime: 2024-12-03T19:26:27Z
+      message: at version 4.21.30
+      reason: AsExpected
+      status: "True"
+      type: Available
+    - lastTransitionTime: 2026-08-26T10:42:33Z
+      status: "False"
+      type: Progressing
+    - lastTransitionTime: 2026-04-22T00:05:41Z
+      status: "False"
+      type: Degraded
+    - lastTransitionTime: 2024-12-03T19:26:27Z
+      status: "True"
+      type: Upgradeable
+    extension: null
+    relatedObjects:
+    - group: autoscaling.openshift.io
+      name: ""
+      namespace: openshift-machine-api
+      resource: machineautoscalers
+    - group: autoscaling.openshift.io
+      name: ""
+      namespace: openshift-machine-api
+      resource: clusterautoscalers
+    - group: ""
+      name: openshift-machine-api
+      resource: namespaces
+    versions:
+    - name: operator
+      version: 4.21.30
+- apiVersion: config.openshift.io/v1
+  kind: ClusterOperator
+  metadata:
+    annotations:
+      exclude.release.openshift.io/internal-openshift-hosted: "true"
+      include.release.openshift.io/self-managed-high-availability: "true"
+      include.release.openshift.io/single-node-developer: "true"
+    creationTimestamp: 2024-12-03T19:22:21Z
+    generation: 1
+    managedFields:
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:exclude.release.openshift.io/internal-openshift-hosted: {}
+            f:include.release.openshift.io/self-managed-high-availability: {}
+            f:include.release.openshift.io/single-node-developer: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"49a06f94-3e4d-47a9-b3fc-d8470f540c8a"}: {}
+        f:spec: {}
+      manager: cluster-version-operator
+      operation: Update
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          .: {}
+          f:extension: {}
+          f:relatedObjects: {}
+      manager: cluster-version-operator
+      operation: Update
+      subresource: status
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:conditions: {}
+          f:versions: {}
+      manager: cluster-config-operator
+      operation: Update
+      subresource: status
+      time: 2026-08-26T09:37:08Z
+    name: config-operator
+    namespace: ""
+    ownerReferences:
+    - apiVersion: config.openshift.io/v1
+      controller: true
+      kind: ClusterVersion
+      name: version
+      uid: 49a06f94-3e4d-47a9-b3fc-d8470f540c8a
+    resourceVersion: "6008668495"
+    uid: 2ba2e274-62a3-4e6b-b180-27ecabddc840
+  spec: {}
+  status:
+    conditions:
+    - lastTransitionTime: 2024-12-03T19:25:31Z
+      message: All is well
+      reason: AsExpected
+      status: "False"
+      type: Degraded
+    - lastTransitionTime: 2024-12-03T19:25:31Z
+      message: All is well
+      reason: AsExpected
+      status: "False"
+      type: Progressing
+    - lastTransitionTime: 2024-12-03T19:25:31Z
+      message: All is well
+      reason: AsExpected
+      status: "True"
+      type: Available
+    - lastTransitionTime: 2024-12-03T19:25:31Z
+      message: All is well
+      reason: AsExpected
+      status: "True"
+      type: Upgradeable
+    - lastTransitionTime: 2024-12-03T19:25:31Z
+      reason: NoData
+      status: Unknown
+      type: EvaluationConditionsDetected
+    extension: null
+    relatedObjects:
+    - group: operator.openshift.io
+      name: cluster
+      resource: configs
+    - group: ""
+      name: openshift-config
+      resource: namespaces
+    - group: ""
+      name: openshift-config-operator
+      resource: namespaces
+    versions:
+    - name: feature-gates
+      version: 4.21.30
+    - name: operator
+      version: 4.21.30
+- apiVersion: config.openshift.io/v1
+  kind: ClusterOperator
+  metadata:
+    annotations:
+      capability.openshift.io/name: Console
+      include.release.openshift.io/hypershift: "true"
+      include.release.openshift.io/ibm-cloud-managed: "true"
+      include.release.openshift.io/self-managed-high-availability: "true"
+      include.release.openshift.io/single-node-developer: "true"
+    creationTimestamp: 2024-12-03T19:22:21Z
+    generation: 1
+    managedFields:
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:capability.openshift.io/name: {}
+            f:include.release.openshift.io/hypershift: {}
+            f:include.release.openshift.io/ibm-cloud-managed: {}
+            f:include.release.openshift.io/self-managed-high-availability: {}
+            f:include.release.openshift.io/single-node-developer: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"49a06f94-3e4d-47a9-b3fc-d8470f540c8a"}: {}
+        f:spec: {}
+      manager: cluster-version-operator
+      operation: Update
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          .: {}
+          f:extension: {}
+      manager: cluster-version-operator
+      operation: Update
+      subresource: status
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:conditions:
+            .: {}
+            k:{"type":"Available"}:
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+            k:{"type":"Degraded"}:
+              f:message: {}
+            k:{"type":"Progressing"}:
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+            k:{"type":"Upgradeable"}:
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+          f:relatedObjects: {}
+          f:versions: {}
+      manager: console
+      operation: Update
+      subresource: status
+      time: 2026-09-04T03:11:41Z
+    name: console
+    namespace: ""
+    ownerReferences:
+    - apiVersion: config.openshift.io/v1
+      controller: true
+      kind: ClusterVersion
+      name: version
+      uid: 49a06f94-3e4d-47a9-b3fc-d8470f540c8a
+    resourceVersion: "6049052058"
+    uid: ee52d5c2-9b7c-4e76-bb14-4ca36d795384
+  spec: {}
+  status:
+    conditions:
+    - lastTransitionTime: 2025-06-17T15:06:52Z
+      message: All is well
+      reason: AsExpected
+      status: "False"
+      type: Degraded
+    - lastTransitionTime: 2026-09-04T03:11:41Z
+      message: All is well
+      reason: AsExpected
+      status: "False"
+      type: Progressing
+    - lastTransitionTime: 2026-08-24T23:14:38Z
+      message: All is well
+      reason: AsExpected
+      status: "True"
+      type: Available
+    - lastTransitionTime: 2026-08-10T08:34:49Z
+      message: All is well
+      reason: AsExpected
+      status: "True"
+      type: Upgradeable
+    - lastTransitionTime: 2024-12-03T19:32:33Z
+      reason: NoData
+      status: Unknown
+      type: EvaluationConditionsDetected
+    extension: null
+    relatedObjects:
+    - group: console.openshift.io
+      name: kubevirt-plugin
+      resource: consoleplugins
+    - group: ""
+      name: openshift-cnv
+      resource: namespaces
+    - group: console.openshift.io
+      name: lightspeed-console-plugin
+      resource: consoleplugins
+    - group: ""
+      name: openshift-lightspeed
+      resource: namespaces
+    - group: console.openshift.io
+      name: monitoring-plugin
+      resource: consoleplugins
+    - group: ""
+      name: openshift-monitoring
+      resource: namespaces
+    - group: console.openshift.io
+      name: networking-console-plugin
+      resource: consoleplugins
+    - group: ""
+      name: openshift-network-console
+      resource: namespaces
+    - group: console.openshift.io
+      name: pipelines-console-plugin
+      resource: consoleplugins
+    - group: ""
+      name: openshift-pipelines
+      resource: namespaces
+    - group: oauth.openshift.io
+      name: console
+      resource: oauthclients
+    - group: operator.openshift.io
+      name: cluster
+      resource: consoles
+    - group: config.openshift.io
+      name: cluster
+      resource: consoles
+    - group: config.openshift.io
+      name: cluster
+      resource: infrastructures
+    - group: config.openshift.io
+      name: cluster
+      resource: proxies
+    - group: config.openshift.io
+      name: cluster
+      resource: oauths
+    - group: ""
+      name: openshift-console-operator
+      resource: namespaces
+    - group: ""
+      name: openshift-console
+      resource: namespaces
+    - group: ""
+      name: console-public
+      namespace: openshift-config-managed
+      resource: configmaps
+    - group: rbac.authorization.k8s.io
+      name: console-operator
+      resource: clusterroles
+    - group: rbac.authorization.k8s.io
+      name: console
+      resource: clusterroles
+    - group: rbac.authorization.k8s.io
+      name: helm-chartrepos-viewer
+      resource: clusterroles
+    - group: rbac.authorization.k8s.io
+      name: project-helm-chartrepository-editor
+      resource: clusterroles
+    - group: rbac.authorization.k8s.io
+      name: console-extensions-reader
+      resource: clusterroles
+    versions:
+    - name: operator
+      version: 4.21.30
+- apiVersion: config.openshift.io/v1
+  kind: ClusterOperator
+  metadata:
+    annotations:
+      capability.openshift.io/name: MachineAPI
+      exclude.release.openshift.io/internal-openshift-hosted: "true"
+      include.release.openshift.io/self-managed-high-availability: "true"
+    creationTimestamp: 2024-12-03T19:22:21Z
+    generation: 1
+    managedFields:
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:capability.openshift.io/name: {}
+            f:exclude.release.openshift.io/internal-openshift-hosted: {}
+            f:include.release.openshift.io/self-managed-high-availability: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"49a06f94-3e4d-47a9-b3fc-d8470f540c8a"}: {}
+        f:spec: {}
+      manager: cluster-version-operator
+      operation: Update
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          .: {}
+          f:extension: {}
+          f:relatedObjects: {}
+      manager: cluster-version-operator
+      operation: Update
+      subresource: status
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:conditions: {}
+          f:versions: {}
+      manager: manager
+      operation: Update
+      subresource: status
+      time: 2026-08-26T09:59:44Z
+    name: control-plane-machine-set
+    namespace: ""
+    ownerReferences:
+    - apiVersion: config.openshift.io/v1
+      controller: true
+      kind: ClusterVersion
+      name: version
+      uid: 49a06f94-3e4d-47a9-b3fc-d8470f540c8a
+    resourceVersion: "6008744896"
+    uid: 50978f88-b0c1-4b3d-8ce1-c29e1e249156
+  spec: {}
+  status:
+    conditions:
+    - lastTransitionTime: 2024-12-03T19:29:17Z
+      message: cluster operator is upgradable
+      reason: AsExpected
+      status: "True"
+      type: Upgradeable
+    - lastTransitionTime: 2024-12-03T19:29:17Z
+      reason: AllReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: 2024-12-12T13:52:52Z
+      reason: AsExpected
+      status: "False"
+      type: Degraded
+    - lastTransitionTime: 2024-12-12T14:07:21Z
+      reason: AllReplicasUpdated
+      status: "False"
+      type: Progressing
+    extension: null
+    relatedObjects:
+    - group: ""
+      name: openshift-machine-api
+      resource: namespaces
+    - group: machine.openshift.io
+      name: ""
+      resource: controlplanemachinesets
+    - group: machine.openshift.io
+      name: ""
+      resource: machines
+    versions:
+    - name: operator
+      version: 4.21.30
+- apiVersion: config.openshift.io/v1
+  kind: ClusterOperator
+  metadata:
+    annotations:
+      capability.openshift.io/name: CSISnapshot
+      include.release.openshift.io/hypershift: "true"
+      include.release.openshift.io/ibm-cloud-managed: "true"
+      include.release.openshift.io/self-managed-high-availability: "true"
+      include.release.openshift.io/single-node-developer: "true"
+    creationTimestamp: 2024-12-03T19:22:21Z
+    generation: 1
+    managedFields:
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:capability.openshift.io/name: {}
+            f:include.release.openshift.io/hypershift: {}
+            f:include.release.openshift.io/ibm-cloud-managed: {}
+            f:include.release.openshift.io/self-managed-high-availability: {}
+            f:include.release.openshift.io/single-node-developer: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"49a06f94-3e4d-47a9-b3fc-d8470f540c8a"}: {}
+        f:spec: {}
+      manager: cluster-version-operator
+      operation: Update
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          .: {}
+          f:extension: {}
+      manager: cluster-version-operator
+      operation: Update
+      subresource: status
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:conditions:
+            .: {}
+            k:{"type":"Available"}:
+              f:message: {}
+            k:{"type":"Degraded"}:
+              f:message: {}
+            k:{"type":"Progressing"}:
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+          f:relatedObjects: {}
+          f:versions: {}
+      manager: csi-snapshot-controller-operator
+      operation: Update
+      subresource: status
+      time: 2026-08-26T10:36:00Z
+    name: csi-snapshot-controller
+    namespace: ""
+    ownerReferences:
+    - apiVersion: config.openshift.io/v1
+      controller: true
+      kind: ClusterVersion
+      name: version
+      uid: 49a06f94-3e4d-47a9-b3fc-d8470f540c8a
+    resourceVersion: "6008892033"
+    uid: 7874694a-8f0d-43e4-a7d9-30f80cb0a2df
+  spec: {}
+  status:
+    conditions:
+    - lastTransitionTime: 2024-12-03T19:25:25Z
+      message: All is well
+      reason: AsExpected
+      status: "False"
+      type: Degraded
+    - lastTransitionTime: 2026-08-26T10:04:00Z
+      message: 'CSISnapshotControllerProgressing: Deployment is not progressing'
+      reason: AsExpected
+      status: "False"
+      type: Progressing
+    - lastTransitionTime: 2024-12-03T19:25:41Z
+      message: 'CSISnapshotControllerAvailable: Deployment is available'
+      reason: AsExpected
+      status: "True"
+      type: Available
+    - lastTransitionTime: 2024-12-03T19:25:25Z
+      message: All is well
+      reason: AsExpected
+      status: "True"
+      type: Upgradeable
+    - lastTransitionTime: 2024-12-03T19:25:25Z
+      reason: NoData
+      status: Unknown
+      type: EvaluationConditionsDetected
+    extension: null
+    relatedObjects:
+    - group: ""
+      name: openshift-cluster-storage-operator
+      resource: namespaces
+    - group: operator.openshift.io
+      name: cluster
+      resource: csisnapshotcontrollers
+    - group: ""
+      name: csi-snapshot-controller-operator
+      namespace: openshift-cluster-storage-operator
+      resource: serviceaccounts
+    - group: rbac.authorization.k8s.io
+      name: openshift-csi-snapshot-controller-runner
+      resource: clusterroles
+    - group: rbac.authorization.k8s.io
+      name: csi-snapshot-controller-operator-clusterrole
+      resource: clusterroles
+    - group: rbac.authorization.k8s.io
+      name: system:openshift:aggregate-snapshots-to-admin
+      resource: clusterroles
+    - group: rbac.authorization.k8s.io
+      name: system:openshift:aggregate-snapshots-to-view
+      resource: clusterroles
+    - group: rbac.authorization.k8s.io
+      name: system:openshift:aggregate-snapshots-to-basic-user
+      resource: clusterroles
+    - group: rbac.authorization.k8s.io
+      name: system:openshift:aggregate-snapshots-to-storage-admin
+      resource: clusterroles
+    - group: rbac.authorization.k8s.io
+      name: csi-snapshot-controller-operator-clusterrole
+      resource: clusterrolebindings
+    - group: rbac.authorization.k8s.io
+      name: csi-snapshot-controller-runner-operator
+      resource: clusterrolebindings
+    - group: rbac.authorization.k8s.io
+      name: csi-snapshot-controller-operator-role
+      namespace: openshift-cluster-storage-operator
+      resource: roles
+    - group: rbac.authorization.k8s.io
+      name: csi-snapshot-controller-operator-role
+      namespace: openshift-cluster-storage-operator
+      resource: rolebindings
+    - group: rbac.authorization.k8s.io
+      name: extension-apiserver-authentication-reader
+      namespace: kube-system
+      resource: roles
+    - group: rbac.authorization.k8s.io
+      name: csi-snapshot-controller-operator-authentication-reader
+      namespace: kube-system
+      resource: rolebindings
+    versions:
+    - name: operator
+      version: 4.21.30
+    - name: csi-snapshot-controller
+      version: 4.21.30
+- apiVersion: config.openshift.io/v1
+  kind: ClusterOperator
+  metadata:
+    annotations:
+      include.release.openshift.io/ibm-cloud-managed: "true"
+      include.release.openshift.io/self-managed-high-availability: "true"
+      include.release.openshift.io/single-node-developer: "true"
+    creationTimestamp: 2024-12-03T19:22:21Z
+    generation: 1
+    managedFields:
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:include.release.openshift.io/ibm-cloud-managed: {}
+            f:include.release.openshift.io/self-managed-high-availability: {}
+            f:include.release.openshift.io/single-node-developer: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"49a06f94-3e4d-47a9-b3fc-d8470f540c8a"}: {}
+        f:spec: {}
+      manager: cluster-version-operator
+      operation: Update
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          .: {}
+          f:extension: {}
+      manager: cluster-version-operator
+      operation: Update
+      subresource: status
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:conditions:
+            .: {}
+            k:{"type":"Degraded"}:
+              f:lastTransitionTime: {}
+              f:reason: {}
+              f:status: {}
+            k:{"type":"Progressing"}:
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+          f:relatedObjects: {}
+          f:versions: {}
+      manager: dns-operator
+      operation: Update
+      subresource: status
+      time: 2026-08-27T08:26:27Z
+    name: dns
+    namespace: ""
+    ownerReferences:
+    - apiVersion: config.openshift.io/v1
+      controller: true
+      kind: ClusterVersion
+      name: version
+      uid: 49a06f94-3e4d-47a9-b3fc-d8470f540c8a
+    resourceVersion: "6013152820"
+    uid: 215c0377-a643-47fe-8caf-8f3e04804f3c
+  spec: {}
+  status:
+    conditions:
+    - lastTransitionTime: 2024-12-03T19:26:19Z
+      message: DNS "default" is available.
+      reason: AsExpected
+      status: "True"
+      type: Available
+    - lastTransitionTime: 2026-08-27T08:26:27Z
+      message: Desired and current number of DNSes are equal
+      reason: AsExpected
+      status: "False"
+      type: Progressing
+    - lastTransitionTime: 2026-06-25T11:21:29Z
+      reason: DNSNotDegraded
+      status: "False"
+      type: Degraded
+    - lastTransitionTime: 2024-12-03T19:25:55Z
+      message: 'DNS default is upgradeable: DNS Operator can be upgraded'
+      reason: DNSUpgradeable
+      status: "True"
+      type: Upgradeable
+    extension: null
+    relatedObjects:
+    - group: ""
+      name: openshift-dns-operator
+      resource: namespaces
+    - group: operator.openshift.io
+      name: default
+      resource: dnses
+    - group: ""
+      name: openshift-dns
+      resource: namespaces
+    versions:
+    - name: operator
+      version: 4.21.30
+    - name: coredns
+      version: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:d7667791e0a1369f240602f810d145088388382f59684af44eced934181537cd
+    - name: openshift-cli
+      version: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:9d5d5854917a326e93443e9a51be3121195c9454cc7ea9b2d14d4f90ed5b590f
+    - name: kube-rbac-proxy
+      version: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:6a8c61c7e2d940fa06ff3bbbd8855fc4dad5852b181aa78a56cb7d5ae3542f39
+- apiVersion: config.openshift.io/v1
+  kind: ClusterOperator
+  metadata:
+    annotations:
+      exclude.release.openshift.io/internal-openshift-hosted: "true"
+      include.release.openshift.io/self-managed-high-availability: "true"
+      include.release.openshift.io/single-node-developer: "true"
+    creationTimestamp: 2024-12-03T19:22:21Z
+    generation: 1
+    managedFields:
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:exclude.release.openshift.io/internal-openshift-hosted: {}
+            f:include.release.openshift.io/self-managed-high-availability: {}
+            f:include.release.openshift.io/single-node-developer: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"49a06f94-3e4d-47a9-b3fc-d8470f540c8a"}: {}
+        f:spec: {}
+      manager: cluster-version-operator
+      operation: Update
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          .: {}
+          f:extension: {}
+          f:relatedObjects: {}
+      manager: cluster-version-operator
+      operation: Update
+      subresource: status
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:conditions:
+            .: {}
+            k:{"type":"Available"}:
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+            k:{"type":"Degraded"}:
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+            k:{"type":"Progressing"}:
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+          f:versions: {}
+      manager: cluster-etcd-operator
+      operation: Update
+      subresource: status
+      time: 2026-08-26T10:54:01Z
+    name: etcd
+    namespace: ""
+    ownerReferences:
+    - apiVersion: config.openshift.io/v1
+      controller: true
+      kind: ClusterVersion
+      name: version
+      uid: 49a06f94-3e4d-47a9-b3fc-d8470f540c8a
+    resourceVersion: "6008964373"
+    uid: 8c0ee4e9-acf1-4109-b00b-c1e8fbb75c1e
+  spec: {}
+  status:
+    conditions:
+    - lastTransitionTime: 2026-02-11T13:43:06Z
+      message: |-
+        NodeControllerDegraded: All master nodes are ready
+        EtcdMembersDegraded: No unhealthy members found
+      reason: AsExpected
+      status: "False"
+      type: Degraded
+    - lastTransitionTime: 2026-08-26T09:44:39Z
+      message: |-
+        EtcdMembersProgressing: No unstarted etcd members found
+        NodeInstallerProgressing: 3 nodes are at revision 49
+      reason: AsExpected
+      status: "False"
+      type: Progressing
+    - lastTransitionTime: 2026-04-22T13:12:27Z
+      message: |-
+        EtcdMembersAvailable: 3 members are available
+        StaticPodsAvailable: 3 nodes are active; 3 nodes are at revision 49
+      reason: AsExpected
+      status: "True"
+      type: Available
+    - lastTransitionTime: 2024-12-03T19:25:26Z
+      message: All is well
+      reason: AsExpected
+      status: "True"
+      type: Upgradeable
+    - lastTransitionTime: 2024-12-03T19:25:26Z
+      reason: NoData
+      status: Unknown
+      type: EvaluationConditionsDetected
+    extension: null
+    relatedObjects:
+    - group: operator.openshift.io
+      name: cluster
+      resource: etcds
+    - group: ""
+      name: openshift-config
+      resource: namespaces
+    - group: ""
+      name: openshift-config-managed
+      resource: namespaces
+    - group: ""
+      name: openshift-etcd-operator
+      resource: namespaces
+    - group: ""
+      name: openshift-etcd
+      resource: namespaces
+    versions:
+    - name: raw-internal
+      version: 4.21.30
+    - name: etcd
+      version: 4.21.30
+    - name: operator
+      version: 4.21.30
+- apiVersion: config.openshift.io/v1
+  kind: ClusterOperator
+  metadata:
+    annotations:
+      capability.openshift.io/name: ImageRegistry
+      include.release.openshift.io/hypershift: "true"
+      include.release.openshift.io/ibm-cloud-managed: "true"
+      include.release.openshift.io/self-managed-high-availability: "true"
+      include.release.openshift.io/single-node-developer: "true"
+    creationTimestamp: 2024-12-03T19:22:21Z
+    generation: 1
+    managedFields:
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:capability.openshift.io/name: {}
+            f:include.release.openshift.io/hypershift: {}
+            f:include.release.openshift.io/ibm-cloud-managed: {}
+            f:include.release.openshift.io/self-managed-high-availability: {}
+            f:include.release.openshift.io/single-node-developer: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"49a06f94-3e4d-47a9-b3fc-d8470f540c8a"}: {}
+        f:spec: {}
+      manager: cluster-version-operator
+      operation: Update
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          .: {}
+          f:extension: {}
+      manager: cluster-version-operator
+      operation: Update
+      subresource: status
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:conditions:
+            .: {}
+            k:{"type":"Available"}:
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+            k:{"type":"Degraded"}:
+              f:lastTransitionTime: {}
+              f:reason: {}
+              f:status: {}
+            k:{"type":"Progressing"}:
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+          f:relatedObjects: {}
+          f:versions: {}
+      manager: cluster-image-registry-operator
+      operation: Update
+      subresource: status
+      time: 2026-08-27T08:26:28Z
+    name: image-registry
+    namespace: ""
+    ownerReferences:
+    - apiVersion: config.openshift.io/v1
+      controller: true
+      kind: ClusterVersion
+      name: version
+      uid: 49a06f94-3e4d-47a9-b3fc-d8470f540c8a
+    resourceVersion: "6013152907"
+    uid: a8abbcd5-0d26-45fc-a2fc-103d07058aae
+  spec: {}
+  status:
+    conditions:
+    - lastTransitionTime: 2025-10-20T08:19:09Z
+      message: |-
+        Available: The registry is ready
+        NodeCADaemonAvailable: The daemon set node-ca has available replicas
+        ImagePrunerAvailable: Pruner CronJob has been created
+      reason: Ready
+      status: "True"
+      type: Available
+    - lastTransitionTime: 2026-08-27T08:26:28Z
+      message: |-
+        Progressing: The registry is ready
+        NodeCADaemonProgressing: The daemon set node-ca is deployed
+      reason: Ready
+      status: "False"
+      type: Progressing
+    - lastTransitionTime: 2025-10-20T08:19:09Z
+      reason: AsExpected
+      status: "False"
+      type: Degraded
+    extension: null
+    relatedObjects:
+    - group: imageregistry.operator.openshift.io
+      name: cluster
+      resource: configs
+    - group: imageregistry.operator.openshift.io
+      name: cluster
+      resource: imagepruners
+    - group: rbac.authorization.k8s.io
+      name: system:registry
+      resource: clusterroles
+    - group: rbac.authorization.k8s.io
+      name: registry-registry-role
+      resource: clusterrolebindings
+    - group: rbac.authorization.k8s.io
+      name: openshift-image-registry-pruner
+      resource: clusterrolebindings
+    - group: ""
+      name: openshift-image-registry
+      resource: namespaces
+    versions:
+    - name: operator
+      version: 4.21.30
+- apiVersion: config.openshift.io/v1
+  kind: ClusterOperator
+  metadata:
+    annotations:
+      capability.openshift.io/name: Ingress
+      include.release.openshift.io/ibm-cloud-managed: "true"
+      include.release.openshift.io/self-managed-high-availability: "true"
+      include.release.openshift.io/single-node-developer: "true"
+    creationTimestamp: 2024-12-03T19:22:21Z
+    generation: 1
+    managedFields:
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:capability.openshift.io/name: {}
+            f:include.release.openshift.io/ibm-cloud-managed: {}
+            f:include.release.openshift.io/self-managed-high-availability: {}
+            f:include.release.openshift.io/single-node-developer: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"49a06f94-3e4d-47a9-b3fc-d8470f540c8a"}: {}
+        f:spec: {}
+      manager: cluster-version-operator
+      operation: Update
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          .: {}
+          f:extension: {}
+      manager: cluster-version-operator
+      operation: Update
+      subresource: status
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:conditions:
+            .: {}
+            k:{"type":"Available"}:
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+            k:{"type":"Progressing"}:
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+            k:{"type":"Upgradeable"}:
+              f:reason: {}
+          f:relatedObjects: {}
+          f:versions: {}
+      manager: ingress-operator
+      operation: Update
+      subresource: status
+      time: 2026-08-26T11:31:03Z
+    name: ingress
+    namespace: ""
+    ownerReferences:
+    - apiVersion: config.openshift.io/v1
+      controller: true
+      kind: ClusterVersion
+      name: version
+      uid: 49a06f94-3e4d-47a9-b3fc-d8470f540c8a
+    resourceVersion: "6009104477"
+    uid: a6db90a3-5e8a-4405-86e3-ef6b7bc5508f
+  spec: {}
+  status:
+    conditions:
+    - lastTransitionTime: 2025-12-10T09:44:52Z
+      message: The "default" ingress controller reports Available=True.
+      reason: IngressAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: 2026-08-26T11:31:03Z
+      message: desired and current number of IngressControllers are equal
+      reason: AsExpected
+      status: "False"
+      type: Progressing
+    - lastTransitionTime: 2024-12-03T19:54:53Z
+      message: The "default" ingress controller reports Degraded=False.
+      reason: IngressNotDegraded
+      status: "False"
+      type: Degraded
+    - lastTransitionTime: 2024-12-03T19:26:28Z
+      reason: IngressControllersUpgradeable
+      status: "True"
+      type: Upgradeable
+    - lastTransitionTime: 2024-12-03T19:26:28Z
+      reason: AsExpected
+      status: "False"
+      type: EvaluationConditionsDetected
+    extension: null
+    relatedObjects:
+    - group: ""
+      name: openshift-ingress-operator
+      resource: namespaces
+    - group: operator.openshift.io
+      name: ""
+      namespace: openshift-ingress-operator
+      resource: ingresscontrollers
+    - group: ingress.operator.openshift.io
+      name: ""
+      namespace: openshift-ingress-operator
+      resource: dnsrecords
+    - group: ""
+      name: openshift-ingress
+      resource: namespaces
+    - group: ingress.operator.openshift.io
+      name: ""
+      namespace: openshift-ingress
+      resource: dnsrecords
+    - group: ""
+      name: openshift-ingress-canary
+      resource: namespaces
+    - group: gateway.networking.k8s.io
+      name: ""
+      resource: gatewayclasses
+    - group: gateway.networking.k8s.io
+      name: ""
+      resource: gateways
+    versions:
+    - name: operator
+      version: 4.21.30
+    - name: ingress-controller
+      version: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:2f860186bf49308e35b0654034c8381eb3d23b21524b06306a9ba51021b752a1
+    - name: canary-server
+      version: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:0b17d17065360f0293f8a6845f9c42a2c61b1aee5bb316d3a6eefc1827bcc82f
+- apiVersion: config.openshift.io/v1
+  kind: ClusterOperator
+  metadata:
+    annotations:
+      capability.openshift.io/name: Insights
+      exclude.release.openshift.io/internal-openshift-hosted: "true"
+      include.release.openshift.io/hypershift: "true"
+      include.release.openshift.io/ibm-cloud-managed: "true"
+      include.release.openshift.io/self-managed-high-availability: "true"
+      include.release.openshift.io/single-node-developer: "true"
+    creationTimestamp: 2024-12-03T19:22:21Z
+    generation: 1
+    managedFields:
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:capability.openshift.io/name: {}
+            f:exclude.release.openshift.io/internal-openshift-hosted: {}
+            f:include.release.openshift.io/hypershift: {}
+            f:include.release.openshift.io/ibm-cloud-managed: {}
+            f:include.release.openshift.io/self-managed-high-availability: {}
+            f:include.release.openshift.io/single-node-developer: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"49a06f94-3e4d-47a9-b3fc-d8470f540c8a"}: {}
+        f:spec: {}
+      manager: cluster-version-operator
+      operation: Update
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          .: {}
+          f:extension: {}
+      manager: cluster-version-operator
+      operation: Update
+      subresource: status
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:conditions:
+            .: {}
+            k:{"type":"ClusterTransferAvailable"}:
+              f:message: {}
+              f:reason: {}
+            k:{"type":"GatheringDisabled"}:
+              .: {}
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+              f:type: {}
+            k:{"type":"Progressing"}:
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+            k:{"type":"RemoteConfigurationAvailable"}:
+              f:lastTransitionTime: {}
+              f:reason: {}
+              f:status: {}
+            k:{"type":"RemoteConfigurationValid"}:
+              f:lastTransitionTime: {}
+              f:reason: {}
+              f:status: {}
+            k:{"type":"SCAAvailable"}:
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+          f:extension:
+            f:lastReportTime: {}
+          f:relatedObjects: {}
+          f:versions: {}
+      manager: insights-operator
+      operation: Update
+      subresource: status
+      time: 2026-09-04T03:17:29Z
+    name: insights
+    namespace: ""
+    ownerReferences:
+    - apiVersion: config.openshift.io/v1
+      controller: true
+      kind: ClusterVersion
+      name: version
+      uid: 49a06f94-3e4d-47a9-b3fc-d8470f540c8a
+    resourceVersion: "6049070603"
+    uid: 01a1a84b-e7c3-4090-8bcd-643a4aaeb7e4
+  spec: {}
+  status:
+    conditions:
+    - lastTransitionTime: 2024-12-03T19:31:34Z
+      message: Insights works as expected
+      reason: AsExpected
+      status: "True"
+      type: Available
+    - lastTransitionTime: 2024-12-03T19:35:34Z
+      message: no available cluster transfer
+      reason: NoClusterTransfer
+      status: "False"
+      type: ClusterTransferAvailable
+    - lastTransitionTime: 2024-12-03T19:31:34Z
+      message: Insights works as expected
+      reason: AsExpected
+      status: "False"
+      type: Degraded
+    - lastTransitionTime: 2024-12-03T19:31:34Z
+      reason: AsExpected
+      status: "False"
+      type: Disabled
+    - lastTransitionTime: 2025-11-13T07:13:56Z
+      message: Gathering is enabled
+      reason: AsExpected
+      status: "False"
+      type: GatheringDisabled
+    - lastTransitionTime: 2026-03-13T10:36:48Z
+      message: Monitoring the cluster
+      reason: AsExpected
+      status: "False"
+      type: Progressing
+    - lastTransitionTime: 2026-04-18T11:36:48Z
+      reason: Succeeded
+      status: "True"
+      type: RemoteConfigurationAvailable
+    - lastTransitionTime: 2026-04-18T11:36:48Z
+      reason: Succeeded
+      status: "True"
+      type: RemoteConfigurationValid
+    - lastTransitionTime: 2025-10-17T20:50:46Z
+      message: SCA certs successfully updated
+      reason: Updated
+      status: "True"
+      type: SCAAvailable
+    - lastTransitionTime: 2024-12-03T19:31:34Z
+      message: Insights operator can be upgraded
+      reason: InsightsUpgradeable
+      status: "True"
+      type: Upgradeable
+    extension:
+      lastReportTime: 2026-09-04T03:17:29Z
+    relatedObjects:
+    - group: ""
+      name: openshift-insights
+      resource: namespaces
+    - group: apps
+      name: insights-operator
+      namespace: openshift-insights
+      resource: deployments
+    - group: ""
+      name: pull-secret
+      namespace: openshift-config
+      resource: secrets
+    - group: ""
+      name: support
+      namespace: openshift-config
+      resource: secrets
+    - group: ""
+      name: gather
+      namespace: openshift-insights
+      resource: serviceaccounts
+    - group: ""
+      name: operator
+      namespace: openshift-insights
+      resource: serviceaccounts
+    - group: ""
+      name: metrics
+      namespace: openshift-insights
+      resource: services
+    - group: ""
+      name: service-ca-bundle
+      namespace: openshift-insights
+      resource: configmaps
+    - group: operator.openshift.io
+      name: cluster
+      resource: insightsoperators
+    versions:
+    - name: operator
+      version: 4.21.30
+- apiVersion: config.openshift.io/v1
+  kind: ClusterOperator
+  metadata:
+    annotations:
+      exclude.release.openshift.io/internal-openshift-hosted: "true"
+      include.release.openshift.io/self-managed-high-availability: "true"
+      include.release.openshift.io/single-node-developer: "true"
+    creationTimestamp: 2024-12-03T19:22:21Z
+    generation: 1
+    managedFields:
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:exclude.release.openshift.io/internal-openshift-hosted: {}
+            f:include.release.openshift.io/self-managed-high-availability: {}
+            f:include.release.openshift.io/single-node-developer: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"49a06f94-3e4d-47a9-b3fc-d8470f540c8a"}: {}
+        f:spec: {}
+      manager: cluster-version-operator
+      operation: Update
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          .: {}
+          f:extension: {}
+      manager: cluster-version-operator
+      operation: Update
+      subresource: status
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:conditions:
+            .: {}
+            k:{"type":"Available"}:
+              f:message: {}
+            k:{"type":"Degraded"}:
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+            k:{"type":"EvaluationConditionsDetected"}:
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+            k:{"type":"Progressing"}:
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+            k:{"type":"Upgradeable"}:
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+          f:relatedObjects: {}
+          f:versions: {}
+      manager: cluster-kube-apiserver-operator
+      operation: Update
+      subresource: status
+      time: 2026-09-04T02:47:54Z
+    name: kube-apiserver
+    namespace: ""
+    ownerReferences:
+    - apiVersion: config.openshift.io/v1
+      controller: true
+      kind: ClusterVersion
+      name: version
+      uid: 49a06f94-3e4d-47a9-b3fc-d8470f540c8a
+    resourceVersion: "6048973865"
+    uid: 13413b03-1ace-4668-8bed-cfc35462d84e
+  spec: {}
+  status:
+    conditions:
+    - lastTransitionTime: 2026-08-26T10:52:03Z
+      message: 'NodeControllerDegraded: All master nodes are ready'
+      reason: AsExpected
+      status: "False"
+      type: Degraded
+    - lastTransitionTime: 2026-08-28T02:43:18Z
+      message: 'NodeInstallerProgressing: 3 nodes are at revision 220'
+      reason: AsExpected
+      status: "False"
+      type: Progressing
+    - lastTransitionTime: 2024-12-03T19:30:30Z
+      message: 'StaticPodsAvailable: 3 nodes are active; 3 nodes are at revision 220'
+      reason: AsExpected
+      status: "True"
+      type: Available
+    - lastTransitionTime: 2025-11-13T09:27:41Z
+      message: 'KubeletMinorVersionUpgradeable: Kubelet and API server minor versions
+        are synced.'
+      reason: AsExpected
+      status: "True"
+      type: Upgradeable
+    - lastTransitionTime: 2025-10-25T16:52:37Z
+      message: |-
+        PodSecurityCustomerEvaluationConditionsDetected: Violations detected in namespaces: [chittra-chaman-dev fogtiistvan-dev gillianlai-dev jackpa1984-dev tanaka-maho-dev tdutiiooljggff-dev]
+        PodSecurityUserSCCEvaluationConditionsDetected: Violations detected in namespaces: [agustin-occhiuzzi-dev andres5lateja-dev anuragtekam-dev burair-dev emilianotomasxd-dev juanpipitecnoinfo-dev kristine-phan-2-dev m-late-dev martingallardo-dev milton-delgado-dev mnwokocha-dev rvmore-404-dev shemed-dev]
+      reason: PodSecurityCustomer_PSViolationsDetected::PodSecurityUserSCC_PSViolationsDetected
+      status: "True"
+      type: EvaluationConditionsDetected
+    extension: null
+    relatedObjects:
+    - group: operator.openshift.io
+      name: cluster
+      resource: kubeapiservers
+    - group: apiextensions.k8s.io
+      name: ""
+      resource: customresourcedefinitions
+    - group: security.openshift.io
+      name: ""
+      resource: securitycontextconstraints
+    - group: ""
+      name: openshift-config
+      resource: namespaces
+    - group: ""
+      name: openshift-config-managed
+      resource: namespaces
+    - group: ""
+      name: openshift-kube-apiserver-operator
+      resource: namespaces
+    - group: ""
+      name: openshift-kube-apiserver
+      resource: namespaces
+    - group: admissionregistration.k8s.io
+      name: ""
+      resource: mutatingwebhookconfigurations
+    - group: admissionregistration.k8s.io
+      name: ""
+      resource: validatingwebhookconfigurations
+    - group: controlplane.operator.openshift.io
+      name: ""
+      namespace: openshift-kube-apiserver
+      resource: podnetworkconnectivitychecks
+    - group: apiserver.openshift.io
+      name: ""
+      resource: apirequestcounts
+    - group: config.openshift.io
+      name: cluster
+      resource: nodes
+    versions:
+    - name: raw-internal
+      version: 4.21.30
+    - name: operator
+      version: 4.21.30
+    - name: kube-apiserver
+      version: 1.34.9
+- apiVersion: config.openshift.io/v1
+  kind: ClusterOperator
+  metadata:
+    annotations:
+      exclude.release.openshift.io/internal-openshift-hosted: "true"
+      include.release.openshift.io/self-managed-high-availability: "true"
+      include.release.openshift.io/single-node-developer: "true"
+    creationTimestamp: 2024-12-03T19:22:21Z
+    generation: 1
+    managedFields:
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:exclude.release.openshift.io/internal-openshift-hosted: {}
+            f:include.release.openshift.io/self-managed-high-availability: {}
+            f:include.release.openshift.io/single-node-developer: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"49a06f94-3e4d-47a9-b3fc-d8470f540c8a"}: {}
+        f:spec: {}
+      manager: cluster-version-operator
+      operation: Update
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          .: {}
+          f:extension: {}
+      manager: cluster-version-operator
+      operation: Update
+      subresource: status
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:conditions:
+            .: {}
+            k:{"type":"Available"}:
+              f:message: {}
+            k:{"type":"Degraded"}:
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+            k:{"type":"Progressing"}:
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+          f:relatedObjects: {}
+          f:versions: {}
+      manager: cluster-kube-controller-manager-operator
+      operation: Update
+      subresource: status
+      time: 2026-08-28T02:32:14Z
+    name: kube-controller-manager
+    namespace: ""
+    ownerReferences:
+    - apiVersion: config.openshift.io/v1
+      controller: true
+      kind: ClusterVersion
+      name: version
+      uid: 49a06f94-3e4d-47a9-b3fc-d8470f540c8a
+    resourceVersion: "6016603124"
+    uid: c7d917c6-dca5-47f2-9973-fadeccd1300c
+  spec: {}
+  status:
+    conditions:
+    - lastTransitionTime: 2026-08-26T10:52:03Z
+      message: 'NodeControllerDegraded: All master nodes are ready'
+      reason: AsExpected
+      status: "False"
+      type: Degraded
+    - lastTransitionTime: 2026-08-26T09:56:01Z
+      message: 'NodeInstallerProgressing: 3 nodes are at revision 92'
+      reason: AsExpected
+      status: "False"
+      type: Progressing
+    - lastTransitionTime: 2024-12-03T19:28:42Z
+      message: 'StaticPodsAvailable: 3 nodes are active; 3 nodes are at revision 92'
+      reason: AsExpected
+      status: "True"
+      type: Available
+    - lastTransitionTime: 2024-12-03T19:25:26Z
+      message: All is well
+      reason: AsExpected
+      status: "True"
+      type: Upgradeable
+    - lastTransitionTime: 2024-12-03T19:25:26Z
+      reason: NoData
+      status: Unknown
+      type: EvaluationConditionsDetected
+    extension: null
+    relatedObjects:
+    - group: operator.openshift.io
+      name: cluster
+      resource: kubecontrollermanagers
+    - group: ""
+      name: openshift-config
+      resource: namespaces
+    - group: ""
+      name: openshift-config-managed
+      resource: namespaces
+    - group: ""
+      name: openshift-kube-controller-manager
+      resource: namespaces
+    - group: ""
+      name: openshift-kube-controller-manager-operator
+      resource: namespaces
+    - group: ""
+      name: kube-system
+      resource: namespaces
+    - group: certificates.k8s.io
+      name: ""
+      resource: certificatesigningrequests
+    - group: ""
+      name: ""
+      resource: nodes
+    - group: config.openshift.io
+      name: cluster
+      resource: nodes
+    - group: rbac.authorization.k8s.io
+      name: system:openshift:operator:kube-controller-manager-operator
+      resource: clusterrolebindings
+    versions:
+    - name: raw-internal
+      version: 4.21.30
+    - name: kube-controller-manager
+      version: 1.34.9
+    - name: operator
+      version: 4.21.30
+- apiVersion: config.openshift.io/v1
+  kind: ClusterOperator
+  metadata:
+    annotations:
+      exclude.release.openshift.io/internal-openshift-hosted: "true"
+      include.release.openshift.io/self-managed-high-availability: "true"
+      include.release.openshift.io/single-node-developer: "true"
+    creationTimestamp: 2024-12-03T19:22:21Z
+    generation: 1
+    managedFields:
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:exclude.release.openshift.io/internal-openshift-hosted: {}
+            f:include.release.openshift.io/self-managed-high-availability: {}
+            f:include.release.openshift.io/single-node-developer: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"49a06f94-3e4d-47a9-b3fc-d8470f540c8a"}: {}
+        f:spec: {}
+      manager: cluster-version-operator
+      operation: Update
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          .: {}
+          f:extension: {}
+      manager: cluster-version-operator
+      operation: Update
+      subresource: status
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:conditions:
+            .: {}
+            k:{"type":"Available"}:
+              f:message: {}
+            k:{"type":"Degraded"}:
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+            k:{"type":"Progressing"}:
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+          f:relatedObjects: {}
+          f:versions: {}
+      manager: cluster-kube-scheduler-operator
+      operation: Update
+      subresource: status
+      time: 2026-08-27T07:18:00Z
+    name: kube-scheduler
+    namespace: ""
+    ownerReferences:
+    - apiVersion: config.openshift.io/v1
+      controller: true
+      kind: ClusterVersion
+      name: version
+      uid: 49a06f94-3e4d-47a9-b3fc-d8470f540c8a
+    resourceVersion: "6012930812"
+    uid: 037d6dd4-4f7b-416d-ad22-1c247dc4a52d
+  spec: {}
+  status:
+    conditions:
+    - lastTransitionTime: 2026-08-26T10:52:03Z
+      message: 'NodeControllerDegraded: All master nodes are ready'
+      reason: AsExpected
+      status: "False"
+      type: Degraded
+    - lastTransitionTime: 2026-08-26T09:56:50Z
+      message: 'NodeInstallerProgressing: 3 nodes are at revision 56'
+      reason: AsExpected
+      status: "False"
+      type: Progressing
+    - lastTransitionTime: 2024-12-03T19:28:49Z
+      message: 'StaticPodsAvailable: 3 nodes are active; 3 nodes are at revision 56'
+      reason: AsExpected
+      status: "True"
+      type: Available
+    - lastTransitionTime: 2024-12-03T19:25:27Z
+      message: All is well
+      reason: AsExpected
+      status: "True"
+      type: Upgradeable
+    - lastTransitionTime: 2024-12-03T19:25:26Z
+      reason: NoData
+      status: Unknown
+      type: EvaluationConditionsDetected
+    extension: null
+    relatedObjects:
+    - group: operator.openshift.io
+      name: cluster
+      resource: kubeschedulers
+    - group: config.openshift.io
+      name: ""
+      resource: schedulers
+    - group: ""
+      name: openshift-config
+      resource: namespaces
+    - group: ""
+      name: openshift-config-managed
+      resource: namespaces
+    - group: ""
+      name: openshift-kube-scheduler
+      resource: namespaces
+    - group: ""
+      name: openshift-kube-scheduler-operator
+      resource: namespaces
+    - group: controlplane.operator.openshift.io
+      name: ""
+      namespace: openshift-kube-apiserver
+      resource: podnetworkconnectivitychecks
+    - group: rbac.authorization.k8s.io
+      name: system:openshift:operator:cluster-kube-scheduler-operator
+      resource: clusterrolebindings
+    versions:
+    - name: raw-internal
+      version: 4.21.30
+    - name: kube-scheduler
+      version: 1.34.9
+    - name: operator
+      version: 4.21.30
+- apiVersion: config.openshift.io/v1
+  kind: ClusterOperator
+  metadata:
+    annotations:
+      include.release.openshift.io/hypershift: "true"
+      include.release.openshift.io/ibm-cloud-managed: "true"
+      include.release.openshift.io/self-managed-high-availability: "true"
+    creationTimestamp: 2024-12-03T19:22:21Z
+    generation: 1
+    managedFields:
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:include.release.openshift.io/hypershift: {}
+            f:include.release.openshift.io/ibm-cloud-managed: {}
+            f:include.release.openshift.io/self-managed-high-availability: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"49a06f94-3e4d-47a9-b3fc-d8470f540c8a"}: {}
+        f:spec: {}
+      manager: cluster-version-operator
+      operation: Update
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          .: {}
+          f:extension: {}
+          f:relatedObjects: {}
+      manager: cluster-version-operator
+      operation: Update
+      subresource: status
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:conditions:
+            .: {}
+            k:{"type":"Available"}:
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+            k:{"type":"Degraded"}:
+              f:message: {}
+            k:{"type":"Progressing"}:
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+          f:versions: {}
+      manager: cluster-kube-storage-version-migrator-operator
+      operation: Update
+      subresource: status
+      time: 2026-08-26T10:35:46Z
+    name: kube-storage-version-migrator
+    namespace: ""
+    ownerReferences:
+    - apiVersion: config.openshift.io/v1
+      controller: true
+      kind: ClusterVersion
+      name: version
+      uid: 49a06f94-3e4d-47a9-b3fc-d8470f540c8a
+    resourceVersion: "6008890157"
+    uid: 062d8c01-f75b-427a-994b-c7c92f2800b0
+  spec: {}
+  status:
+    conditions:
+    - lastTransitionTime: 2024-12-03T19:25:25Z
+      message: All is well
+      reason: AsExpected
+      status: "False"
+      type: Degraded
+    - lastTransitionTime: 2026-08-26T10:35:46Z
+      message: All is well
+      reason: AsExpected
+      status: "False"
+      type: Progressing
+    - lastTransitionTime: 2026-08-26T10:35:46Z
+      message: All is well
+      reason: AsExpected
+      status: "True"
+      type: Available
+    - lastTransitionTime: 2024-12-03T19:25:25Z
+      message: All is well
+      reason: AsExpected
+      status: "True"
+      type: Upgradeable
+    - lastTransitionTime: 2024-12-03T19:25:25Z
+      reason: NoData
+      status: Unknown
+      type: EvaluationConditionsDetected
+    extension: null
+    relatedObjects:
+    - group: operator.openshift.io
+      name: cluster
+      resource: kubestorageversionmigrators
+    - group: migration.k8s.io
+      name: ""
+      resource: storageversionmigrations
+    - group: ""
+      name: openshift-kube-storage-version-migrator
+      resource: namespaces
+    - group: ""
+      name: openshift-kube-storage-version-migrator-operator
+      resource: namespaces
+    versions:
+    - name: operator
+      version: 4.21.30
+- apiVersion: config.openshift.io/v1
+  kind: ClusterOperator
+  metadata:
+    annotations:
+      capability.openshift.io/name: MachineAPI
+      exclude.release.openshift.io/internal-openshift-hosted: "true"
+      include.release.openshift.io/self-managed-high-availability: "true"
+      include.release.openshift.io/single-node-developer: "true"
+    creationTimestamp: 2024-12-03T19:22:21Z
+    generation: 1
+    managedFields:
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:capability.openshift.io/name: {}
+            f:exclude.release.openshift.io/internal-openshift-hosted: {}
+            f:include.release.openshift.io/self-managed-high-availability: {}
+            f:include.release.openshift.io/single-node-developer: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"49a06f94-3e4d-47a9-b3fc-d8470f540c8a"}: {}
+        f:spec: {}
+      manager: cluster-version-operator
+      operation: Update
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          .: {}
+          f:extension: {}
+      manager: cluster-version-operator
+      operation: Update
+      subresource: status
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            f:openshift.io/required-scc: {}
+        f:status:
+          f:conditions:
+            .: {}
+            k:{"type":"Available"}:
+              f:message: {}
+            k:{"type":"Degraded"}:
+              f:lastTransitionTime: {}
+              f:reason: {}
+              f:status: {}
+            k:{"type":"Progressing"}:
+              f:lastTransitionTime: {}
+              f:reason: {}
+              f:status: {}
+          f:relatedObjects: {}
+          f:versions: {}
+      manager: machine-api-operator
+      operation: Update
+      subresource: status
+      time: 2026-08-26T10:03:03Z
+    name: machine-api
+    namespace: ""
+    ownerReferences:
+    - apiVersion: config.openshift.io/v1
+      controller: true
+      kind: ClusterVersion
+      name: version
+      uid: 49a06f94-3e4d-47a9-b3fc-d8470f540c8a
+    resourceVersion: "6008757161"
+    uid: c2f5ff9d-9313-4c17-9a20-ab9b819d4bc3
+  spec: {}
+  status:
+    conditions:
+    - lastTransitionTime: 2026-08-26T10:03:03Z
+      reason: AsExpected
+      status: "False"
+      type: Progressing
+    - lastTransitionTime: 2026-04-22T00:05:41Z
+      reason: AsExpected
+      status: "False"
+      type: Degraded
+    - lastTransitionTime: 2024-12-03T19:35:09Z
+      message: 'Cluster Machine API Operator is available at operator: 4.21.30'
+      reason: AsExpected
+      status: "True"
+      type: Available
+    - lastTransitionTime: 2024-12-03T19:26:28Z
+      status: "True"
+      type: Upgradeable
+    extension: null
+    relatedObjects:
+    - group: ""
+      name: openshift-machine-api
+      resource: namespaces
+    - group: machine.openshift.io
+      name: ""
+      namespace: openshift-machine-api
+      resource: machines
+    - group: machine.openshift.io
+      name: ""
+      namespace: openshift-machine-api
+      resource: machinesets
+    - group: machine.openshift.io
+      name: ""
+      namespace: openshift-machine-api
+      resource: machinehealthchecks
+    - group: rbac.authorization.k8s.io
+      name: ""
+      namespace: openshift-machine-api
+      resource: roles
+    - group: rbac.authorization.k8s.io
+      name: machine-api-operator
+      resource: clusterroles
+    - group: rbac.authorization.k8s.io
+      name: machine-api-controllers
+      resource: clusterroles
+    - group: metal3.io
+      name: ""
+      namespace: openshift-machine-api
+      resource: baremetalhosts
+    versions:
+    - name: operator
+      version: 4.21.30
+- apiVersion: config.openshift.io/v1
+  kind: ClusterOperator
+  metadata:
+    annotations:
+      exclude.release.openshift.io/internal-openshift-hosted: "true"
+      include.release.openshift.io/self-managed-high-availability: "true"
+      include.release.openshift.io/single-node-developer: "true"
+    creationTimestamp: 2024-12-03T19:22:21Z
+    generation: 1
+    managedFields:
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:exclude.release.openshift.io/internal-openshift-hosted: {}
+            f:include.release.openshift.io/self-managed-high-availability: {}
+            f:include.release.openshift.io/single-node-developer: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"49a06f94-3e4d-47a9-b3fc-d8470f540c8a"}: {}
+        f:spec: {}
+      manager: cluster-version-operator
+      operation: Update
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          .: {}
+          f:extension: {}
+          f:relatedObjects: {}
+      manager: cluster-version-operator
+      operation: Update
+      subresource: status
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:conditions:
+            .: {}
+            k:{"type":"Available"}:
+              f:message: {}
+          f:versions: {}
+      manager: machine-approver
+      operation: Update
+      subresource: status
+      time: 2026-08-26T10:03:44Z
+    name: machine-approver
+    namespace: ""
+    ownerReferences:
+    - apiVersion: config.openshift.io/v1
+      controller: true
+      kind: ClusterVersion
+      name: version
+      uid: 49a06f94-3e4d-47a9-b3fc-d8470f540c8a
+    resourceVersion: "6008759776"
+    uid: 1a6ab436-94ea-45ba-9cc1-6d45159cbc2c
+  spec: {}
+  status:
+    conditions:
+    - lastTransitionTime: 2024-12-03T19:25:55Z
+      message: Cluster Machine Approver is available at 4.21.30
+      reason: AsExpected
+      status: "True"
+      type: Available
+    - lastTransitionTime: 2024-12-03T19:25:55Z
+      reason: AsExpected
+      status: "False"
+      type: Degraded
+    - lastTransitionTime: 2024-12-03T19:25:55Z
+      reason: AsExpected
+      status: "False"
+      type: Progressing
+    - lastTransitionTime: 2024-12-03T19:25:55Z
+      reason: AsExpected
+      status: "True"
+      type: Upgradeable
+    extension: null
+    relatedObjects:
+    - group: ""
+      name: openshift-cluster-machine-approver
+      resource: namespaces
+    - group: certificates.k8s.io
+      name: ""
+      resource: certificatesigningrequests
+    versions:
+    - name: operator
+      version: 4.21.30
+- apiVersion: config.openshift.io/v1
+  kind: ClusterOperator
+  metadata:
+    annotations:
+      exclude.release.openshift.io/internal-openshift-hosted: "true"
+      include.release.openshift.io/self-managed-high-availability: "true"
+      include.release.openshift.io/single-node-developer: "true"
+    creationTimestamp: 2024-12-03T19:22:21Z
+    generation: 1
+    managedFields:
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:exclude.release.openshift.io/internal-openshift-hosted: {}
+            f:include.release.openshift.io/self-managed-high-availability: {}
+            f:include.release.openshift.io/single-node-developer: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"49a06f94-3e4d-47a9-b3fc-d8470f540c8a"}: {}
+        f:spec: {}
+      manager: cluster-version-operator
+      operation: Update
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          .: {}
+          f:extension: {}
+      manager: cluster-version-operator
+      operation: Update
+      subresource: status
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:conditions:
+            .: {}
+            k:{"type":"Available"}:
+              f:message: {}
+            k:{"type":"Degraded"}:
+              f:lastTransitionTime: {}
+              f:status: {}
+            k:{"type":"Progressing"}:
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:status: {}
+            k:{"type":"Upgradeable"}:
+              f:lastTransitionTime: {}
+              f:reason: {}
+              f:status: {}
+          f:extension:
+            f:master: {}
+            f:worker: {}
+          f:relatedObjects: {}
+          f:versions: {}
+      manager: machine-config-operator
+      operation: Update
+      subresource: status
+      time: 2026-09-03T18:31:21Z
+    name: machine-config
+    namespace: ""
+    ownerReferences:
+    - apiVersion: config.openshift.io/v1
+      controller: true
+      kind: ClusterVersion
+      name: version
+      uid: 49a06f94-3e4d-47a9-b3fc-d8470f540c8a
+    resourceVersion: "6047353253"
+    uid: e04257d7-42b0-414c-8a3d-25bb598de415
+  spec: {}
+  status:
+    conditions:
+    - lastTransitionTime: 2026-08-26T10:52:38Z
+      message: Cluster version is 4.21.30
+      status: "False"
+      type: Progressing
+    - lastTransitionTime: 2026-08-27T08:26:27Z
+      status: "False"
+      type: Degraded
+    - lastTransitionTime: 2024-12-03T19:27:26Z
+      message: Cluster has deployed [{operator 4.21.30} {operator-image quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:e0beb2a1d6f92d07f4c38528e0bd16c0a806ee47a1c4b44da98f46a2beb7e268}]
+      reason: AsExpected
+      status: "True"
+      type: Available
+    - lastTransitionTime: 2026-08-05T21:20:58Z
+      reason: AsExpected
+      status: "True"
+      type: Upgradeable
+    - lastTransitionTime: 2024-12-03T19:27:26Z
+      reason: AsExpected
+      status: "False"
+      type: EvaluationConditionsDetected
+    extension:
+      master: all 3 nodes are at latest configuration rendered-master-f84e0a73cb3ca80beacf019b5578b98b
+      worker: all 20 nodes are at latest configuration rendered-worker-62e234847d8f0d256734334eaf1d24d9
+    relatedObjects:
+    - group: ""
+      name: openshift-machine-config-operator
+      resource: namespaces
+    - group: machineconfiguration.openshift.io
+      name: ""
+      resource: machineconfigpools
+    - group: machineconfiguration.openshift.io
+      name: ""
+      resource: controllerconfigs
+    - group: machineconfiguration.openshift.io
+      name: ""
+      resource: kubeletconfigs
+    - group: machineconfiguration.openshift.io
+      name: ""
+      resource: containerruntimeconfigs
+    - group: machineconfiguration.openshift.io
+      name: ""
+      resource: machineconfigs
+    - group: operator.openshift.io
+      name: ""
+      resource: machineconfigurations
+    - group: ""
+      name: ""
+      resource: nodes
+    - group: ""
+      name: openshift-kni-infra
+      resource: namespaces
+    - group: ""
+      name: openshift-openstack-infra
+      resource: namespaces
+    - group: ""
+      name: openshift-ovirt-infra
+      resource: namespaces
+    - group: ""
+      name: openshift-vsphere-infra
+      resource: namespaces
+    - group: ""
+      name: openshift-nutanix-infra
+      resource: namespaces
+    - group: ""
+      name: openshift-cloud-platform-infra
+      resource: namespaces
+    versions:
+    - name: operator
+      version: 4.21.30
+    - name: operator-image
+      version: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:e0beb2a1d6f92d07f4c38528e0bd16c0a806ee47a1c4b44da98f46a2beb7e268
+- apiVersion: config.openshift.io/v1
+  kind: ClusterOperator
+  metadata:
+    annotations:
+      capability.openshift.io/name: marketplace
+      include.release.openshift.io/hypershift: "true"
+      include.release.openshift.io/ibm-cloud-managed: "true"
+      include.release.openshift.io/self-managed-high-availability: "true"
+      include.release.openshift.io/single-node-developer: "true"
+    creationTimestamp: 2024-12-03T19:22:21Z
+    generation: 1
+    managedFields:
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:capability.openshift.io/name: {}
+            f:include.release.openshift.io/hypershift: {}
+            f:include.release.openshift.io/ibm-cloud-managed: {}
+            f:include.release.openshift.io/self-managed-high-availability: {}
+            f:include.release.openshift.io/single-node-developer: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"49a06f94-3e4d-47a9-b3fc-d8470f540c8a"}: {}
+        f:spec: {}
+      manager: cluster-version-operator
+      operation: Update
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          .: {}
+          f:extension: {}
+      manager: cluster-version-operator
+      operation: Update
+      subresource: status
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:conditions:
+            .: {}
+            k:{"type":"Available"}:
+              f:message: {}
+            k:{"type":"Degraded"}:
+              f:message: {}
+            k:{"type":"Progressing"}:
+              f:message: {}
+          f:relatedObjects: {}
+          f:versions: {}
+      manager: marketplace-operator
+      operation: Update
+      subresource: status
+      time: 2026-08-26T10:04:54Z
+    name: marketplace
+    namespace: ""
+    ownerReferences:
+    - apiVersion: config.openshift.io/v1
+      controller: true
+      kind: ClusterVersion
+      name: version
+      uid: 49a06f94-3e4d-47a9-b3fc-d8470f540c8a
+    resourceVersion: "6008770194"
+    uid: 2707728c-54ee-460f-8f35-b5af6c6d5511
+  spec: {}
+  status:
+    conditions:
+    - lastTransitionTime: 2024-12-03T19:26:28Z
+      message: 'Successfully progressed to release version: 4.21.30'
+      reason: OperatorAvailable
+      status: "False"
+      type: Progressing
+    - lastTransitionTime: 2024-12-03T19:26:28Z
+      message: 'Available release version: 4.21.30'
+      reason: OperatorAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: 2024-12-03T19:26:28Z
+      message: Marketplace is upgradeable
+      reason: OperatorAvailable
+      status: "True"
+      type: Upgradeable
+    - lastTransitionTime: 2024-12-03T19:26:28Z
+      message: 'Available release version: 4.21.30'
+      reason: OperatorAvailable
+      status: "False"
+      type: Degraded
+    extension: null
+    relatedObjects:
+    - group: ""
+      name: openshift-marketplace
+      resource: namespaces
+    - group: operators.coreos.com
+      name: ""
+      namespace: openshift-marketplace
+      resource: catalogsources
+    versions:
+    - name: operator
+      version: 4.21.30
+- apiVersion: config.openshift.io/v1
+  kind: ClusterOperator
+  metadata:
+    annotations:
+      include.release.openshift.io/hypershift: "true"
+      include.release.openshift.io/ibm-cloud-managed: "true"
+      include.release.openshift.io/self-managed-high-availability: "true"
+      include.release.openshift.io/single-node-developer: "true"
+    creationTimestamp: 2024-12-03T19:22:21Z
+    generation: 1
+    managedFields:
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:include.release.openshift.io/hypershift: {}
+            f:include.release.openshift.io/ibm-cloud-managed: {}
+            f:include.release.openshift.io/self-managed-high-availability: {}
+            f:include.release.openshift.io/single-node-developer: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"49a06f94-3e4d-47a9-b3fc-d8470f540c8a"}: {}
+        f:spec: {}
+      manager: cluster-version-operator
+      operation: Update
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          .: {}
+          f:extension: {}
+          f:relatedObjects: {}
+      manager: cluster-version-operator
+      operation: Update
+      subresource: status
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:conditions:
+            .: {}
+            k:{"type":"Progressing"}:
+              f:lastTransitionTime: {}
+              f:status: {}
+          f:versions: {}
+      manager: operator
+      operation: Update
+      subresource: status
+      time: 2026-08-26T10:07:20Z
+    name: monitoring
+    namespace: ""
+    ownerReferences:
+    - apiVersion: config.openshift.io/v1
+      controller: true
+      kind: ClusterVersion
+      name: version
+      uid: 49a06f94-3e4d-47a9-b3fc-d8470f540c8a
+    resourceVersion: "6008781314"
+    uid: 273cf7da-c16f-45bf-8b02-b366c230431f
+  spec: {}
+  status:
+    conditions:
+    - lastTransitionTime: 2025-01-16T03:09:07Z
+      message: Successfully rolled out the stack.
+      reason: RollOutDone
+      status: "True"
+      type: Available
+    - lastTransitionTime: 2025-01-16T03:09:07Z
+      status: "False"
+      type: Degraded
+    - lastTransitionTime: 2026-08-26T10:07:20Z
+      status: "False"
+      type: Progressing
+    - lastTransitionTime: 2024-12-03T19:26:17Z
+      status: "True"
+      type: Upgradeable
+    extension: null
+    relatedObjects:
+    - group: ""
+      name: openshift-monitoring
+      resource: namespaces
+    - group: ""
+      name: openshift-user-workload-monitoring
+      resource: namespaces
+    - group: monitoring.coreos.com
+      name: ""
+      resource: servicemonitors
+    - group: monitoring.coreos.com
+      name: ""
+      resource: podmonitors
+    - group: monitoring.coreos.com
+      name: ""
+      resource: prometheusrules
+    - group: monitoring.coreos.com
+      name: ""
+      resource: alertmanagers
+    - group: monitoring.coreos.com
+      name: ""
+      resource: prometheuses
+    - group: monitoring.coreos.com
+      name: ""
+      resource: thanosrulers
+    - group: monitoring.coreos.com
+      name: ""
+      resource: alertmanagerconfigs
+    versions:
+    - name: operator
+      version: 4.21.30
+- apiVersion: config.openshift.io/v1
+  kind: ClusterOperator
+  metadata:
+    annotations:
+      include.release.openshift.io/ibm-cloud-managed: "true"
+      include.release.openshift.io/self-managed-high-availability: "true"
+      include.release.openshift.io/single-node-developer: "true"
+      network.operator.openshift.io/last-seen-state: '{"DaemonsetStates":[],"DeploymentStates":[],"StatefulsetStates":[]}'
+      network.operator.openshift.io/relatedClusterObjects: ""
+    creationTimestamp: 2024-12-03T19:22:21Z
+    generation: 1
+    managedFields:
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:include.release.openshift.io/ibm-cloud-managed: {}
+            f:include.release.openshift.io/self-managed-high-availability: {}
+            f:include.release.openshift.io/single-node-developer: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"49a06f94-3e4d-47a9-b3fc-d8470f540c8a"}: {}
+        f:spec: {}
+      manager: cluster-version-operator
+      operation: Update
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          .: {}
+          f:extension: {}
+      manager: cluster-version-operator
+      operation: Update
+      subresource: status
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            f:network.operator.openshift.io/last-seen-state: {}
+            f:network.operator.openshift.io/relatedClusterObjects: {}
+      manager: network-operator
+      operation: Update
+      time: 2026-08-27T08:26:28Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:conditions:
+            .: {}
+            k:{"type":"Degraded"}:
+              f:lastTransitionTime: {}
+              f:status: {}
+            k:{"type":"Progressing"}:
+              f:lastTransitionTime: {}
+              f:status: {}
+          f:relatedObjects: {}
+          f:versions: {}
+      manager: network-operator
+      operation: Update
+      subresource: status
+      time: 2026-08-28T02:40:35Z
+    name: network
+    namespace: ""
+    ownerReferences:
+    - apiVersion: config.openshift.io/v1
+      controller: true
+      kind: ClusterVersion
+      name: version
+      uid: 49a06f94-3e4d-47a9-b3fc-d8470f540c8a
+    resourceVersion: "6016629715"
+    uid: 225fb6eb-7660-4b97-b3c6-7776ec65e7de
+  spec: {}
+  status:
+    conditions:
+    - lastTransitionTime: 2026-08-28T02:40:35Z
+      status: "False"
+      type: Degraded
+    - lastTransitionTime: 2024-12-03T19:24:04Z
+      status: "True"
+      type: Upgradeable
+    - lastTransitionTime: 2024-12-03T19:24:05Z
+      status: "False"
+      type: ManagementStateDegraded
+    - lastTransitionTime: 2026-08-27T08:26:28Z
+      status: "False"
+      type: Progressing
+    - lastTransitionTime: 2024-12-03T19:24:15Z
+      status: "True"
+      type: Available
+    extension: null
+    relatedObjects:
+    - group: ""
+      name: applied-cluster
+      namespace: openshift-network-operator
+      resource: configmaps
+    - group: apiextensions.k8s.io
+      name: cloudprivateipconfigs.cloud.network.openshift.io
+      resource: customresourcedefinitions
+    - group: ""
+      name: cloud-network-config-controller
+      namespace: openshift-cloud-network-config-controller
+      resource: serviceaccounts
+    - group: rbac.authorization.k8s.io
+      name: cloud-network-config-controller
+      resource: clusterroles
+    - group: rbac.authorization.k8s.io
+      name: cloud-network-config-controller
+      namespace: openshift-cloud-network-config-controller
+      resource: roles
+    - group: rbac.authorization.k8s.io
+      name: cloud-network-config-controller
+      resource: clusterrolebindings
+    - group: rbac.authorization.k8s.io
+      name: cloud-network-config-controller-rb
+      namespace: openshift-cloud-network-config-controller
+      resource: rolebindings
+    - group: ""
+      name: kube-cloud-config
+      namespace: openshift-cloud-network-config-controller
+      resource: configmaps
+    - group: ""
+      name: trusted-ca
+      namespace: openshift-cloud-network-config-controller
+      resource: configmaps
+    - group: apps
+      name: cloud-network-config-controller
+      namespace: openshift-cloud-network-config-controller
+      resource: deployments
+    - group: apiextensions.k8s.io
+      name: network-attachment-definitions.k8s.cni.cncf.io
+      resource: customresourcedefinitions
+    - group: apiextensions.k8s.io
+      name: ippools.whereabouts.cni.cncf.io
+      resource: customresourcedefinitions
+    - group: apiextensions.k8s.io
+      name: overlappingrangeipreservations.whereabouts.cni.cncf.io
+      resource: customresourcedefinitions
+    - group: apiextensions.k8s.io
+      name: nodeslicepools.whereabouts.cni.cncf.io
+      resource: customresourcedefinitions
+    - group: ""
+      name: openshift-multus
+      resource: namespaces
+    - group: rbac.authorization.k8s.io
+      name: multus
+      resource: clusterroles
+    - group: rbac.authorization.k8s.io
+      name: multus-ancillary-tools
+      resource: clusterroles
+    - group: ""
+      name: multus
+      namespace: openshift-multus
+      resource: serviceaccounts
+    - group: rbac.authorization.k8s.io
+      name: multus-transient
+      resource: clusterrolebindings
+    - group: rbac.authorization.k8s.io
+      name: multus-group
+      resource: clusterrolebindings
+    - group: ""
+      name: multus-ancillary-tools
+      namespace: openshift-multus
+      resource: serviceaccounts
+    - group: rbac.authorization.k8s.io
+      name: multus-ancillary-tools
+      resource: clusterrolebindings
+    - group: rbac.authorization.k8s.io
+      name: multus-cluster-readers
+      resource: clusterrolebindings
+    - group: rbac.authorization.k8s.io
+      name: multus-whereabouts
+      resource: clusterrolebindings
+    - group: rbac.authorization.k8s.io
+      name: multus-whereabouts
+      namespace: openshift-multus
+      resource: rolebindings
+    - group: rbac.authorization.k8s.io
+      name: whereabouts-cni
+      resource: clusterroles
+    - group: rbac.authorization.k8s.io
+      name: whereabouts-cni
+      namespace: openshift-multus
+      resource: roles
+    - group: rbac.authorization.k8s.io
+      name: net-attach-def-project
+      resource: clusterroles
+    - group: ""
+      name: default-cni-sysctl-allowlist
+      namespace: openshift-multus
+      resource: configmaps
+    - group: ""
+      name: cni-copy-resources
+      namespace: openshift-multus
+      resource: configmaps
+    - group: ""
+      name: whereabouts-flatfile-config
+      namespace: openshift-multus
+      resource: configmaps
+    - group: ""
+      name: multus-daemon-config
+      namespace: openshift-multus
+      resource: configmaps
+    - group: apps
+      name: multus
+      namespace: openshift-multus
+      resource: daemonsets
+    - group: apps
+      name: multus-additional-cni-plugins
+      namespace: openshift-multus
+      resource: daemonsets
+    - group: ""
+      name: metrics-daemon-sa
+      namespace: openshift-multus
+      resource: serviceaccounts
+    - group: rbac.authorization.k8s.io
+      name: metrics-daemon-role
+      resource: clusterroles
+    - group: rbac.authorization.k8s.io
+      name: metrics-daemon-sa-rolebinding
+      resource: clusterrolebindings
+    - group: apps
+      name: network-metrics-daemon
+      namespace: openshift-multus
+      resource: daemonsets
+    - group: monitoring.coreos.com
+      name: monitor-network
+      namespace: openshift-multus
+      resource: servicemonitors
+    - group: ""
+      name: network-metrics-service
+      namespace: openshift-multus
+      resource: services
+    - group: rbac.authorization.k8s.io
+      name: prometheus-k8s
+      namespace: openshift-multus
+      resource: roles
+    - group: rbac.authorization.k8s.io
+      name: prometheus-k8s
+      namespace: openshift-multus
+      resource: rolebindings
+    - group: ""
+      name: multus-admission-controller
+      namespace: openshift-multus
+      resource: services
+    - group: ""
+      name: multus-ac
+      namespace: openshift-multus
+      resource: serviceaccounts
+    - group: rbac.authorization.k8s.io
+      name: multus-admission-controller-webhook
+      resource: clusterroles
+    - group: rbac.authorization.k8s.io
+      name: multus-admission-controller-webhook
+      resource: clusterrolebindings
+    - group: admissionregistration.k8s.io
+      name: multus.openshift.io
+      resource: validatingwebhookconfigurations
+    - group: apps
+      name: multus-admission-controller
+      namespace: openshift-multus
+      resource: deployments
+    - group: monitoring.coreos.com
+      name: monitor-multus-admission-controller
+      namespace: openshift-multus
+      resource: servicemonitors
+    - group: rbac.authorization.k8s.io
+      name: prometheus-k8s
+      namespace: openshift-multus
+      resource: roles
+    - group: rbac.authorization.k8s.io
+      name: prometheus-k8s
+      namespace: openshift-multus
+      resource: rolebindings
+    - group: monitoring.coreos.com
+      name: prometheus-k8s-rules
+      namespace: openshift-multus
+      resource: prometheusrules
+    - group: ""
+      name: openshift-ovn-kubernetes
+      resource: namespaces
+    - group: apiextensions.k8s.io
+      name: egressfirewalls.k8s.ovn.org
+      resource: customresourcedefinitions
+    - group: apiextensions.k8s.io
+      name: egressips.k8s.ovn.org
+      resource: customresourcedefinitions
+    - group: apiextensions.k8s.io
+      name: egressqoses.k8s.ovn.org
+      resource: customresourcedefinitions
+    - group: apiextensions.k8s.io
+      name: adminpolicybasedexternalroutes.k8s.ovn.org
+      resource: customresourcedefinitions
+    - group: apiextensions.k8s.io
+      name: egressservices.k8s.ovn.org
+      resource: customresourcedefinitions
+    - group: apiextensions.k8s.io
+      name: adminnetworkpolicies.policy.networking.k8s.io
+      resource: customresourcedefinitions
+    - group: apiextensions.k8s.io
+      name: baselineadminnetworkpolicies.policy.networking.k8s.io
+      resource: customresourcedefinitions
+    - group: apiextensions.k8s.io
+      name: ipamclaims.k8s.cni.cncf.io
+      resource: customresourcedefinitions
+    - group: apiextensions.k8s.io
+      name: userdefinednetworks.k8s.ovn.org
+      resource: customresourcedefinitions
+    - group: apiextensions.k8s.io
+      name: clusteruserdefinednetworks.k8s.ovn.org
+      resource: customresourcedefinitions
+    - group: ""
+      name: ovn-kubernetes-node
+      namespace: openshift-ovn-kubernetes
+      resource: serviceaccounts
+    - group: rbac.authorization.k8s.io
+      name: openshift-ovn-kubernetes-node-limited
+      namespace: openshift-ovn-kubernetes
+      resource: roles
+    - group: rbac.authorization.k8s.io
+      name: openshift-ovn-kubernetes-nodes-identity-limited
+      namespace: openshift-ovn-kubernetes
+      resource: rolebindings
+    - group: rbac.authorization.k8s.io
+      name: openshift-ovn-kubernetes-node-limited
+      resource: clusterroles
+    - group: rbac.authorization.k8s.io
+      name: openshift-ovn-kubernetes-node-identity-limited
+      resource: clusterrolebindings
+    - group: rbac.authorization.k8s.io
+      name: openshift-ovn-kubernetes-kube-rbac-proxy
+      resource: clusterroles
+    - group: rbac.authorization.k8s.io
+      name: openshift-ovn-kubernetes-node-kube-rbac-proxy
+      resource: clusterrolebindings
+    - group: ""
+      name: ovnkube-config
+      namespace: openshift-ovn-kubernetes
+      resource: configmaps
+    - group: ""
+      name: ovn-kubernetes-control-plane
+      namespace: openshift-ovn-kubernetes
+      resource: serviceaccounts
+    - group: rbac.authorization.k8s.io
+      name: openshift-ovn-kubernetes-control-plane-limited
+      resource: clusterroles
+    - group: rbac.authorization.k8s.io
+      name: openshift-ovn-kubernetes-control-plane-limited
+      resource: clusterrolebindings
+    - group: rbac.authorization.k8s.io
+      name: openshift-ovn-kubernetes-control-plane-limited
+      namespace: openshift-ovn-kubernetes
+      resource: roles
+    - group: rbac.authorization.k8s.io
+      name: openshift-ovn-kubernetes-control-plane-limited
+      namespace: openshift-ovn-kubernetes
+      resource: rolebindings
+    - group: network.operator.openshift.io
+      name: ovn
+      namespace: openshift-ovn-kubernetes
+      resource: operatorpkis
+    - group: network.operator.openshift.io
+      name: signer
+      namespace: openshift-ovn-kubernetes
+      resource: operatorpkis
+    - group: flowcontrol.apiserver.k8s.io
+      name: openshift-ovn-kubernetes
+      resource: flowschemas
+    - group: rbac.authorization.k8s.io
+      name: openshift-ovn-kubernetes-cluster-reader
+      resource: clusterroles
+    - group: ""
+      name: ovnkube-script-lib
+      namespace: openshift-ovn-kubernetes
+      resource: configmaps
+    - group: rbac.authorization.k8s.io
+      name: openshift-ovn-kubernetes-udn-editor
+      resource: clusterroles
+    - group: rbac.authorization.k8s.io
+      name: openshift-ovn-kubernetes-udn-viewer
+      resource: clusterroles
+    - group: monitoring.coreos.com
+      name: master-rules
+      namespace: openshift-ovn-kubernetes
+      resource: prometheusrules
+    - group: monitoring.coreos.com
+      name: networking-rules
+      namespace: openshift-ovn-kubernetes
+      resource: prometheusrules
+    - group: ""
+      name: openshift-network-features
+      namespace: openshift-config-managed
+      resource: configmaps
+    - group: admissionregistration.k8s.io
+      name: default-network-annotation
+      resource: validatingadmissionpolicies
+    - group: admissionregistration.k8s.io
+      name: default-network-annotation-binding
+      resource: validatingadmissionpolicybindings
+    - group: monitoring.coreos.com
+      name: monitor-ovn-control-plane-metrics
+      namespace: openshift-ovn-kubernetes
+      resource: servicemonitors
+    - group: ""
+      name: ovn-kubernetes-control-plane
+      namespace: openshift-ovn-kubernetes
+      resource: services
+    - group: monitoring.coreos.com
+      name: monitor-ovn-node
+      namespace: openshift-ovn-kubernetes
+      resource: servicemonitors
+    - group: ""
+      name: ovn-kubernetes-node
+      namespace: openshift-ovn-kubernetes
+      resource: services
+    - group: rbac.authorization.k8s.io
+      name: prometheus-k8s
+      namespace: openshift-ovn-kubernetes
+      resource: roles
+    - group: rbac.authorization.k8s.io
+      name: prometheus-k8s
+      namespace: openshift-ovn-kubernetes
+      resource: rolebindings
+    - group: ""
+      name: openshift-host-network
+      resource: namespaces
+    - group: ""
+      name: host-network-namespace-quotas
+      namespace: openshift-host-network
+      resource: resourcequotas
+    - group: apps
+      name: ovnkube-control-plane
+      namespace: openshift-ovn-kubernetes
+      resource: deployments
+    - group: apps
+      name: ovnkube-node
+      namespace: openshift-ovn-kubernetes
+      resource: daemonsets
+    - group: admissionregistration.k8s.io
+      name: user-defined-networks-namespace-label
+      resource: validatingadmissionpolicies
+    - group: admissionregistration.k8s.io
+      name: user-defined-networks-namespace-label-binding
+      resource: validatingadmissionpolicybindings
+    - group: ""
+      name: openshift-network-diagnostics
+      resource: namespaces
+    - group: ""
+      name: network-diagnostics
+      namespace: openshift-network-diagnostics
+      resource: serviceaccounts
+    - group: rbac.authorization.k8s.io
+      name: network-diagnostics
+      namespace: openshift-network-diagnostics
+      resource: roles
+    - group: rbac.authorization.k8s.io
+      name: network-diagnostics
+      namespace: openshift-network-diagnostics
+      resource: rolebindings
+    - group: rbac.authorization.k8s.io
+      name: network-diagnostics
+      resource: clusterroles
+    - group: rbac.authorization.k8s.io
+      name: network-diagnostics
+      resource: clusterrolebindings
+    - group: rbac.authorization.k8s.io
+      name: network-diagnostics
+      namespace: kube-system
+      resource: rolebindings
+    - group: apps
+      name: network-check-source
+      namespace: openshift-network-diagnostics
+      resource: deployments
+    - group: ""
+      name: network-check-source
+      namespace: openshift-network-diagnostics
+      resource: services
+    - group: monitoring.coreos.com
+      name: network-check-source
+      namespace: openshift-network-diagnostics
+      resource: servicemonitors
+    - group: rbac.authorization.k8s.io
+      name: prometheus-k8s
+      namespace: openshift-network-diagnostics
+      resource: roles
+    - group: rbac.authorization.k8s.io
+      name: prometheus-k8s
+      namespace: openshift-network-diagnostics
+      resource: rolebindings
+    - group: apps
+      name: network-check-target
+      namespace: openshift-network-diagnostics
+      resource: daemonsets
+    - group: ""
+      name: network-check-target
+      namespace: openshift-network-diagnostics
+      resource: services
+    - group: rbac.authorization.k8s.io
+      name: openshift-network-public-role
+      namespace: openshift-config-managed
+      resource: roles
+    - group: rbac.authorization.k8s.io
+      name: openshift-network-public-role-binding
+      namespace: openshift-config-managed
+      resource: rolebindings
+    - group: ""
+      name: openshift-network-node-identity
+      resource: namespaces
+    - group: ""
+      name: network-node-identity
+      namespace: openshift-network-node-identity
+      resource: serviceaccounts
+    - group: rbac.authorization.k8s.io
+      name: network-node-identity
+      resource: clusterrolebindings
+    - group: rbac.authorization.k8s.io
+      name: network-node-identity
+      resource: clusterroles
+    - group: rbac.authorization.k8s.io
+      name: network-node-identity-leases
+      namespace: openshift-network-node-identity
+      resource: rolebindings
+    - group: rbac.authorization.k8s.io
+      name: network-node-identity-leases
+      namespace: openshift-network-node-identity
+      resource: roles
+    - group: rbac.authorization.k8s.io
+      name: system:openshift:scc:hostnetwork-v2
+      namespace: openshift-network-node-identity
+      resource: rolebindings
+    - group: ""
+      name: ovnkube-identity-cm
+      namespace: openshift-network-node-identity
+      resource: configmaps
+    - group: network.operator.openshift.io
+      name: network-node-identity
+      namespace: openshift-network-node-identity
+      resource: operatorpkis
+    - group: admissionregistration.k8s.io
+      name: network-node-identity.openshift.io
+      resource: validatingwebhookconfigurations
+    - group: apps
+      name: network-node-identity
+      namespace: openshift-network-node-identity
+      resource: daemonsets
+    - group: monitoring.coreos.com
+      name: openshift-network-operator-ipsec-rules
+      namespace: openshift-network-operator
+      resource: prometheusrules
+    - group: admissionregistration.k8s.io
+      name: servicecidrs.openshift.io
+      resource: validatingadmissionpolicies
+    - group: admissionregistration.k8s.io
+      name: servicecidrs-binding
+      resource: validatingadmissionpolicybindings
+    - group: rbac.authorization.k8s.io
+      name: openshift-iptables-alerter
+      resource: clusterroles
+    - group: ""
+      name: iptables-alerter
+      namespace: openshift-network-operator
+      resource: serviceaccounts
+    - group: rbac.authorization.k8s.io
+      name: openshift-iptables-alerter
+      resource: clusterrolebindings
+    - group: ""
+      name: iptables-alerter-script
+      namespace: openshift-network-operator
+      resource: configmaps
+    - group: apps
+      name: iptables-alerter
+      namespace: openshift-network-operator
+      resource: daemonsets
+    - group: ""
+      name: openshift-network-console
+      resource: namespaces
+    - group: ""
+      name: networking-console-plugin
+      namespace: openshift-network-console
+      resource: configmaps
+    - group: apps
+      name: networking-console-plugin
+      namespace: openshift-network-console
+      resource: deployments
+    - group: ""
+      name: networking-console-plugin
+      namespace: openshift-network-console
+      resource: services
+    - group: console.openshift.io
+      name: networking-console-plugin
+      resource: consoleplugins
+    - group: ""
+      name: openshift-network-operator
+      resource: namespaces
+    - group: operator.openshift.io
+      name: cluster
+      resource: networks
+    - group: ""
+      name: openshift-cloud-network-config-controller
+      resource: namespaces
+    versions:
+    - name: operator
+      version: 4.21.30
+- apiVersion: config.openshift.io/v1
+  kind: ClusterOperator
+  metadata:
+    annotations:
+      capability.openshift.io/name: NodeTuning
+      include.release.openshift.io/hypershift: "true"
+      include.release.openshift.io/ibm-cloud-managed: "true"
+      include.release.openshift.io/self-managed-high-availability: "true"
+      include.release.openshift.io/single-node-developer: "true"
+    creationTimestamp: 2024-12-03T19:22:21Z
+    generation: 1
+    managedFields:
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:capability.openshift.io/name: {}
+            f:include.release.openshift.io/hypershift: {}
+            f:include.release.openshift.io/ibm-cloud-managed: {}
+            f:include.release.openshift.io/self-managed-high-availability: {}
+            f:include.release.openshift.io/single-node-developer: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"49a06f94-3e4d-47a9-b3fc-d8470f540c8a"}: {}
+        f:spec: {}
+      manager: cluster-version-operator
+      operation: Update
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          .: {}
+          f:extension: {}
+      manager: cluster-version-operator
+      operation: Update
+      subresource: status
+      time: 2024-12-03T19:22:22Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:conditions:
+            .: {}
+            k:{"type":"Available"}:
+              f:lastTransitionTime: {}
+              f:message: {}
+            k:{"type":"Progressing"}:
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+          f:relatedObjects: {}
+          f:versions: {}
+      manager: cluster-node-tuning-operator
+      operation: Update
+      subresource: status
+      time: 2026-08-27T08:26:27Z
+    name: node-tuning
+    namespace: ""
+    ownerReferences:
+    - apiVersion: config.openshift.io/v1
+      controller: true
+      kind: ClusterVersion
+      name: version
+      uid: 49a06f94-3e4d-47a9-b3fc-d8470f540c8a
+    resourceVersion: "6013152841"
+    uid: 1aea312d-d50f-441a-8475-053e3141f480
+  spec: {}
+  status:
+    conditions:
+    - lastTransitionTime: 2026-08-27T08:26:27Z
+      message: Cluster has deployed 23/23 "4.21.30" operands
+      reason: AsExpected
+      status: "True"
+      type: Available
+    - lastTransitionTime: 2026-08-27T08:26:27Z
+      message: Cluster version is "4.21.30"
+      reason: AsExpected
+      status: "False"
+      type: Progressing
+    - lastTransitionTime: 2024-12-03T19:25:54Z
+      message: DaemonSet "tuned" available
+      reason: AsExpected
+      status: "False"
+      type: Degraded
+    extension: null
+    relatedObjects:
+    - group: ""
+      name: openshift-cluster-node-tuning-operator
+      resource: namespaces
+    - group: ""
+      name: cluster-node-tuning-operator
+      namespace: openshift-cluster-node-tuning-operator
+      resource: serviceaccounts
+    - group: rbac.authorization.k8s.io
+      name: cluster-node-tuning-operator
+      resource: clusterroles
+    - group: rbac.authorization.k8s.io
+      name: cluster-node-tuning-operator
+      resource: clusterrolebindings
+    - group: tuned.openshift.io
+      name: ""
+      namespace: openshift-cluster-node-tuning-operator
+      resource: profiles
+    - group: tuned.openshift.io
+      name: ""
+      namespace: openshift-cluster-node-tuning-operator
+      resource: tuneds
+    - group: apps
+      name: tuned
+      namespace: openshift-cluster-node-tuning-operator
+      resource: daemonsets
+    - group: performance.openshift.io
+      name: ""
+      resource: performanceprofiles
+    versions:
+    - name: operator
+      version: 4.21.30
+    - name: ocp-tuned
+      version: 4.21.30
+- apiVersion: config.openshift.io/v1
+  kind: ClusterOperator
+  metadata:
+    annotations:
+      capability.openshift.io/name: OperatorLifecycleManagerV1
+      include.release.openshift.io/self-managed-high-availability: "true"
+    creationTimestamp: 2025-03-17T14:35:30Z
+    generation: 1
+    managedFields:
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:capability.openshift.io/name: {}
+            f:include.release.openshift.io/self-managed-high-availability: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"49a06f94-3e4d-47a9-b3fc-d8470f540c8a"}: {}
+        f:spec: {}
+      manager: cluster-version-operator
+      operation: Update
+      time: 2025-03-17T14:35:30Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          .: {}
+          f:extension: {}
+      manager: cluster-version-operator
+      operation: Update
+      subresource: status
+      time: 2025-03-17T14:35:30Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:conditions:
+            .: {}
+            k:{"type":"Available"}:
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+            k:{"type":"Degraded"}:
+              f:message: {}
+            k:{"type":"Progressing"}:
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+          f:relatedObjects: {}
+          f:versions: {}
+      manager: cluster-olm-operator
+      operation: Update
+      subresource: status
+      time: 2026-08-26T10:42:43Z
+    name: olm
+    namespace: ""
+    ownerReferences:
+    - apiVersion: config.openshift.io/v1
+      controller: true
+      kind: ClusterVersion
+      name: version
+      uid: 49a06f94-3e4d-47a9-b3fc-d8470f540c8a
+    resourceVersion: "6008918987"
+    uid: 4e2dd7e1-81dc-4644-9903-82fe49be70cb
+  spec: {}
+  status:
+    conditions:
+    - lastTransitionTime: 2025-03-17T14:35:46Z
+      message: All is well
+      reason: AsExpected
+      status: "False"
+      type: Degraded
+    - lastTransitionTime: 2026-08-26T10:13:51Z
+      message: |-
+        OperatorcontrollerDeploymentOperatorControllerControllerManagerProgressing: Deployment is not progressing
+        CatalogdDeploymentCatalogdControllerManagerProgressing: Deployment is not progressing
+      reason: AsExpected
+      status: "False"
+      type: Progressing
+    - lastTransitionTime: 2026-08-26T10:42:43Z
+      message: |-
+        OperatorcontrollerDeploymentOperatorControllerControllerManagerAvailable: Deployment is available
+        CatalogdDeploymentCatalogdControllerManagerAvailable: Deployment is available
+      reason: AsExpected
+      status: "True"
+      type: Available
+    - lastTransitionTime: 2025-03-17T14:35:46Z
+      message: All is well
+      reason: AsExpected
+      status: "True"
+      type: Upgradeable
+    - lastTransitionTime: 2025-03-17T14:35:46Z
+      reason: NoData
+      status: Unknown
+      type: EvaluationConditionsDetected
+    extension: null
+    relatedObjects:
+    - group: ""
+      name: openshift-catalogd
+      resource: namespaces
+    - group: networking.k8s.io
+      name: catalogd-controller-manager
+      namespace: openshift-catalogd
+      resource: networkpolicies
+    - group: networking.k8s.io
+      name: catalogd-default-deny-all-traffic
+      namespace: openshift-catalogd
+      resource: networkpolicies
+    - group: ""
+      name: catalogd-controller-manager
+      namespace: openshift-catalogd
+      resource: serviceaccounts
+    - group: ""
+      name: catalogd-trusted-ca-bundle
+      namespace: openshift-catalogd
+      resource: configmaps
+    - group: apiextensions.k8s.io
+      name: clustercatalogs.olm.operatorframework.io
+      resource: customresourcedefinitions
+    - group: rbac.authorization.k8s.io
+      name: catalogd-manager-role
+      resource: clusterroles
+    - group: rbac.authorization.k8s.io
+      name: catalogd-metrics-reader
+      resource: clusterroles
+    - group: rbac.authorization.k8s.io
+      name: catalogd-proxy-role
+      resource: clusterroles
+    - group: rbac.authorization.k8s.io
+      name: catalogd-manager-rolebinding
+      resource: clusterrolebindings
+    - group: rbac.authorization.k8s.io
+      name: catalogd-proxy-rolebinding
+      resource: clusterrolebindings
+    - group: rbac.authorization.k8s.io
+      name: catalogd-manager-role
+      namespace: openshift-config
+      resource: roles
+    - group: rbac.authorization.k8s.io
+      name: catalogd-manager-role
+      namespace: openshift-catalogd
+      resource: roles
+    - group: rbac.authorization.k8s.io
+      name: catalogd-leader-election-role
+      namespace: openshift-catalogd
+      resource: roles
+    - group: rbac.authorization.k8s.io
+      name: catalogd-metrics-monitor-role
+      namespace: openshift-catalogd
+      resource: roles
+    - group: rbac.authorization.k8s.io
+      name: catalogd-manager-rolebinding
+      namespace: openshift-config
+      resource: rolebindings
+    - group: rbac.authorization.k8s.io
+      name: catalogd-leader-election-rolebinding
+      namespace: openshift-catalogd
+      resource: rolebindings
+    - group: rbac.authorization.k8s.io
+      name: catalogd-manager-rolebinding
+      namespace: openshift-catalogd
+      resource: rolebindings
+    - group: rbac.authorization.k8s.io
+      name: catalogd-metrics-monitor-rolebinding
+      namespace: openshift-catalogd
+      resource: rolebindings
+    - group: ""
+      name: catalogd-service
+      namespace: openshift-catalogd
+      resource: services
+    - group: apps
+      name: catalogd-controller-manager
+      namespace: openshift-catalogd
+      resource: deployments
+    - group: olm.operatorframework.io
+      name: openshift-certified-operators
+      resource: clustercatalogs
+    - group: olm.operatorframework.io
+      name: openshift-community-operators
+      resource: clustercatalogs
+    - group: olm.operatorframework.io
+      name: openshift-redhat-marketplace
+      resource: clustercatalogs
+    - group: olm.operatorframework.io
+      name: openshift-redhat-operators
+      resource: clustercatalogs
+    - group: admissionregistration.k8s.io
+      name: catalogd-mutating-webhook-configuration
+      resource: mutatingwebhookconfigurations
+    - group: monitoring.coreos.com
+      name: catalogd-metrics-monitor
+      namespace: openshift-catalogd
+      resource: servicemonitors
+    - group: ""
+      name: openshift-operator-controller
+      resource: namespaces
+    - group: networking.k8s.io
+      name: operator-controller-default-deny-all-traffic
+      namespace: openshift-operator-controller
+      resource: networkpolicies
+    - group: networking.k8s.io
+      name: operator-controller-controller-manager
+      namespace: openshift-operator-controller
+      resource: networkpolicies
+    - group: ""
+      name: operator-controller-controller-manager
+      namespace: openshift-operator-controller
+      resource: serviceaccounts
+    - group: ""
+      name: operator-controller-trusted-ca-bundle
+      namespace: openshift-operator-controller
+      resource: configmaps
+    - group: apiextensions.k8s.io
+      name: clusterextensions.olm.operatorframework.io
+      resource: customresourcedefinitions
+    - group: rbac.authorization.k8s.io
+      name: operator-controller-metrics-reader
+      resource: clusterroles
+    - group: rbac.authorization.k8s.io
+      name: operator-controller-proxy-role
+      resource: clusterroles
+    - group: rbac.authorization.k8s.io
+      name: operator-controller-clusterextension-viewer-role
+      resource: clusterroles
+    - group: rbac.authorization.k8s.io
+      name: operator-controller-manager-role
+      resource: clusterroles
+    - group: rbac.authorization.k8s.io
+      name: operator-controller-proxy-rolebinding
+      resource: clusterrolebindings
+    - group: rbac.authorization.k8s.io
+      name: operator-controller-manager-rolebinding
+      resource: clusterrolebindings
+    - group: rbac.authorization.k8s.io
+      name: operator-controller-manager-role
+      namespace: openshift-config
+      resource: roles
+    - group: rbac.authorization.k8s.io
+      name: operator-controller-leader-election-role
+      namespace: openshift-operator-controller
+      resource: roles
+    - group: rbac.authorization.k8s.io
+      name: operator-controller-metrics-monitor-role
+      namespace: openshift-operator-controller
+      resource: roles
+    - group: rbac.authorization.k8s.io
+      name: operator-controller-manager-role
+      namespace: openshift-operator-controller
+      resource: roles
+    - group: rbac.authorization.k8s.io
+      name: operator-controller-manager-rolebinding
+      namespace: openshift-config
+      resource: rolebindings
+    - group: rbac.authorization.k8s.io
+      name: operator-controller-leader-election-rolebinding
+      namespace: openshift-operator-controller
+      resource: rolebindings
+    - group: rbac.authorization.k8s.io
+      name: operator-controller-manager-rolebinding
+      namespace: openshift-operator-controller
+      resource: rolebindings
+    - group: rbac.authorization.k8s.io
+      name: operator-controller-metrics-monitor-rolebinding
+      namespace: openshift-operator-controller
+      resource: rolebindings
+    - group: ""
+      name: operator-controller-service
+      namespace: openshift-operator-controller
+      resource: services
+    - group: apps
+      name: operator-controller-controller-manager
+      namespace: openshift-operator-controller
+      resource: deployments
+    - group: monitoring.coreos.com
+      name: operator-controller-metrics-monitor
+      namespace: openshift-operator-controller
+      resource: servicemonitors
+    - group: apiextensions.k8s.io
+      name: olms.operator.openshift.io
+      resource: customresourcedefinitions
+    - group: operator.openshift.io
+      name: cluster
+      resource: olms
+    - group: ""
+      name: openshift-cluster-olm-operator
+      resource: namespaces
+    - group: rbac.authorization.k8s.io
+      name: cluster-olm-operator
+      resource: clusterroles
+    - group: ""
+      name: cluster-olm-operator
+      namespace: openshift-cluster-olm-operator
+      resource: serviceaccounts
+    - group: ""
+      name: cluster-olm-operator-metrics
+      namespace: openshift-cluster-olm-operator
+      resource: services
+    - group: rbac.authorization.k8s.io
+      name: cluster-olm-operator-role
+      resource: clusterrolebindings
+    - group: apps
+      name: cluster-olm-operator
+      namespace: openshift-cluster-olm-operator
+      resource: deployments
+    - group: networking.k8s.io
+      name: default-deny-all
+      namespace: openshift-cluster-olm-operator
+      resource: networkpolicies
+    - group: networking.k8s.io
+      name: allow-egress-to-openshift-dns
+      namespace: openshift-cluster-olm-operator
+      resource: networkpolicies
+    - group: networking.k8s.io
+      name: allow-egress-to-api-server
+      namespace: openshift-cluster-olm-operator
+      resource: networkpolicies
+    - group: networking.k8s.io
+      name: allow-metrics-traffic
+      namespace: openshift-cluster-olm-operator
+      resource: networkpolicies
+    versions:
+    - name: operator
+      version: 4.21.30
+- apiVersion: config.openshift.io/v1
+  kind: ClusterOperator
+  metadata:
+    annotations:
+      exclude.release.openshift.io/internal-openshift-hosted: "true"
+      include.release.openshift.io/self-managed-high-availability: "true"
+      include.release.openshift.io/single-node-developer: "true"
+    creationTimestamp: 2024-12-03T19:22:21Z
+    generation: 1
+    managedFields:
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:exclude.release.openshift.io/internal-openshift-hosted: {}
+            f:include.release.openshift.io/self-managed-high-availability: {}
+            f:include.release.openshift.io/single-node-developer: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"49a06f94-3e4d-47a9-b3fc-d8470f540c8a"}: {}
+        f:spec: {}
+      manager: cluster-version-operator
+      operation: Update
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          .: {}
+          f:extension: {}
+      manager: cluster-version-operator
+      operation: Update
+      subresource: status
+      time: 2024-12-03T19:22:22Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:conditions:
+            .: {}
+            k:{"type":"Available"}:
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+            k:{"type":"Degraded"}:
+              f:message: {}
+            k:{"type":"Progressing"}:
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+          f:relatedObjects: {}
+          f:versions: {}
+      manager: cluster-openshift-apiserver-operator
+      operation: Update
+      subresource: status
+      time: 2026-08-26T10:52:14Z
+    name: openshift-apiserver
+    namespace: ""
+    ownerReferences:
+    - apiVersion: config.openshift.io/v1
+      controller: true
+      kind: ClusterVersion
+      name: version
+      uid: 49a06f94-3e4d-47a9-b3fc-d8470f540c8a
+    resourceVersion: "6008957749"
+    uid: 83e4ab0e-7562-4852-a0c2-a6063042242c
+  spec: {}
+  status:
+    conditions:
+    - lastTransitionTime: 2024-12-03T19:25:28Z
+      message: All is well
+      reason: AsExpected
+      status: "False"
+      type: Degraded
+    - lastTransitionTime: 2026-08-26T10:09:52Z
+      message: All is well
+      reason: AsExpected
+      status: "False"
+      type: Progressing
+    - lastTransitionTime: 2026-04-22T08:16:26Z
+      message: All is well
+      reason: AsExpected
+      status: "True"
+      type: Available
+    - lastTransitionTime: 2024-12-03T19:25:26Z
+      message: All is well
+      reason: AsExpected
+      status: "True"
+      type: Upgradeable
+    - lastTransitionTime: 2024-12-03T19:25:26Z
+      reason: NoData
+      status: Unknown
+      type: EvaluationConditionsDetected
+    extension: null
+    relatedObjects:
+    - group: operator.openshift.io
+      name: cluster
+      resource: openshiftapiservers
+    - group: ""
+      name: openshift-config
+      resource: namespaces
+    - group: ""
+      name: openshift-config-managed
+      resource: namespaces
+    - group: ""
+      name: openshift-apiserver-operator
+      resource: namespaces
+    - group: ""
+      name: openshift-apiserver
+      resource: namespaces
+    - group: ""
+      name: openshift-etcd-operator
+      resource: namespaces
+    - group: ""
+      name: host-etcd-2
+      namespace: openshift-etcd
+      resource: endpoints
+    - group: controlplane.operator.openshift.io
+      name: ""
+      namespace: openshift-apiserver
+      resource: podnetworkconnectivitychecks
+    - group: apiregistration.k8s.io
+      name: v1.apps.openshift.io
+      resource: apiservices
+    - group: apiregistration.k8s.io
+      name: v1.authorization.openshift.io
+      resource: apiservices
+    - group: apiregistration.k8s.io
+      name: v1.build.openshift.io
+      resource: apiservices
+    - group: apiregistration.k8s.io
+      name: v1.image.openshift.io
+      resource: apiservices
+    - group: apiregistration.k8s.io
+      name: v1.project.openshift.io
+      resource: apiservices
+    - group: apiregistration.k8s.io
+      name: v1.quota.openshift.io
+      resource: apiservices
+    - group: apiregistration.k8s.io
+      name: v1.route.openshift.io
+      resource: apiservices
+    - group: apiregistration.k8s.io
+      name: v1.security.openshift.io
+      resource: apiservices
+    - group: apiregistration.k8s.io
+      name: v1.template.openshift.io
+      resource: apiservices
+    versions:
+    - name: operator
+      version: 4.21.30
+    - name: openshift-apiserver
+      version: 4.21.30
+- apiVersion: config.openshift.io/v1
+  kind: ClusterOperator
+  metadata:
+    annotations:
+      exclude.release.openshift.io/internal-openshift-hosted: "true"
+      include.release.openshift.io/self-managed-high-availability: "true"
+      include.release.openshift.io/single-node-developer: "true"
+    creationTimestamp: 2024-12-03T19:22:21Z
+    generation: 1
+    managedFields:
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:exclude.release.openshift.io/internal-openshift-hosted: {}
+            f:include.release.openshift.io/self-managed-high-availability: {}
+            f:include.release.openshift.io/single-node-developer: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"49a06f94-3e4d-47a9-b3fc-d8470f540c8a"}: {}
+        f:spec: {}
+      manager: cluster-version-operator
+      operation: Update
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          .: {}
+          f:extension: {}
+      manager: cluster-version-operator
+      operation: Update
+      subresource: status
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:conditions:
+            .: {}
+            k:{"type":"Degraded"}:
+              f:message: {}
+            k:{"type":"Progressing"}:
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+          f:relatedObjects: {}
+          f:versions: {}
+      manager: cluster-openshift-controller-manager-operator
+      operation: Update
+      subresource: status
+      time: 2026-08-31T07:17:19Z
+    name: openshift-controller-manager
+    namespace: ""
+    ownerReferences:
+    - apiVersion: config.openshift.io/v1
+      controller: true
+      kind: ClusterVersion
+      name: version
+      uid: 49a06f94-3e4d-47a9-b3fc-d8470f540c8a
+    resourceVersion: "6031220538"
+    uid: 48c43b5a-44f4-4308-b98d-b1e5b8dc97c5
+  spec: {}
+  status:
+    conditions:
+    - lastTransitionTime: 2024-12-03T19:25:26Z
+      message: All is well
+      reason: AsExpected
+      status: "False"
+      type: Degraded
+    - lastTransitionTime: 2026-08-31T07:17:19Z
+      message: All is well
+      reason: AsExpected
+      status: "False"
+      type: Progressing
+    - lastTransitionTime: 2024-12-03T19:26:06Z
+      message: All is well
+      reason: AsExpected
+      status: "True"
+      type: Available
+    - lastTransitionTime: 2024-12-03T19:25:30Z
+      message: All is well
+      reason: AsExpected
+      status: "True"
+      type: Upgradeable
+    - lastTransitionTime: 2024-12-03T19:25:26Z
+      reason: NoData
+      status: Unknown
+      type: EvaluationConditionsDetected
+    extension: null
+    relatedObjects:
+    - group: operator.openshift.io
+      name: cluster
+      resource: openshiftcontrollermanagers
+    - group: ""
+      name: openshift-config
+      resource: namespaces
+    - group: ""
+      name: openshift-config-managed
+      resource: namespaces
+    - group: ""
+      name: openshift-controller-manager-operator
+      resource: namespaces
+    - group: ""
+      name: openshift-controller-manager
+      resource: namespaces
+    - group: ""
+      name: openshift-route-controller-manager
+      resource: namespaces
+    versions:
+    - name: operator
+      version: 4.21.30
+- apiVersion: config.openshift.io/v1
+  kind: ClusterOperator
+  metadata:
+    annotations:
+      capability.openshift.io/name: openshift-samples
+      include.release.openshift.io/ibm-cloud-managed: "true"
+      include.release.openshift.io/self-managed-high-availability: "true"
+    creationTimestamp: 2024-12-03T19:22:21Z
+    generation: 1
+    managedFields:
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:capability.openshift.io/name: {}
+            f:include.release.openshift.io/ibm-cloud-managed: {}
+            f:include.release.openshift.io/self-managed-high-availability: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"49a06f94-3e4d-47a9-b3fc-d8470f540c8a"}: {}
+        f:spec: {}
+      manager: cluster-version-operator
+      operation: Update
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          .: {}
+          f:extension: {}
+          f:relatedObjects: {}
+      manager: cluster-version-operator
+      operation: Update
+      subresource: status
+      time: 2024-12-03T19:22:22Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:conditions:
+            .: {}
+            k:{"type":"Available"}:
+              f:message: {}
+            k:{"type":"Progressing"}:
+              f:message: {}
+          f:versions: {}
+      manager: cluster-samples-operator
+      operation: Update
+      subresource: status
+      time: 2026-09-03T14:32:27Z
+    name: openshift-samples
+    namespace: ""
+    ownerReferences:
+    - apiVersion: config.openshift.io/v1
+      controller: true
+      kind: ClusterVersion
+      name: version
+      uid: 49a06f94-3e4d-47a9-b3fc-d8470f540c8a
+    resourceVersion: "6046576321"
+    uid: 564bafe8-9355-4664-a861-0d8a24e7153d
+  spec: {}
+  status:
+    conditions:
+    - lastTransitionTime: 2024-12-03T19:32:35Z
+      status: "False"
+      type: Degraded
+    - lastTransitionTime: 2025-03-17T14:24:58Z
+      message: Samples installation successful at 4.21.30
+      status: "True"
+      type: Available
+    - lastTransitionTime: 2025-06-09T00:55:58Z
+      message: Samples installation successful at 4.21.30
+      status: "False"
+      type: Progressing
+    extension: null
+    relatedObjects:
+    - group: samples.operator.openshift.io
+      name: cluster
+      resource: configs
+    - group: ""
+      name: openshift-cluster-samples-operator
+      resource: namespaces
+    - group: template.openshift.io
+      name: ""
+      namespace: openshift
+      resource: templates
+    - group: image.openshift.io
+      name: ""
+      namespace: openshift
+      resource: imagestreams
+    versions:
+    - name: operator
+      version: 4.21.30
+- apiVersion: config.openshift.io/v1
+  kind: ClusterOperator
+  metadata:
+    annotations:
+      capability.openshift.io/name: OperatorLifecycleManager
+      include.release.openshift.io/hypershift: "true"
+      include.release.openshift.io/ibm-cloud-managed: "true"
+      include.release.openshift.io/self-managed-high-availability: "true"
+    creationTimestamp: 2024-12-03T19:22:21Z
+    generation: 1
+    managedFields:
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:capability.openshift.io/name: {}
+            f:include.release.openshift.io/hypershift: {}
+            f:include.release.openshift.io/ibm-cloud-managed: {}
+            f:include.release.openshift.io/self-managed-high-availability: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"49a06f94-3e4d-47a9-b3fc-d8470f540c8a"}: {}
+        f:spec: {}
+      manager: cluster-version-operator
+      operation: Update
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          .: {}
+          f:extension: {}
+          f:relatedObjects: {}
+      manager: cluster-version-operator
+      operation: Update
+      subresource: status
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:conditions:
+            .: {}
+            k:{"type":"Progressing"}:
+              f:lastTransitionTime: {}
+              f:message: {}
+            k:{"type":"Upgradeable"}:
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+          f:versions: {}
+      manager: olm
+      operation: Update
+      subresource: status
+      time: 2026-08-26T10:04:04Z
+    name: operator-lifecycle-manager
+    namespace: ""
+    ownerReferences:
+    - apiVersion: config.openshift.io/v1
+      controller: true
+      kind: ClusterVersion
+      name: version
+      uid: 49a06f94-3e4d-47a9-b3fc-d8470f540c8a
+    resourceVersion: "6008763580"
+    uid: 1cd00bcc-1081-4dd6-87d9-7ae2d13a39ac
+  spec: {}
+  status:
+    conditions:
+    - lastTransitionTime: 2024-12-03T19:26:28Z
+      status: "True"
+      type: Available
+    - lastTransitionTime: 2024-12-03T19:26:28Z
+      status: "False"
+      type: Degraded
+    - lastTransitionTime: 2026-07-01T21:23:17Z
+      message: |-
+        ClusterServiceVersions blocking minor version upgrades to 4.22.0 or higher:
+        - maximum supported OCP version for openshift-logging/cluster-logging.v6.4.6 is 4.21
+      reason: IncompatibleOperatorsInstalled
+      status: "False"
+      type: Upgradeable
+    - lastTransitionTime: 2026-08-26T10:04:04Z
+      message: Deployed 4.21.0-202608172306.p2.g149d553.assembly.stream.el9-149d553
+      status: "False"
+      type: Progressing
+    extension: null
+    relatedObjects:
+    - group: operators.coreos.com
+      name: packageserver
+      namespace: openshift-operator-lifecycle-manager
+      resource: clusterserviceversions
+    versions:
+    - name: operator
+      version: 4.21.30
+    - name: operator-lifecycle-manager
+      version: 4.21.0-202608172306.p2.g149d553.assembly.stream.el9-149d553
+- apiVersion: config.openshift.io/v1
+  kind: ClusterOperator
+  metadata:
+    annotations:
+      capability.openshift.io/name: OperatorLifecycleManager
+      include.release.openshift.io/hypershift: "true"
+      include.release.openshift.io/ibm-cloud-managed: "true"
+      include.release.openshift.io/self-managed-high-availability: "true"
+    creationTimestamp: 2024-12-03T19:22:22Z
+    generation: 1
+    managedFields:
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:capability.openshift.io/name: {}
+            f:include.release.openshift.io/hypershift: {}
+            f:include.release.openshift.io/ibm-cloud-managed: {}
+            f:include.release.openshift.io/self-managed-high-availability: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"49a06f94-3e4d-47a9-b3fc-d8470f540c8a"}: {}
+        f:spec: {}
+      manager: cluster-version-operator
+      operation: Update
+      time: 2024-12-03T19:22:22Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          .: {}
+          f:extension: {}
+      manager: cluster-version-operator
+      operation: Update
+      subresource: status
+      time: 2024-12-03T19:22:22Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:conditions:
+            .: {}
+            k:{"type":"Progressing"}:
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:status: {}
+          f:relatedObjects: {}
+          f:versions: {}
+      manager: catalog
+      operation: Update
+      subresource: status
+      time: 2026-08-26T10:05:07Z
+    name: operator-lifecycle-manager-catalog
+    namespace: ""
+    ownerReferences:
+    - apiVersion: config.openshift.io/v1
+      controller: true
+      kind: ClusterVersion
+      name: version
+      uid: 49a06f94-3e4d-47a9-b3fc-d8470f540c8a
+    resourceVersion: "6008771580"
+    uid: 7f26b86a-8af7-45f0-bc36-ead00af4457d
+  spec: {}
+  status:
+    conditions:
+    - lastTransitionTime: 2024-12-03T19:26:28Z
+      status: "False"
+      type: Degraded
+    - lastTransitionTime: 2026-08-26T10:05:07Z
+      message: Deployed 4.21.0-202608172306.p2.g149d553.assembly.stream.el9-149d553
+      status: "False"
+      type: Progressing
+    - lastTransitionTime: 2024-12-03T19:26:28Z
+      status: "True"
+      type: Available
+    - lastTransitionTime: 2024-12-03T19:26:28Z
+      status: "True"
+      type: Upgradeable
+    extension: null
+    relatedObjects:
+    - group: ""
+      name: openshift-operator-lifecycle-manager
+      resource: namespaces
+    versions:
+    - name: operator
+      version: 4.21.30
+    - name: operator-lifecycle-manager
+      version: 4.21.0-202608172306.p2.g149d553.assembly.stream.el9-149d553
+- apiVersion: config.openshift.io/v1
+  kind: ClusterOperator
+  metadata:
+    annotations:
+      capability.openshift.io/name: OperatorLifecycleManager
+      include.release.openshift.io/hypershift: "true"
+      include.release.openshift.io/ibm-cloud-managed: "true"
+      include.release.openshift.io/self-managed-high-availability: "true"
+    creationTimestamp: 2024-12-03T19:22:22Z
+    generation: 1
+    managedFields:
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:capability.openshift.io/name: {}
+            f:include.release.openshift.io/hypershift: {}
+            f:include.release.openshift.io/ibm-cloud-managed: {}
+            f:include.release.openshift.io/self-managed-high-availability: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"49a06f94-3e4d-47a9-b3fc-d8470f540c8a"}: {}
+        f:spec: {}
+      manager: cluster-version-operator
+      operation: Update
+      time: 2024-12-03T19:22:22Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          .: {}
+          f:extension: {}
+      manager: cluster-version-operator
+      operation: Update
+      subresource: status
+      time: 2024-12-03T19:22:22Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:conditions:
+            .: {}
+            k:{"type":"Available"}:
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+            k:{"type":"Progressing"}:
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:status: {}
+          f:relatedObjects: {}
+          f:versions: {}
+      manager: olm
+      operation: Update
+      subresource: status
+      time: 2026-08-26T10:04:11Z
+    name: operator-lifecycle-manager-packageserver
+    namespace: ""
+    ownerReferences:
+    - apiVersion: config.openshift.io/v1
+      controller: true
+      kind: ClusterVersion
+      name: version
+      uid: 49a06f94-3e4d-47a9-b3fc-d8470f540c8a
+    resourceVersion: "6008765220"
+    uid: d0f136f0-7c40-407a-a7cc-b093f36f3459
+  spec: {}
+  status:
+    conditions:
+    - lastTransitionTime: 2024-12-03T19:26:28Z
+      status: "False"
+      type: Degraded
+    - lastTransitionTime: 2026-08-26T10:04:11Z
+      message: ClusterServiceVersion openshift-operator-lifecycle-manager/packageserver
+        observed in phase Succeeded
+      reason: ClusterServiceVersionSucceeded
+      status: "True"
+      type: Available
+    - lastTransitionTime: 2026-08-26T10:04:10Z
+      message: Deployed version 0.0.1-snapshot
+      status: "False"
+      type: Progressing
+    - lastTransitionTime: 2024-12-03T19:26:28Z
+      message: Safe to upgrade
+      status: "True"
+      type: Upgradeable
+    extension: null
+    relatedObjects:
+    - group: ""
+      name: openshift-operator-lifecycle-manager
+      resource: namespaces
+    - group: operators.coreos.com
+      name: packageserver
+      namespace: openshift-operator-lifecycle-manager
+      resource: clusterserviceversions
+    versions:
+    - name: operator
+      version: 4.21.30
+    - name: packageserver
+      version: 0.0.1-snapshot
+- apiVersion: config.openshift.io/v1
+  kind: ClusterOperator
+  metadata:
+    annotations:
+      include.release.openshift.io/hypershift: "true"
+      include.release.openshift.io/ibm-cloud-managed: "true"
+      include.release.openshift.io/self-managed-high-availability: "true"
+      include.release.openshift.io/single-node-developer: "true"
+    creationTimestamp: 2024-12-03T19:22:21Z
+    generation: 1
+    managedFields:
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:include.release.openshift.io/hypershift: {}
+            f:include.release.openshift.io/ibm-cloud-managed: {}
+            f:include.release.openshift.io/self-managed-high-availability: {}
+            f:include.release.openshift.io/single-node-developer: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"49a06f94-3e4d-47a9-b3fc-d8470f540c8a"}: {}
+        f:spec: {}
+      manager: cluster-version-operator
+      operation: Update
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          .: {}
+          f:extension: {}
+      manager: cluster-version-operator
+      operation: Update
+      subresource: status
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:conditions:
+            .: {}
+            k:{"type":"Degraded"}:
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+            k:{"type":"Progressing"}:
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+          f:relatedObjects: {}
+          f:versions: {}
+      manager: service-ca-operator
+      operation: Update
+      subresource: status
+      time: 2026-08-26T10:42:15Z
+    name: service-ca
+    namespace: ""
+    ownerReferences:
+    - apiVersion: config.openshift.io/v1
+      controller: true
+      kind: ClusterVersion
+      name: version
+      uid: 49a06f94-3e4d-47a9-b3fc-d8470f540c8a
+    resourceVersion: "6008915724"
+    uid: 1799418a-e986-4bbd-abc4-a3028fae3e63
+  spec: {}
+  status:
+    conditions:
+    - lastTransitionTime: 2026-04-22T13:13:21Z
+      message: All is well
+      reason: AsExpected
+      status: "False"
+      type: Degraded
+    - lastTransitionTime: 2026-08-26T10:42:15Z
+      message: 'Progressing: All service-ca-operator deployments updated'
+      reason: AsExpected
+      status: "False"
+      type: Progressing
+    - lastTransitionTime: 2024-12-03T19:25:28Z
+      message: All is well
+      reason: AsExpected
+      status: "True"
+      type: Available
+    - lastTransitionTime: 2024-12-03T19:25:28Z
+      message: All is well
+      reason: AsExpected
+      status: "True"
+      type: Upgradeable
+    - lastTransitionTime: 2025-06-09T09:36:31Z
+      reason: NoData
+      status: Unknown
+      type: EvaluationConditionsDetected
+    extension: null
+    relatedObjects:
+    - group: operator.openshift.io
+      name: cluster
+      resource: servicecas
+    - group: ""
+      name: openshift-config
+      resource: namespaces
+    - group: ""
+      name: openshift-config-managed
+      resource: namespaces
+    - group: ""
+      name: openshift-service-ca-operator
+      resource: namespaces
+    - group: ""
+      name: openshift-service-ca
+      resource: namespaces
+    versions:
+    - name: operator
+      version: 4.21.30
+- apiVersion: config.openshift.io/v1
+  kind: ClusterOperator
+  metadata:
+    annotations:
+      capability.openshift.io/name: Storage
+      include.release.openshift.io/hypershift: "true"
+      include.release.openshift.io/ibm-cloud-managed: "true"
+      include.release.openshift.io/self-managed-high-availability: "true"
+      include.release.openshift.io/single-node-developer: "true"
+    creationTimestamp: 2024-12-03T19:22:21Z
+    generation: 1
+    managedFields:
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:capability.openshift.io/name: {}
+            f:include.release.openshift.io/hypershift: {}
+            f:include.release.openshift.io/ibm-cloud-managed: {}
+            f:include.release.openshift.io/self-managed-high-availability: {}
+            f:include.release.openshift.io/single-node-developer: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"49a06f94-3e4d-47a9-b3fc-d8470f540c8a"}: {}
+        f:spec: {}
+      manager: cluster-version-operator
+      operation: Update
+      time: 2024-12-03T19:22:21Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          .: {}
+          f:extension: {}
+      manager: cluster-version-operator
+      operation: Update
+      subresource: status
+      time: 2024-12-03T19:22:22Z
+    - apiVersion: config.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:conditions:
+            .: {}
+            k:{"type":"Available"}:
+              f:message: {}
+            k:{"type":"Degraded"}:
+              f:message: {}
+            k:{"type":"Progressing"}:
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+          f:relatedObjects: {}
+          f:versions: {}
+      manager: cluster-storage-operator
+      operation: Update
+      subresource: status
+      time: 2026-08-26T10:42:23Z
+    name: storage
+    namespace: ""
+    ownerReferences:
+    - apiVersion: config.openshift.io/v1
+      controller: true
+      kind: ClusterVersion
+      name: version
+      uid: 49a06f94-3e4d-47a9-b3fc-d8470f540c8a
+    resourceVersion: "6008916496"
+    uid: ee4cceb9-2c74-4fb7-bb10-11d07394d434
+  spec: {}
+  status:
+    conditions:
+    - lastTransitionTime: 2024-12-03T19:25:25Z
+      message: 'AWSEBSCSIDriverOperatorCRDegraded: All is well'
+      reason: AsExpected
+      status: "False"
+      type: Degraded
+    - lastTransitionTime: 2026-08-26T10:42:23Z
+      message: |-
+        AWSEBSCSIDriverOperatorCRProgressing: AWSEBSDriverNodeServiceControllerProgressing: DaemonSet is not progressing
+        AWSEBSCSIDriverOperatorCRProgressing: AWSEBSDriverControllerServiceControllerProgressing: Deployment is not progressing
+        VolumeDataSourceValidatorDeploymentControllerProgressing: Deployment is not progressing
+      reason: AsExpected
+      status: "False"
+      type: Progressing
+    - lastTransitionTime: 2024-12-03T19:25:58Z
+      message: |-
+        AWSEBSCSIDriverOperatorCRAvailable: AWSEBSDriverNodeServiceControllerAvailable: DaemonSet is available
+        AWSEBSCSIDriverOperatorCRAvailable: AWSEBSDriverControllerServiceControllerAvailable: Deployment is available
+        DefaultStorageClassControllerAvailable: StorageClass provided by supplied CSI Driver instead of the cluster-storage-operator
+      reason: AsExpected
+      status: "True"
+      type: Available
+    - lastTransitionTime: 2024-12-03T19:25:25Z
+      message: All is well
+      reason: AsExpected
+      status: "True"
+      type: Upgradeable
+    - lastTransitionTime: 2024-12-03T19:25:25Z
+      reason: NoData
+      status: Unknown
+      type: EvaluationConditionsDetected
+    extension: null
+    relatedObjects:
+    - group: ""
+      name: aws-ebs-csi-driver-operator
+      namespace: openshift-cluster-csi-drivers
+      resource: serviceaccounts
+    - group: rbac.authorization.k8s.io
+      name: aws-ebs-csi-driver-operator-role
+      namespace: openshift-cluster-csi-drivers
+      resource: roles
+    - group: rbac.authorization.k8s.io
+      name: aws-ebs-csi-driver-operator-rolebinding
+      namespace: openshift-cluster-csi-drivers
+      resource: rolebindings
+    - group: rbac.authorization.k8s.io
+      name: aws-ebs-csi-driver-operator-clusterrole
+      resource: clusterroles
+    - group: rbac.authorization.k8s.io
+      name: aws-ebs-csi-driver-operator-clusterrolebinding
+      resource: clusterrolebindings
+    - group: rbac.authorization.k8s.io
+      name: aws-ebs-csi-driver-operator-aws-config-role
+      namespace: openshift-config-managed
+      resource: roles
+    - group: rbac.authorization.k8s.io
+      name: aws-ebs-csi-driver-operator-aws-config-clusterrolebinding
+      namespace: openshift-config-managed
+      resource: rolebindings
+    - group: operator.openshift.io
+      name: ebs.csi.aws.com
+      resource: clustercsidrivers
+    - group: ""
+      name: openshift-cluster-storage-operator
+      resource: namespaces
+    - group: ""
+      name: openshift-cluster-csi-drivers
+      resource: namespaces
+    - group: operator.openshift.io
+      name: cluster
+      resource: storages
+    - group: rbac.authorization.k8s.io
+      name: cluster-storage-operator-role
+      resource: clusterrolebindings
+    versions:
+    - name: operator
+      version: 4.21.30
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""

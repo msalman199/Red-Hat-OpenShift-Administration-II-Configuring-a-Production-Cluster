@@ -1,0 +1,50 @@
+OpenShift Cluster Upgrade Report
+================================
+Date: Fri Sep  4 05:18:50 UTC 2026
+Previous Version: [Record from pre-upgrade check]
+Current Version: 4.21.30
+
+Cluster Operators Status:
+authentication 4.21.30 True False
+baremetal 4.21.30 True False
+cloud-controller-manager 4.21.30 True False
+cloud-credential 4.21.30 True False
+cluster-autoscaler 4.21.30 True False
+config-operator 4.21.30 True False
+console 4.21.30 True False
+control-plane-machine-set 4.21.30 True False
+csi-snapshot-controller 4.21.30 True False
+dns 4.21.30 True False
+etcd 4.21.30 True False
+image-registry 4.21.30 True False
+ingress 4.21.30 True False
+insights 4.21.30 True False
+kube-apiserver 4.21.30 True False
+kube-controller-manager 4.21.30 True False
+kube-scheduler 4.21.30 True False
+kube-storage-version-migrator 4.21.30 True False
+machine-api 4.21.30 True False
+machine-approver 4.21.30 True False
+machine-config 4.21.30 True False
+marketplace 4.21.30 True False
+monitoring 4.21.30 True False
+network 4.21.30 True False
+node-tuning 4.21.30 True False
+olm 4.21.30 True False
+openshift-apiserver 4.21.30 True False
+openshift-controller-manager 4.21.30 True False
+openshift-samples 4.21.30 True False
+operator-lifecycle-manager 4.21.30 True False
+operator-lifecycle-manager-catalog 4.21.30 True False
+operator-lifecycle-manager-packageserver 4.21.30 True False
+service-ca 4.21.30 True False
+storage 4.21.30 True False
+
+Node Status:
+
+
+Test Applications:
+
+
+Upgrade Duration: [Calculate from logs]
+Issues Encountered: [Document any issues]

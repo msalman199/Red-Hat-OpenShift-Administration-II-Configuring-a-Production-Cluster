@@ -1,0 +1,344 @@
+apiVersion: config.openshift.io/v1
+kind: ClusterVersion
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"config.openshift.io/v1","kind":"ClusterVersion","metadata":{"annotations":{},"labels":{"hive.openshift.io/managed":"true"},"name":"version"},"spec":{"channel":"fast-4.21"}}
+  creationTimestamp: 2024-12-03T19:21:49Z
+  generation: 31
+  labels:
+    hive.openshift.io/managed: "true"
+  managedFields:
+  - apiVersion: config.openshift.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:spec:
+        .: {}
+        f:clusterID: {}
+    manager: cluster-bootstrap
+    operation: Update
+    time: 2024-12-03T19:21:49Z
+  - apiVersion: config.openshift.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:spec:
+        f:channel: {}
+    manager: hive7-clustersync
+    operation: Update
+    time: 2026-03-13T10:50:51Z
+  - apiVersion: config.openshift.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          .: {}
+          f:kubectl.kubernetes.io/last-applied-configuration: {}
+        f:labels:
+          .: {}
+          f:hive.openshift.io/managed: {}
+    manager: hive6-clustersync
+    operation: Update
+    time: 2026-05-28T20:19:41Z
+  - apiVersion: config.openshift.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:spec:
+        f:desiredUpdate:
+          .: {}
+          f:version: {}
+    manager: managed-upgrade-operator
+    operation: Update
+    time: 2026-08-26T09:36:44Z
+  - apiVersion: config.openshift.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:status:
+        .: {}
+        f:availableUpdates: {}
+        f:capabilities:
+          .: {}
+          f:enabledCapabilities: {}
+          f:knownCapabilities: {}
+        f:conditions:
+          .: {}
+          k:{"type":"Available"}:
+            .: {}
+            f:lastTransitionTime: {}
+            f:message: {}
+            f:status: {}
+            f:type: {}
+          k:{"type":"Failing"}:
+            .: {}
+            f:lastTransitionTime: {}
+            f:status: {}
+            f:type: {}
+          k:{"type":"ImplicitlyEnabledCapabilities"}:
+            .: {}
+            f:lastTransitionTime: {}
+            f:message: {}
+            f:reason: {}
+            f:status: {}
+            f:type: {}
+          k:{"type":"Progressing"}:
+            .: {}
+            f:lastTransitionTime: {}
+            f:message: {}
+            f:status: {}
+            f:type: {}
+          k:{"type":"ReleaseAccepted"}:
+            .: {}
+            f:lastTransitionTime: {}
+            f:message: {}
+            f:reason: {}
+            f:status: {}
+            f:type: {}
+          k:{"type":"RetrievedUpdates"}:
+            .: {}
+            f:lastTransitionTime: {}
+            f:status: {}
+            f:type: {}
+          k:{"type":"Upgradeable"}:
+            .: {}
+            f:lastTransitionTime: {}
+            f:message: {}
+            f:reason: {}
+            f:status: {}
+            f:type: {}
+        f:desired:
+          .: {}
+          f:channels:
+            .: {}
+            v:"candidate-4.21": {}
+            v:"candidate-4.22": {}
+            v:"eus-4.22": {}
+            v:"fast-4.21": {}
+            v:"fast-4.22": {}
+            v:"stable-4.21": {}
+            v:"stable-4.22": {}
+          f:image: {}
+          f:url: {}
+          f:version: {}
+        f:history: {}
+        f:observedGeneration: {}
+        f:versionHash: {}
+    manager: cluster-version-operator
+    operation: Update
+    subresource: status
+    time: 2026-09-03T14:25:53Z
+  name: version
+  resourceVersion: "6046554091"
+  uid: 49a06f94-3e4d-47a9-b3fc-d8470f540c8a
+spec:
+  channel: fast-4.21
+  clusterID: 9335087f-d7a0-45f8-8d10-18f4710deb6d
+  desiredUpdate:
+    version: 4.21.30
+status:
+  availableUpdates:
+  - channels:
+    - candidate-4.21
+    - candidate-4.22
+    - fast-4.21
+    - fast-4.22
+    image: quay.io/openshift-release-dev/ocp-release@sha256:aea3624423e54d7ca2224823501e0c6d23f4f5f2ff2b335597d1ceb88b4bc2b2
+    url: https://access.redhat.com/errata/RHSA-2026:60477
+    version: 4.21.31
+  capabilities:
+    enabledCapabilities:
+    - Build
+    - CSISnapshot
+    - CloudControllerManager
+    - CloudCredential
+    - Console
+    - DeploymentConfig
+    - ImageRegistry
+    - Ingress
+    - Insights
+    - MachineAPI
+    - NodeTuning
+    - OperatorLifecycleManager
+    - OperatorLifecycleManagerV1
+    - Storage
+    - baremetal
+    - marketplace
+    - openshift-samples
+    knownCapabilities:
+    - Build
+    - CSISnapshot
+    - CloudControllerManager
+    - CloudCredential
+    - Console
+    - DeploymentConfig
+    - ImageRegistry
+    - Ingress
+    - Insights
+    - MachineAPI
+    - NodeTuning
+    - OperatorLifecycleManager
+    - OperatorLifecycleManagerV1
+    - Storage
+    - baremetal
+    - marketplace
+    - openshift-samples
+  conditions:
+  - lastTransitionTime: 2026-07-06T08:38:47Z
+    status: "True"
+    type: RetrievedUpdates
+  - lastTransitionTime: 2024-12-03T19:22:21Z
+    message: Capabilities match configured spec
+    reason: AsExpected
+    status: "False"
+    type: ImplicitlyEnabledCapabilities
+  - lastTransitionTime: 2024-12-03T19:22:21Z
+    message: Payload loaded version="4.21.30" image="quay.io/openshift-release-dev/ocp-release@sha256:249ceebaa2b02ce15ab132d36db4c0babffa8b783fcbb7e328bec5301742e904"
+      architecture="amd64"
+    reason: PayloadLoaded
+    status: "True"
+    type: ReleaseAccepted
+  - lastTransitionTime: 2024-12-03T19:47:19Z
+    message: Done applying 4.21.30
+    status: "True"
+    type: Available
+  - lastTransitionTime: 2026-09-03T14:25:53Z
+    status: "False"
+    type: Failing
+  - lastTransitionTime: 2026-08-26T10:52:53Z
+    message: Cluster version is 4.21.30
+    status: "False"
+    type: Progressing
+  - lastTransitionTime: 2026-03-13T10:08:07Z
+    message: |-
+      Cluster operator operator-lifecycle-manager should not be upgraded between minor versions: ClusterServiceVersions blocking minor version upgrades to 4.22.0 or higher:
+      - maximum supported OCP version for openshift-logging/cluster-logging.v6.4.6 is 4.21
+    reason: IncompatibleOperatorsInstalled
+    status: "False"
+    type: Upgradeable
+  desired:
+    channels:
+    - candidate-4.21
+    - candidate-4.22
+    - eus-4.22
+    - fast-4.21
+    - fast-4.22
+    - stable-4.21
+    - stable-4.22
+    image: quay.io/openshift-release-dev/ocp-release@sha256:249ceebaa2b02ce15ab132d36db4c0babffa8b783fcbb7e328bec5301742e904
+    url: https://access.redhat.com/errata/RHSA-2026:57801
+    version: 4.21.30
+  history:
+  - completionTime: 2026-08-26T10:52:53Z
+    image: quay.io/openshift-release-dev/ocp-release@sha256:249ceebaa2b02ce15ab132d36db4c0babffa8b783fcbb7e328bec5301742e904
+    startedTime: 2026-08-26T09:36:55Z
+    state: Completed
+    verified: true
+    version: 4.21.30
+  - completionTime: 2026-06-25T12:06:44Z
+    image: quay.io/openshift-release-dev/ocp-release@sha256:7224f77afb20aedaf82bfc13ca11699689bd5b06795d6d1740dbd4c265150c44
+    startedTime: 2026-06-25T11:22:53Z
+    state: Completed
+    verified: true
+    version: 4.21.21
+  - completionTime: 2026-06-17T06:44:46Z
+    image: quay.io/openshift-release-dev/ocp-release@sha256:e2f30027fa1240272c8a472d6c77218ebc486bb966b6862c121187801a40163b
+    startedTime: 2026-06-17T05:38:16Z
+    state: Completed
+    verified: true
+    version: 4.21.20
+  - completionTime: 2026-06-09T06:16:47Z
+    image: quay.io/openshift-release-dev/ocp-release@sha256:81071b95d587ae2bb8f1d651c0d537d408fc4c86a5d664c7be077edf8ca99603
+    startedTime: 2026-06-09T05:08:26Z
+    state: Completed
+    verified: true
+    version: 4.21.18
+  - completionTime: 2026-05-19T06:19:55Z
+    image: quay.io/openshift-release-dev/ocp-release@sha256:05e69ed54453e3d306b136f52493073073b207f57d0562fe1c8a555bde61aa49
+    startedTime: 2026-05-19T05:08:11Z
+    state: Completed
+    verified: true
+    version: 4.21.15
+  - completionTime: 2026-04-29T09:11:57Z
+    image: quay.io/openshift-release-dev/ocp-release@sha256:809c037c016c7c0cbc83ce459ed344a55d65fa6cc0d3aa4d51e9a2d9d0cf7ffa
+    startedTime: 2026-04-29T08:04:06Z
+    state: Completed
+    verified: true
+    version: 4.21.12
+  - completionTime: 2026-04-23T07:38:57Z
+    image: quay.io/openshift-release-dev/ocp-release@sha256:a2726e3135049af3b889450a6ffcd81605b9a42dd24e5b3b7bc42621548366c2
+    startedTime: 2026-04-23T06:20:19Z
+    state: Completed
+    verified: true
+    version: 4.21.11
+  - completionTime: 2026-03-25T11:35:00Z
+    image: quay.io/openshift-release-dev/ocp-release@sha256:90792dfb2c5ebb89007c02486efca50556a23650be0915c7546fc507ab05e0df
+    startedTime: 2026-03-25T10:25:14Z
+    state: Completed
+    verified: true
+    version: 4.21.7
+  - completionTime: 2026-03-13T11:21:46Z
+    image: quay.io/openshift-release-dev/ocp-release@sha256:ae0711cb2b35d8661d086945e0578f9cd2d417093e910e47169447db5dd9f8bd
+    startedTime: 2026-03-13T10:08:07Z
+    state: Completed
+    verified: true
+    version: 4.21.5
+  - completionTime: 2026-02-11T13:43:54Z
+    image: quay.io/openshift-release-dev/ocp-release@sha256:682e85bfe8034924e596b281ed8fefe4451e6f6c5bac07b5ec300443eeb23566
+    startedTime: 2026-02-11T12:27:30Z
+    state: Completed
+    verified: true
+    version: 4.20.14
+  - completionTime: 2025-11-13T07:59:46Z
+    image: quay.io/openshift-release-dev/ocp-release@sha256:24da924c84a1dfa28525f85525356cf1ac4fbe23faec7c66d1890e0b3bcba7a0
+    startedTime: 2025-11-13T06:44:55Z
+    state: Completed
+    verified: true
+    version: 4.20.3
+  - completionTime: 2025-11-07T10:19:26Z
+    image: quay.io/openshift-release-dev/ocp-release@sha256:3fb2c0faf6cc35dae23fd9fb4182c89df3e7c5272505652c7e6dced31c416daf
+    startedTime: 2025-11-07T09:07:57Z
+    state: Completed
+    verified: true
+    version: 4.19.18
+  - completionTime: 2025-10-08T12:59:53Z
+    image: quay.io/openshift-release-dev/ocp-release@sha256:d96bf58288bfe00d347707ba0b9fa5455ee0d506ae4dfe417518473197ee16ab
+    startedTime: 2025-10-08T11:38:37Z
+    state: Completed
+    verified: true
+    version: 4.19.15
+  - completionTime: 2025-08-06T08:28:29Z
+    image: quay.io/openshift-release-dev/ocp-release@sha256:bd4cd954feebfe3a6b2847c20271e8f3ba21e99ac1e234db6ce4cf2207f8955a
+    startedTime: 2025-08-06T07:12:19Z
+    state: Completed
+    verified: true
+    version: 4.19.7
+  - completionTime: 2025-07-23T05:18:32Z
+    image: quay.io/openshift-release-dev/ocp-release@sha256:5e06105a6ba80d04eb5d8d3f9a672fb743ce4710876d99a375c2d9f7b7eaa783
+    startedTime: 2025-07-23T04:08:02Z
+    state: Completed
+    verified: true
+    version: 4.18.20
+  - completionTime: 2025-06-09T10:18:20Z
+    image: quay.io/openshift-release-dev/ocp-release@sha256:0dac222584991f89a123d85e8c3055f0056e5876fc209b8d4bea7a59e7504d59
+    startedTime: 2025-06-09T09:10:15Z
+    state: Completed
+    verified: true
+    version: 4.18.16
+  - completionTime: 2025-03-17T15:24:45Z
+    image: quay.io/openshift-release-dev/ocp-release@sha256:61dffd292f6689a3381dd05f7845dcd5d27c099fce2f460aa03d760d535f81e6
+    startedTime: 2025-03-17T13:57:53Z
+    state: Completed
+    verified: true
+    version: 4.18.4
+  - completionTime: 2025-02-27T12:16:41Z
+    image: quay.io/openshift-release-dev/ocp-release@sha256:fd8f5562f0403504b35cc62e064b04c34e6baeb48384bddebffc98c3c69a2af3
+    startedTime: 2025-02-27T11:02:03Z
+    state: Completed
+    verified: true
+    version: 4.17.18
+  - completionTime: 2024-12-03T19:47:19Z
+    image: quay.io/openshift-release-dev/ocp-release@sha256:02d489ee6aac3bed3cf6f3db81d72ab0215222a870784f81b6e7942cb4883944
+    startedTime: 2024-12-03T19:22:21Z
+    state: Completed
+    verified: false
+    version: 4.17.5
+  observedGeneration: 31
+  versionHash: DKBUb4jxUuA=
