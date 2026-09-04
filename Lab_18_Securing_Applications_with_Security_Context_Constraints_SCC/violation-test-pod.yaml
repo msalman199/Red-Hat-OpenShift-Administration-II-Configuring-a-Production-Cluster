@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: violation-test-pod
+  namespace: scc-lab
+spec:
+  serviceAccountName: moderate-sa
+  containers:
+  - name: violation-container
+    image: registry.access.redhat.com/ubi8/ubi:latest
+    command: ["/bin/bash"]
+    args: ["-c", "sleep 3600"]
+    securityContext:
+      privileged: true  # This should be denied by moderate-security-scc
+      runAsUser: 0      # This should also be denied
+    volumeMounts:
+    - name: host-volume
+      mountPath: /host
+  volumes:
+  - name: host-volume
+    hostPath:
+      path: /

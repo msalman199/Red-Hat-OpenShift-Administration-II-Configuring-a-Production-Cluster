@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: restricted-test-pod
+  namespace: scc-lab
+  labels:
+    app: restricted-test
+spec:
+  serviceAccountName: restricted-sa
+  containers:
+  - name: restricted-container
+    image: registry.access.redhat.com/ubi8/ubi:latest
+    command: ["/bin/bash"]
+    args: ["-c", "while true; do echo 'Running as restricted container'; sleep 30; done"]
+    securityContext:
+      runAsNonRoot: true
+      readOnlyRootFilesystem: false
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+        - ALL
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "100m"
+      requests:
+        memory: "64Mi"
+        cpu: "50m"
+  restartPolicy: Always
