@@ -1,0 +1,46 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: salman-redhat-dev
+  name: developer-role
+rules:
+# Allow full access to most resources within the namespace
+- apiGroups: [""]
+  resources: ["pods", "pods/log", "pods/exec", "pods/portforward"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+
+- apiGroups: [""]
+  resources: ["services", "endpoints", "configmaps"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+
+# Limited secret access (can create/read but not list all secrets)
+- apiGroups: [""]
+  resources: ["secrets"]
+  verbs: ["get", "create", "update", "patch", "delete"]
+  resourceNames: [] # Can be restricted to specific secret names
+
+# Deployment and ReplicaSet management
+- apiGroups: ["apps"]
+  resources: ["deployments", "replicasets"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+
+# OpenShift specific resources
+- apiGroups: ["image.openshift.io"]
+  resources: ["imagestreams", "imagestreamtags"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+
+- apiGroups: ["build.openshift.io"]
+  resources: ["builds", "buildconfigs"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+
+- apiGroups: ["route.openshift.io"]
+  resources: ["routes"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+
+# Read-only access to resource quotas and limit ranges
+- apiGroups: [""]
+  resources: ["resourcequotas", "limitranges"]
+  verbs: ["get", "list", "watch"]
+
+# Deny access to sensitive resources
+# (This is handled by not including them in the allowed resources)

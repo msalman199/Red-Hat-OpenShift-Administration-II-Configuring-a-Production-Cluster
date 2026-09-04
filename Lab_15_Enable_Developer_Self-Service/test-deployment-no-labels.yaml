@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-no-labels
+  namespace: dev-team-alpha
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: test-no-labels
+  template:
+    metadata:
+      labels:
+        app: test-no-labels
+    spec:
+      containers:
+      - name: test-container
+        image: nginx:1.20
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 200m
+            memory: 256Mi

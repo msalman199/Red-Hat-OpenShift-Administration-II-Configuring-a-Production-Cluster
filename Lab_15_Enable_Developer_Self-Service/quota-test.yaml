@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quota-test
+  namespace: dev-team-alpha
+spec:
+  replicas: 25  # This should exceed the pod limit of 20
+  selector:
+    matchLabels:
+      app: quota-test
+  template:
+    metadata:
+      labels:
+        app: quota-test
+    spec:
+      containers:
+      - name: test-container
+        image: nginx:1.20
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
